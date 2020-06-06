@@ -17,8 +17,8 @@
     rel="stylesheet">
   <link 
     rel="stylesheet" 
-    href="{{ url('css/login.css') }}">
-  <title>Login</title>
+    href="{{ url('css/signup.css') }}">
+  <title>Sign Up</title>
 </head>
 <body>
   <div class="container-custom">
@@ -32,7 +32,26 @@
       </div>
       <div class="col-6 right-side" id="right-side">
         <form action="" class="form">
-          <h2 class="text-center font-weight-bold">Login</h2>
+          <h2 class="font-weight-bold">Sign Up</h2>
+          <p>Daftar akun agar bisa berbelanja di Heav</p>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="firstName">Nama depan</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="firstName"
+                required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastName">Nama belakang</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="lastName"
+                required>
+            </div>
+          </div>
           <div class="form-group">
             <label for="email">Email</label>
             <input
@@ -51,8 +70,8 @@
               class="form-control"
               required>
           </div>
-          <button type="submit" class="btn btn-danger">Login</button>
-          <p class="mt-5">Belum punya akun? <a href="/signup">Daftar disini</a></p>
+          <button type="submit" class="btn btn-danger">Sign Up</button>
+          <p class="mt-5">Sudah punya akun? <a href="/login">Login disini</a></p>
         </form>
       </div>
     </div>
@@ -74,7 +93,7 @@
   </script>
   <script 
     type="text/javascript"
-    src= "{{ url('js/view/login.js') }}">
+    src= "{{ url('js/view/signup.js') }}">
   </script>
 </body>
 </html>
