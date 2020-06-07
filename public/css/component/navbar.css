@@ -1,0 +1,38 @@
+a.navbar-brand img {
+  height: 40px;
+}
+
+.input-group {
+  /* margin-right: 200px; */
+}
+
+.navbar-collapse img.icon {
+  height: 25px;
+  width: 25px;
+}
+
+.badge {
+  border: 1px solid black;
+  border-radius: 10px;
+  height: 20px;
+  padding: 0px 5px 0px 0px;
+}
+
+.badge p {
+  font-size: 15px;
+}
+
+.badge:hover .dropdown-content {
+  display: block;
+}
+
+ul li.dropdown a {
+  color: black !important;
+}
+
+.separator {
+  width: 1px;
+  color: black;
+  height: 40px;
+  border : 1px solid #8E8E8E;
+}

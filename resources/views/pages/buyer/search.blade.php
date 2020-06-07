@@ -7,11 +7,12 @@
 @endpush
 
 @section('title')
-  Heav
+  Search
 @endsection
 
 @section('content')
-  <h1>Best Seller</h1>
+  <h1>Search</h1>
+  <h2>Keyword : {{ $keyword }}</h2>
 @endsection
 
 @push('add-on-script')
