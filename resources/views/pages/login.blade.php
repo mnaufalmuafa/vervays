@@ -31,8 +31,13 @@
         </div>
       </div>
       <div class="col-6 right-side" id="right-side">
-        <form action="" class="form">
+        <form action="http://127.0.0.1:8000/login" class="form" method="POST">
           <h2 class="text-center font-weight-bold">Login</h2>
+          @isset($InvalidInputErrorMessage)
+            <div class="alert alert-danger" role="alert">
+              {{ $InvalidInputErrorMessage }}
+            </div>
+          @endisset
           <div class="form-group">
             <label for="email">Email</label>
             <input
@@ -40,7 +45,13 @@
               id="email"
               name="email"
               class="form-control"
+              value="{{ old('email') }}"
               required>
+              @error('email')
+                <div class="invalidFeedback">
+                  {{ $errors->first('email') }}
+                </div>
+              @enderror
           </div>
           <div class="form-group">
             <label for="email">Password</label>
@@ -48,8 +59,14 @@
               type="password" 
               id="password"
               name="password"
+              minlength="8"
               class="form-control"
               required>
+              @error('password')
+                <div class="invalidFeedback">
+                  {{ $errors->first('password') }}
+                </div>
+              @enderror
           </div>
           <button type="submit" class="btn btn-danger">Login</button>
           <p class="mt-5">Belum punya akun? <a href="/signup">Daftar disini</a></p>

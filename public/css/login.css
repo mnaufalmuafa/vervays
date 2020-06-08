@@ -45,3 +45,8 @@ form {
 form button {
   width: 100%;
 }
+
+.invalidFeedback {
+  color: red;
+  font-size: 13px;
+}
