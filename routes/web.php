@@ -13,12 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return redirect()->route('dashboard');
 });
 
 Route::get('/login', 'LoginController@index')->name('login');
 Route::get('/signup', 'SignUpController@index')->name('signup');
 
-Route::get('/dashboard', 'buyer\DashboardController@index')->name('dashboard');
-Route::get('/search', 'buyer\SearchController@index')->name('search');
+Route::get('/dashboard', 'buyer\DashboardController@index')
+    ->middleware('IsLogin')
+    ->name('dashboard');
+Route::get('/search', 'buyer\SearchController@index')
+    ->middleware('IsLogin')
+    ->name('search');
