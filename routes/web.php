@@ -17,13 +17,21 @@ Route::get('/', function() {
     return redirect()->route('dashboard');
 });
 
-Route::get('/login', 'LoginController@index')->name('login');
-Route::post('/login', 'LoginController@checkLogin');
-Route::get('/signup', 'SignUpController@index')->name('signup');
+Route::get('/login', 'LoginController@index')
+    ->middleware('LoginAndSignUpMiddleware')
+    ->name('login');
+
+Route::post('/login', 'LoginController@checkLogin')
+    ->middleware('LoginAndSignUpMiddleware');
+
+Route::get('/signup', 'SignUpController@index')
+    ->middleware('LoginAndSignUpMiddleware')
+    ->name('signup');
 
 Route::get('/dashboard', 'buyer\DashboardController@index')
     ->middleware('IsLogin')
     ->name('dashboard');
+
 Route::get('/search', 'buyer\SearchController@index')
     ->middleware('IsLogin')
     ->name('search');
