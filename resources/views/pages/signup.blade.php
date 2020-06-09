@@ -31,7 +31,8 @@
         </div>
       </div>
       <div class="col-6 right-side" id="right-side">
-        <form action="" class="form">
+        <form action="/signup" method="POST" class="form">
+          @csrf
           <h2 class="font-weight-bold">Sign Up</h2>
           <p>Daftar akun agar bisa berbelanja di Heav</p>
           <div class="form-row">
@@ -41,15 +42,23 @@
                 type="text" 
                 class="form-control" 
                 id="firstName"
+                value="{{ old('firstName') }}"
+                name="firstName"
                 required>
+              @error('firstName')
+                <div class="invalidFeedback">
+                  Masukkan nama depan anda
+                </div>
+              @enderror
             </div>
             <div class="form-group col-md-6">
               <label for="lastName">Nama belakang</label>
               <input 
                 type="text" 
-                class="form-control" 
-                id="lastName"
-                required>
+                class="form-control"
+                value="{{ old('lastName') }}"
+                name="lastName"
+                id="lastName">
             </div>
           </div>
           <div class="form-group">
@@ -58,8 +67,19 @@
               type="email"
               id="email"
               name="email"
+              value="{{ old('email') }}"
               class="form-control"
               required>
+            @error('email')
+              <div class="invalidFeedback">
+                Email sudah terdaftar sebelumnya
+              </div>
+            @enderror
+            @isset($emailErrorMessage)
+              <div class="invalidFeedback">
+                {{ $emailErrorMessage }}
+              </div>
+            @endisset
           </div>
           <div class="form-group">
             <label for="email">Password</label>
@@ -67,8 +87,15 @@
               type="password" 
               id="password"
               name="password"
+              value="{{ old('password') }}"
               class="form-control"
+              minlength="8"
               required>
+            @error('password')
+              <div class="invalidFeedback">
+                Password minimal berisi 8 karakter
+              </div>
+            @enderror
           </div>
           <button type="submit" class="btn btn-danger">Sign Up</button>
           <p class="mt-5">Sudah punya akun? <a href="/login">Login disini</a></p>

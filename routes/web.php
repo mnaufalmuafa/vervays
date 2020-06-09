@@ -30,6 +30,9 @@ Route::get('/signup', 'SignUpController@index')
     ->middleware('LoginAndSignUpMiddleware')
     ->name('signup');
 
+Route::post('/signup', 'SignUpController@signUp')
+    ->middleware('LoginAndSignUpMiddleware');
+
 Route::get('/dashboard', 'buyer\DashboardController@index')
     ->middleware('IsLogin')
     ->name('dashboard');
