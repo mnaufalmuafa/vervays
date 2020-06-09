@@ -15,4 +15,11 @@ class DashboardController extends Controller
         ];
         return view('pages.publisher.dashboard', $data);
     }
+
+    public function bePublisher()
+    {
+        $id = session('id');
+        User::bePublisher($id);
+        return true;
+    }
 }

@@ -33,6 +33,8 @@ Route::get('/signup', 'SignUpController@index')
 Route::post('/signup', 'SignUpController@signUp')
     ->middleware('LoginAndSignUpMiddleware');
 
+
+// UNTUK BUYER
 Route::get('/dashboard', 'buyer\DashboardController@index')
     ->middleware('IsLogin')
     ->name('dashboard');
@@ -41,6 +43,10 @@ Route::get('/search', 'buyer\SearchController@index')
     ->middleware('IsLogin')
     ->name('search');
 
+Route::post('/bepublisher', 'publisher\DashboardController@bePublisher')
+    ->middleware('IsLogin');
+
+// UNTUK PUBLISHER
 Route::prefix('/publisher')->group(function() {
     Route::get('/dashboard', 'publisher\DashboardController@index')
         ->middleware('IsLogin')

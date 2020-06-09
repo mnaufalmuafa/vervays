@@ -47,6 +47,16 @@ $(document).ready(function() {
       });
     }
   });
+
+  $('#linkMenjadiPublisher').click(function(event) {
+    event.preventDefault();
+    $.ajax({
+      url : "/bepublisher",
+      method : "POST"
+    }).done(function() {
+      window.location.href = "/publisher/dashboard";
+    });
+  });
 });
 
 function NavbarWindowChangeListener() {

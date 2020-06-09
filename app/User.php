@@ -29,7 +29,7 @@ class User
             ->where('email', $email)
             ->first();
         if ($user == null) {
-            $id = DB::table('users')->get()->count()+1;
+            $id = User::getUsersCount()+1;
             $lastName = $lastName == null ? "" : $lastName;
             DB::table('users')->insert([
                 "id" => $id,
@@ -56,5 +56,45 @@ class User
             ->select('firstName')
             ->get();
         return $result[0]->firstName;
+    }
+
+    private static function getLastName($id)
+    {
+        $result = DB::table('users')
+            ->where('id', $id)
+            ->select('lastName')
+            ->get();
+        return $result[0]->lastName;
+    }
+
+    private static function getUsersCount() {
+        return DB::table('users')->get()->count();
+    }
+
+    private static function getPublishersCount() {
+        return DB::table('publishers')->get()->count();
+    }
+
+    public static function bePublisher($id) {
+        $user = DB::table('publishers')
+            ->where('userId', $id)
+            ->first();
+        if ($user == null) { //Belum menjadi publisher
+            $name = User::getFirstName($id) . ' '
+                . User::getLastName($id);
+            $now = Carbon::now();
+            DB::table('publishers')->insert([
+                "id" => User::getPublishersCount()+1,
+                "userId" => $id,
+                "profilePhotoId" => 1,
+                "name" => $name,
+                "description" => "-",
+                "balance" => 0,
+                "month" => $now->month,
+                "year" => $now->year,
+                "created_at" => $now,
+                "updated_at" => $now,
+            ]);
+        }
     }
 }
