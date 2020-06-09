@@ -48,4 +48,13 @@ class User
             return 0;
         }
     }
+
+    public static function getFirstName($id)
+    {
+        $result = DB::table('users')
+            ->where('id', $id)
+            ->select('firstName')
+            ->get();
+        return $result[0]->firstName;
+    }
 }

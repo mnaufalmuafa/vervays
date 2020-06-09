@@ -39,7 +39,7 @@
       <div class="separator" id="navbarSeparator"></div>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Kikim
+          {{ $firstName }}
           <img 
             src="{{ url('image/navbar/ic_account.png') }}" 
             alt=""
