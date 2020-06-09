@@ -4,6 +4,7 @@ namespace App\Http\Controllers\buyer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
 
 class SearchController extends Controller
 {
@@ -15,6 +16,7 @@ class SearchController extends Controller
         else {
             $data = [
                 "keyword" => $request->keyword,
+                "firstName" => User::getFirstName(session('id'))
             ];
             return view('pages.buyer.search', $data);
         }
