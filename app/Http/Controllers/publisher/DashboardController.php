@@ -12,6 +12,7 @@ class DashboardController extends Controller
     {
         $data = [
             "firstName" => User::getFirstName(session('id')),
+            "publisher" => User::getPublisherData(session('id')),
         ];
         return view('pages.publisher.dashboard', $data);
     }

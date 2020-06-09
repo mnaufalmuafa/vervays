@@ -97,4 +97,65 @@ class User
             ]);
         }
     }
+
+    public static function getPublisherData($userId)
+    {
+        $publisher = DB::table('publishers')
+            ->select('id', 'profilePhotoId', 'publishers.name', 'description', 'balance', 'month', 'year')
+            ->where('userId', $userId)
+            ->first();
+        $photo = DB::table('profile_photos')
+            ->select('name')
+            ->where('id', $publisher->id)
+            ->first();
+        $balance = number_format($publisher->balance,2,',','.');
+        $photoURL = '/image/profile_photos/'.$publisher->profilePhotoId;
+        $photoURL = $photoURL.'/'.$photo->name.'.jpg';
+        $photoURL = url($photoURL);
+        return [
+            "photoURL" => $photoURL,
+            "name" => $publisher->name,
+            "description" => $publisher->description,
+            "balance" => $balance,
+            "month" => User::convert_month_int_to_string_word($publisher->month),
+            "year" => $publisher->year,
+        ];
+    }
+
+    private static function convert_month_int_to_string_word($month) {
+        if ($month == 1) {
+            return "Januari";
+        }
+        if ($month == 2) {
+            return "Februari";
+        }
+        if ($month == 3) {
+            return "Maret";
+        }
+        if ($month == 4) {
+            return "April";
+        }
+        if ($month == 5) {
+            return "Mei";
+        }
+        if ($month == 6) {
+            return "Juni";
+        }
+        if ($month == 7) {
+            return "Juli";
+        }
+        if ($month == 8) {
+            return "Agustus";
+        }
+        if ($month == 9) {
+            return "September";
+        }
+        if ($month == 10) {
+            return "Oktober";
+        }
+        if ($month == 11) {
+            return "November";
+        }
+        return "Desember";
+    }
 }

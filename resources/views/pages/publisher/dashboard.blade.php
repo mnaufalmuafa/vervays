@@ -19,7 +19,7 @@
     <div class="row mt-3">
       <div class="col-2">
         <img 
-          src="{{ url('image/profile_photos/1/default_publisher_profile_photo.jpg') }}" 
+          src="{{ $publisher["photoURL"] }}" 
           alt=""
           class="publisher-brand-image">
       </div>
@@ -28,20 +28,17 @@
           <tr>
             <td>Nama</td>
             <td>:</td>
-            <td>Nama Publisher</td>
+            <td>{{ $publisher["name"] }}</td>
           </tr>
           <tr>
             <td>Bergabung</td>
             <td>:</td>
-            <td>Mei 2020</td>
+            <td>{{ $publisher["month"] }} {{ $publisher["year"] }}</td>
           </tr>
           <tr>
             <td class="align-top">Deskripsi</td>
             <td class="align-top">:</td>
-            <td>Seasonal, mocha grinder, body siphon filter cup dripper affogato flavour. Robusta frappuccino 
-              cup wings macchiato,  chicory latte, rich cream flavour extraction mazagran. Dark, medium crema 
-              dark kopi luwak bar kopi-luwak. Aroma qui trifecta, cup, crema shop a affogato. Flavour, extra spoon
-              est grounds redeye ...</td>
+            <td>{{ $publisher["description"] }}</td>
           </tr>
         </table>
       </div>
@@ -50,7 +47,7 @@
   </div>
   <div class="container conteiner-saldo">
     <h4 class="ml-2 d-inline">Saldo</h4>
-    <h5 class="d-inline ml-5">Rp. 0</h5>
+    <h5 class="d-inline ml-5">Rp. {{ $publisher["balance"] }}</h5>
     <button class="button d-inline ml-5">Cairkan Saldo</button>
     <hr>
   </div>
