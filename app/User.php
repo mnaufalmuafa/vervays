@@ -12,6 +12,7 @@ class User
         $user = DB::table('users')
             ->where('email', $email)
             ->where('password', $password)
+            ->where('isDeleted', '0')
             ->select('id')
             ->first();
         if ($user == null) {
@@ -27,6 +28,7 @@ class User
     {
         $user = DB::table('users')
             ->where('email', $email)
+            ->where('isDeleted', '0')
             ->first();
         if ($user == null) {
             $id = User::getUsersCount()+1;
