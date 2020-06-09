@@ -47,7 +47,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ route('dashboard') }}">Buku Saya</a>
-          <a class="dropdown-item" href="{{ route('dashboard') }}">Menjadi Publisher</a>
+          <a class="dropdown-item" href="{{ route('dashboard-publisher') }}">Menjadi Publisher</a>
           <a class="dropdown-item" href="{{ route('dashboard') }}">Hapus Akun</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="" id="linkLogout">Logout</a>

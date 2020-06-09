@@ -7,7 +7,7 @@
   <title>@yield('title')</title>
 </head>
 <body>
-  @include('includes.navbar')
+  @include('includes.publisher.navbar')
   @yield('content')
   @include('includes.script')
   @stack('add-on-script')

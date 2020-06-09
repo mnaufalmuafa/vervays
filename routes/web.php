@@ -40,3 +40,9 @@ Route::get('/dashboard', 'buyer\DashboardController@index')
 Route::get('/search', 'buyer\SearchController@index')
     ->middleware('IsLogin')
     ->name('search');
+
+Route::prefix('/publisher')->group(function() {
+    Route::get('/dashboard', 'publisher\DashboardController@index')
+        ->middleware('IsLogin')
+        ->name('dashboard-publisher');
+});

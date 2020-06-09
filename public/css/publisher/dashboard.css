@@ -1,0 +1,56 @@
+h4 {
+  font-weight: bold;
+}
+
+.publisher-brand-image {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  height: 80px;
+}
+
+.col-10 {
+  position: relative;
+}
+
+table tr td.align-top {
+  vertical-align: top;
+}
+
+table tr:nth-child(2) td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+table tr td {
+  font-size: 14px;
+}
+
+table tr td:nth-child(2) {
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+button {
+  font-size: 14px;
+}
+
+hr {
+  border-top: 1px solid #5E5E5E;
+}
+
+p {
+  font-size: 14px;
+}
+
+.button {
+  background-color: red; 
+  border: none;
+  color: white;
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 10px;
+}
