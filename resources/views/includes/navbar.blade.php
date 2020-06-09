@@ -50,7 +50,7 @@
           <a class="dropdown-item" href="{{ route('dashboard') }}">Menjadi Publisher</a>
           <a class="dropdown-item" href="{{ route('dashboard') }}">Hapus Akun</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="{{ route('dashboard') }}">Logout</a>
+          <a class="dropdown-item" href="" id="linkLogout">Logout</a>
         </div>
       </li>
     </ul>

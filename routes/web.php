@@ -24,6 +24,8 @@ Route::get('/login', 'LoginController@index')
 Route::post('/login', 'LoginController@checkLogin')
     ->middleware('LoginAndSignUpMiddleware');
 
+Route::post('/logout', 'LogoutController@index');
+
 Route::get('/signup', 'SignUpController@index')
     ->middleware('LoginAndSignUpMiddleware')
     ->name('signup');

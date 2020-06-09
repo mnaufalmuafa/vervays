@@ -34,6 +34,19 @@ $(document).ready(function() {
       }
     }
   });
+
+  $('#linkLogout').click(function(event) {
+    event.preventDefault();
+    var isLogout = confirm("Apakah yakin ingin logout?");
+    if (isLogout) {
+      $.ajax({
+        url : "/logout",
+        method : "POST",
+      }).done(function() {
+        window.location.href = "/";
+      });
+    }
+  });
 });
 
 function NavbarWindowChangeListener() {
