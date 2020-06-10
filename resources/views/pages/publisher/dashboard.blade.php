@@ -13,7 +13,9 @@
 @section('content')
   <div class="container mt-3">
     <h4 class="d-inline">Data Penerbit</h4>
-    <button class="button d-inline float-right">Ubah Data</button>
+    <button 
+      class="button d-inline float-right"
+      id="btnUbahData">Ubah Data</button>
   </div>
   <div class="container container-data-publisher">
     <div class="row mt-3">
@@ -56,3 +58,8 @@
     <button class="button d-inline float-right">Tambah Buku</button>
   </div>
 @endsection
+
+@push('add-on-script')
+  <script
+    src="{{ url('js/view/publisher/dashboard.js') }}"></script>
+@endpush

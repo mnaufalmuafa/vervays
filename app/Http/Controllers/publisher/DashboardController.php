@@ -23,4 +23,14 @@ class DashboardController extends Controller
         User::bePublisher($id);
         return true;
     }
+
+    public function editDataPublisher()
+    {
+        return "Edit Data";
+    }
+
+    public function updateDataPublisher($id)
+    {
+        // TODO
+    }
 }
