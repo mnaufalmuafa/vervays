@@ -5,6 +5,7 @@ namespace App\Http\Controllers\publisher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Publisher;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -44,6 +45,8 @@ class DashboardController extends Controller
         ]);
         $id = session('id');
         $foto = $request->foto;
+        $nama = $request->nama;
+        $deskripsi = $request->deskripsi;
 
         if ($foto != null) { //Jika publisher mengupdate foto
             $newId = $this->getNewProfilePhotoId();
@@ -53,8 +56,12 @@ class DashboardController extends Controller
             $file->move($tujuan_upload,$nama_file);
             $this->updateFoto($nama_file, $id, $newId);
         }
-        // echo $request->nama;
-        // echo $request->deskripsi;
+        if ($nama != null) {
+            Publisher::updateNama($nama, $id);
+        }
+        if ($deskripsi != null) {
+            Publisher::updateDeskripsi($deskripsi, $id);
+        }
         return redirect()->route('dashboard-publisher');
     }
 
