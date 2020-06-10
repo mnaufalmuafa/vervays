@@ -15,7 +15,7 @@ class profile_photos_seeder extends Seeder
     {
         DB::table('profile_photos')->insert([
             "id" => 1,
-            "name" => "default_publisher_profile_photo",
+            "name" => "default_publisher_profile_photo.jpg",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);

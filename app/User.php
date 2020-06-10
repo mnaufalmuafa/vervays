@@ -108,11 +108,11 @@ class User
             ->first();
         $photo = DB::table('profile_photos')
             ->select('name')
-            ->where('id', $publisher->id)
+            ->where('id', $publisher->profilePhotoId)
             ->first();
         $balance = number_format($publisher->balance,2,',','.');
         $photoURL = '/image/profile_photos/'.$publisher->profilePhotoId;
-        $photoURL = $photoURL.'/'.$photo->name.'.jpg';
+        $photoURL = $photoURL.'/'.$photo->name;
         $photoURL = url($photoURL);
         return [
             "photoURL" => $photoURL,
