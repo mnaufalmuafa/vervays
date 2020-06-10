@@ -49,12 +49,12 @@ class DashboardController extends Controller
         $deskripsi = $request->deskripsi;
 
         if ($foto != null) { //Jika publisher mengupdate foto
-            $newId = $this->getNewProfilePhotoId();
+            $newId = Publisher::getNewProfilePhotoId();
             $file = $request->file('foto');
             $nama_file = time()."_".$file->getClientOriginalName();
             $tujuan_upload = 'image/profile_photos/'.$newId;
             $file->move($tujuan_upload,$nama_file);
-            $this->updateFoto($nama_file, $id, $newId);
+            Publisher::updateFoto($nama_file, $id, $newId);
         }
         if ($nama != null) {
             Publisher::updateNama($nama, $id);
@@ -63,23 +63,5 @@ class DashboardController extends Controller
             Publisher::updateDeskripsi($deskripsi, $id);
         }
         return redirect()->route('dashboard-publisher');
-    }
-
-    private function updateFoto($foto, $idUser, $idFoto) {
-        DB::table('profile_photos')->insert([
-            "id" => $idFoto,
-            "name" => $foto,
-            "created_at" => Carbon::now(),
-            "updated_at" => Carbon::now(),
-        ]);
-        DB::table('publishers')->where('userId', $idUser)
-            ->update([
-                "profilePhotoId" => $idFoto,
-            ]);
-    }
-
-    public static function getNewProfilePhotoId()
-    {
-        return DB::table('profile_photos')->get()->count() + 1;
     }
 }
