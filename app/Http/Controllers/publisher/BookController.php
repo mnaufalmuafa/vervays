@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Book;
+use App\Publisher;
 use Carbon\Carbon;
 
 class BookController extends Controller
@@ -70,6 +71,7 @@ class BookController extends Controller
             "sampleEbookFileId" => $sampleEbookId,
             "ebookCoverId" => $photoId,
             "categoryId" => $request->categoryId,
+            "publisherId" => Publisher::getPublisherIdWithUserId(session('id')),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ];

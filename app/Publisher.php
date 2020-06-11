@@ -40,4 +40,13 @@ class Publisher
     {
         return DB::table('profile_photos')->get()->count() + 1;
     }
+
+    public static function getPublisherIdWithUserId($userId)
+    {
+        return DB::table('publishers')
+            ->select('id')
+            ->where('userId', $userId)
+            ->first()
+            ->id;
+    }
 }
