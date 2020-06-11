@@ -17,8 +17,8 @@
   <div class="container-fluid">
     <h3 class="font-weight-bold mt-3">Tambah Buku</h3>
     <form
-      action=""
-      method=""
+      action="{{ route('input-book-POST') }}"
+      method="POST"
       enctype="multipart/form-data">
       @csrf
       <div class="form-group row"> {{-- Judul --}}
@@ -29,6 +29,7 @@
             class="form-control"
             id="inputJudul"
             name="title"
+            value="{{ old('title') }}"
             required>
         </div>
       </div>
@@ -39,6 +40,7 @@
             type="text"
             class="form-control"
             id="inputPenulis"
+            value="{{ old('author') }}"
             name="author"
             required>
         </div>
@@ -49,12 +51,12 @@
           <select 
             name="languageId" 
             id="inputBahasa"
+            value="{{ old('languageId') }}"
             class="custom-select"
             required>
-            <option value="1">Indonesia</option>
-            <option value="2">Inggris</option>
-            <option value="3">Jerman</option>
-            <option value="4">Korea</option>
+            @foreach ($languages as $language)
+              <option value="{{$language->id}}">{{$language->name}}</option>
+            @endforeach
           </select>
         </div>
       </div>
@@ -65,6 +67,7 @@
             type="number"
             class="form-control"
             id="inputJumlahHalaman"
+            value="{{ old('numberOfPage') }}"
             name="numberOfPage"
             required>
         </div>
@@ -73,14 +76,14 @@
         <label for="inputCategory" class="col-sm-2 col-form-label">Kategori</label>
         <div class="col-sm-10">
           <select 
-            name="languageId" 
+            name="categoryId" 
             id="inputCategory"
             class="custom-select"
+            value="{{ old('categoryId') }}"
             required>
-            <option value="1" selected>Ensiklopedia</option>
-            <option value="2">Biografi</option>
-            <option value="3">Komik</option>
-            <option value="4">Musik</option>
+            @foreach ($categories as $category)
+              <option value="{{$category->id}}">{{$category->name}}</option>
+            @endforeach
           </select>
         </div>
       </div>
@@ -92,7 +95,7 @@
             id="inputSinopsis" 
             rows="3"
             name="synopsis"
-            ></textarea>
+            >{{old('synopsis')}}</textarea>
         </div>
       </div>
       <div class="form-group row"> {{-- Harga --}}
@@ -103,19 +106,9 @@
             class="form-control"
             min="1"
             id="inputHarga"
+            value="{{ old('price') }}"
             name="price"
             required>
-        </div>
-      </div>
-      <div class="form-group row"> {{-- Harga Diskon --}}
-        <label for="inputHargaDiskon" class="col-sm-2 col-form-label">Harga Diskon</label>
-        <div class="col-sm-10">
-          <input 
-            type="number"
-            class="form-control"
-            min="1"
-            id="inputHargaDiskon"
-            name="discountPrice">
         </div>
       </div>
       <div class="form-group row"> {{-- File Ebook --}}
@@ -125,7 +118,8 @@
             type="file"
             class="form-control-file"
             id="inputEbookFile"
-            name="ebookFile">
+            name="ebookFile"
+            accept=".pdf">
         </div>
       </div>
       <div class="form-group row"> {{-- File Sample Ebook --}}
@@ -135,7 +129,8 @@
             type="file"
             class="form-control-file"
             id="inputSampleEbookFile"
-            name="sampleEbookFile">
+            name="sampleEbookFile"
+            accept=".pdf">
         </div>
       </div>
       <div class="form-group row"> {{-- Foto Cover --}}
@@ -145,7 +140,8 @@
             type="file"
             class="form-control-file"
             id="inputSampleEbookFile"
-            name="photo">
+            name="photo"
+            accept=".jpg,.jpeg,.png">
         </div>
       </div>
       <input {{-- Submit --}}

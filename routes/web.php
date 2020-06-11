@@ -61,4 +61,7 @@ Route::prefix('/publisher')->group(function() {
     Route::get('/input/book', 'publisher\BookController@create')
         ->middleware('IsLogin')
         ->name('input-book');
+    Route::post('/input/book', 'publisher\BookController@store')
+        ->middleware('IsLogin')
+        ->name('input-book-POST');
 });

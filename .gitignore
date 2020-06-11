@@ -10,3 +10,9 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+/public/ebook/ebook_cover
+/public/ebook/ebook_files
+/public/ebook/sample_ebook_files
+
+/image/profile_photos
