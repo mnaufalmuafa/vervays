@@ -55,7 +55,7 @@
   </div>
   <div class="container mt-3">
     <h4 class="d-inline">Data Buku</h4>
-    <button class="button d-inline float-right">Tambah Buku</button>
+    <button class="button d-inline float-right" id="btnTambahBuku">Tambah Buku</button>
   </div>
 @endsection
 
