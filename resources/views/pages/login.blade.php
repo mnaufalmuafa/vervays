@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="col-6 right-side" id="right-side">
-        <form action="http://127.0.0.1:8000/login" class="form" method="POST">
+        <form action="/login" class="form" method="POST">
           <h2 class="text-center font-weight-bold">Login</h2>
           @isset($InvalidInputErrorMessage)
             <div class="alert alert-danger" role="alert">

@@ -30,7 +30,7 @@ $(document).ready(function() {
         var keyword = $('#inputSearchBar').val();
         keyword = string_to_slug(keyword);
         console.log(keyword);
-        window.location.href = "http://127.0.0.1:8000/search?keyword="+keyword;
+        window.location.href = "/search?keyword="+keyword;
       }
     }
   });
