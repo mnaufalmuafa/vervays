@@ -11,13 +11,13 @@
 @endsection
 
 @section('content')
-  <div class="container mt-3">
+  <div class="container-fluid mt-3">
     <h4 class="d-inline">Data Penerbit</h4>
     <button 
       class="button d-inline float-right"
       id="btnUbahData">Ubah Data</button>
   </div>
-  <div class="container container-data-publisher">
+  <div class="container-fluid container-data-publisher">
     <div class="row mt-3">
       <div class="col-2">
         <img 
@@ -47,13 +47,13 @@
     </div>
     <hr>
   </div>
-  <div class="container conteiner-saldo">
+  <div class="container-fluid conteiner-saldo">
     <h4 class="ml-2 d-inline">Saldo</h4>
     <h5 class="d-inline ml-5">Rp. {{ $publisher["balance"] }}</h5>
     <button class="button d-inline ml-5">Cairkan Saldo</button>
     <hr>
   </div>
-  <div class="container mt-3">
+  <div class="container-fluid mt-3">
     <h4 class="d-inline">Data Buku</h4>
     <button class="button d-inline float-right" id="btnTambahBuku">Tambah Buku</button>
   </div>
