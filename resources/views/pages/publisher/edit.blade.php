@@ -15,7 +15,7 @@
     @endforeach
   @endif
   <div class="container-fluid">
-    <h4>Ubah data publisher</h4>
+    <h3 class="font-weight-bold mt-3">Ubah data publisher</h3>
     <form
       action="{{ route('edit-data-publisher-POST') }}"
       method="POST"
