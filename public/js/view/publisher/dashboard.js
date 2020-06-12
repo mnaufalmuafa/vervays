@@ -9,7 +9,7 @@ $(document).ready(function() {
     console.log("hapus");
     confirm("Apakah anda yakin ingin menghapus buku \""+$(this).attr("book-title")+'" ?');
   });
-  $('.card-book').click(function() {
+  $('.card-book').ready(function() {
     var rating = $(this).attr("rating");
     var id = $(this).attr("id");
     rating = Math.floor(rating);
