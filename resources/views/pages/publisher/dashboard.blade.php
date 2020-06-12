@@ -59,7 +59,10 @@
   </div>
   @foreach ($books as $book)
     <div class="container-fluid">
-      <div class="row card-book">
+      <div 
+        class="row card-book"
+        rating="{{ $book["rating"] }}"
+        id="book-card-{{$book["id"]}}">
         <div class="col-2">
           <img 
             src="{{ $book["imageURL"] }}" 
@@ -78,25 +81,25 @@
           <div class="book-rating-container">
             <div class="star-container d-inline">
               <img 
-                src="{{ url('image/icon/yellow_star.png') }}"
+                src="{{ url('image/icon/blank_star.png') }}"
                 alt=""
-                class="star-image">
-              <img 
-                src="{{ url('image/icon/yellow_star.png') }}"
-                alt=""
-                class="star-image">
-              <img 
-                src="{{ url('image/icon/yellow_star.png') }}"
-                alt=""
-                class="star-image">
+                class="star-image first-star">
               <img 
                 src="{{ url('image/icon/blank_star.png') }}"
                 alt=""
-                class="star-image">
+                class="star-image second-star">
+              <img 
+                src="{{ url('image/icon/blank_star.png') }}"
+                alt=""
+                class="star-image third-star">
+              <img 
+                src="{{ url('image/icon/blank_star.png') }}"
+                alt=""
+                class="star-image fourth-star">
               <img
                 src="{{ url('image/icon/blank_star.png') }}"
                 alt=""
-                class="star-image">
+                class="star-image fifth-star">
             </div>
             <p class="d-inline mt-1"><span>{{ $book["rating"] }}</span> &emsp; (<span>{{ $book["ratingCount"] }}</span> Ulasan) &emsp; <span>{{ $book["soldCount"] }}</span>x terjual</p>
           </div>
