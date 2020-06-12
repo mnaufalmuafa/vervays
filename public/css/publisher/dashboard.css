@@ -96,3 +96,16 @@ p.price {
   font-size: 15pt;
   margin-bottom: 0px;
 }
+
+.ic-trash {
+  height: 20px;
+}
+
+.ic-trash:hover, .ebook-image {
+  cursor: pointer;
+}
+
+.book-title:hover {
+  color: red;
+  cursor: pointer;
+}

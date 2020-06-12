@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Publisher;
-use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use App\Book;
 
 class DashboardController extends Controller
 {
@@ -16,6 +15,7 @@ class DashboardController extends Controller
         $data = [
             "firstName" => User::getFirstName(session('id')),
             "publisher" => User::getPublisherData(session('id')),
+            "books" => Book::getBookDataForDashboardPublisher(),
         ];
         return view('pages.publisher.dashboard', $data);
     }

@@ -57,52 +57,64 @@
     <h4 class="d-inline">Data Buku</h4>
     <button class="button d-inline float-right" id="btnTambahBuku">Tambah Buku</button>
   </div>
-  <div class="container-fluid">
-    <div class="row card-book">
-      <div class="col-2">
-        <img 
-          src="{{ url('image/book_placeholder.png') }}" 
-          alt=""
-          class="ebook-image">
-      </div>
-      <div class="col-10">
-        <h4>Judul Buku</h4>
-        <p
-          class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">Nama Penulis</span></p>
-        <p
-          class="synopsis">Seasonal, mocha grinder, body siphon filter cup dripper affogato flavour. Robusta frappuccino cup wings macchiato,  chicory latte, rich cream flavour 
-          extraction mazagran. Dark, medium crema dark kopi-luwak bar kopi-luwak. Aroma qui trifecta, cup, crema shop a affogato. Flavour, extra spoon,
-          est grounds redeye xtraction mazagran. Dark, medium crema dark kopi-luwak bar kopi-luwak. Aroma qui trifecta, cup, cr,
-          est grounds redeye xtraction mazagran. Dark, medium crema dark kopi-luwak bar kopi-luwak. Aroma qui trifecta, cup, cr</p>
-        <div class="book-rating-container">
-          <div class="star-container d-inline">
-            <img 
-              src="{{ url('image/icon/yellow_star.png') }}"
-              alt=""
-              class="star-image">
-            <img 
-              src="{{ url('image/icon/yellow_star.png') }}"
-              alt=""
-              class="star-image">
-            <img 
-              src="{{ url('image/icon/yellow_star.png') }}"
-              alt=""
-              class="star-image">
-            <img 
-              src="{{ url('image/icon/blank_star.png') }}"
-              alt=""
-              class="star-image">
-            <img
-              src="{{ url('image/icon/blank_star.png') }}"
-              alt=""
-              class="star-image">
-          </div>
-          <p class="d-inline mt-1">3.4 &emsp; (12 Ulasan) &emsp; 34x terjual</p>
+  @foreach ($books as $book)
+    <div class="container-fluid">
+      <div class="row card-book">
+        <div class="col-2">
+          <img 
+            src="{{ $book["imageURL"] }}" 
+            alt=""
+            class="ebook-image"
+            book-id="{{ $book["id"] }}">
         </div>
-        <p class="price font-weight-bold">Rp. 34.000</p>
+        <div class="col-10">
+          <h4
+            class="book-title"
+            book-id="{{ $book["id"] }}">{{ $book["title"] }}</h4>
+          <p
+            class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">{{ $book["author"] }}</span></p>
+          <p
+            class="synopsis">{{ $book["synopsis"] }}</p>
+          <div class="book-rating-container">
+            <div class="star-container d-inline">
+              <img 
+                src="{{ url('image/icon/yellow_star.png') }}"
+                alt=""
+                class="star-image">
+              <img 
+                src="{{ url('image/icon/yellow_star.png') }}"
+                alt=""
+                class="star-image">
+              <img 
+                src="{{ url('image/icon/yellow_star.png') }}"
+                alt=""
+                class="star-image">
+              <img 
+                src="{{ url('image/icon/blank_star.png') }}"
+                alt=""
+                class="star-image">
+              <img
+                src="{{ url('image/icon/blank_star.png') }}"
+                alt=""
+                class="star-image">
+            </div>
+            <p class="d-inline mt-1"><span>{{ $book["rating"] }}</span> &emsp; (<span>{{ $book["ratingCount"] }}</span> Ulasan) &emsp; <span>{{ $book["soldCount"] }}</span>x terjual</p>
+          </div>
+          <p 
+            class="price font-weight-bold d-inline">Rp. {{ $book["price"] }}</p>
+          <img 
+            src="{{ url('/image/ic_trash.png') }}" 
+            alt="ic_trash"
+            class="d-inline float-right ic-trash mt-1"
+            book-id="{{ $book["id"] }}"
+            book-title="{{ $book["title"] }}">
+          <button
+            class="button d-inline float-right mr-2"
+            book-id="{{ $book["id"] }}">Edit buku</button>
+        </div>
       </div>
     </div>
-  </div>
+  @endforeach
 @endsection
 
 @push('add-on-script')
