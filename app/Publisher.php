@@ -49,4 +49,17 @@ class Publisher
             ->first()
             ->id;
     }
+
+    public static function doesThePublisherHaveThatBook($publisherId, $bookId)
+    {
+        $value = DB::table('books')
+            ->join('publishers', 'publishers.id', '=', 'books.publisherId')
+            ->where('publishers.id', $publisherId)
+            ->where('books.id', $bookId)
+            ->count();
+        if ($value == 1) {
+            return true;
+        }
+        return false;
+    }
 }

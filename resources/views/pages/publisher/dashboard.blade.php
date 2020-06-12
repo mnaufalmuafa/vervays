@@ -112,7 +112,7 @@
             book-id="{{ $book["id"] }}"
             book-title="{{ $book["title"] }}">
           <button
-            class="button d-inline float-right mr-2"
+            class="button d-inline float-right mr-2 btn-edit-buku"
             book-id="{{ $book["id"] }}">Edit buku</button>
         </div>
       </div>

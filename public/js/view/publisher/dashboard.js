@@ -29,4 +29,8 @@ $(document).ready(function() {
       $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
     }
   });
+  $('.btn-edit-buku').click(function() {
+    var id = $(this).attr("book-id");
+    window.location.href = "/publisher/edit/book?id="+id;
+  });
 });

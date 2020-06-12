@@ -96,4 +96,16 @@ class BookController extends Controller
         Book::store($ebookData, $ebookFilesData, $sampleEbookFilesData, $ebookCoverData);
         return redirect()->route('dashboard-publisher');
     }
+
+    public function edit(Request $request)
+    {
+        $data = [
+            "firstName" => User::getFirstName(session('id')),
+            "publisher" => User::getPublisherData(session('id')),
+            "categories" => Book::getCategories(),
+            "languages" => Book::getLanguages(),
+            "book" => Book::getBook($request->id),
+        ];
+        return view('pages.publisher.edit_book', $data);
+    }
 }

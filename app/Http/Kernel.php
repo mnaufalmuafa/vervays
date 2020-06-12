@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         
         'IsLogin' => \App\Http\Middleware\IsLogin::class,
         'LoginAndSignUpMiddleware' => \App\Http\Middleware\LoginAndSignUpMiddleware::class,
+        'DoesPublisherHaveThatBook' => \App\Http\Middleware\DoesPublisherHaveThatBook::class,
     ];
 }

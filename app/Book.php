@@ -118,4 +118,11 @@ class Book
     {
         return number_format($price,0,',','.');
     }
+
+    public static function getBook($bookId)
+    {
+        return DB::table('books')
+            ->where('id', $bookId)
+            ->first();
+    }
 }
