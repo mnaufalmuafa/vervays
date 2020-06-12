@@ -9,17 +9,24 @@
 @endsection
 
 @section('content')
-  @if($errors->any())
-    @foreach ($errors->all() as $error)
-      {{ $error }}
-    @endforeach
+  @if ($errors->any())
+    <div class="alert alert-danger">
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
   @endif
   <div class="container-fluid">
-    <h3 class="font-weight-bold mt-3">Edit buku Buku</h3>
+    <h3 class="font-weight-bold mt-3">Edit Buku</h3>
     <form
       action="{{ route('input-book-POST') }}"
       method="POST"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"
+      id="form"
+      languageId="{{ $book->languageId }}"
+      categoryId="{{ $book->categoryId }}">
       @csrf
       <div class="form-group row"> {{-- Judul --}}
         <label for="inputJudul" class="col-sm-2 col-form-label">Judul</label>
@@ -29,7 +36,7 @@
             class="form-control"
             id="inputJudul"
             name="title"
-            value="{{ old('title') }}"
+            value="{{ old('title') ?? $book->title ?? ""  }}"
             required>
         </div>
       </div>
@@ -40,7 +47,7 @@
             type="text"
             class="form-control"
             id="inputPenulis"
-            value="{{ old('author') }}"
+            value="{{ old('author') ?? $book->author ?? "" }}"
             name="author"
             required>
         </div>
@@ -67,7 +74,8 @@
             type="number"
             class="form-control"
             id="inputJumlahHalaman"
-            value="{{ old('numberOfPage') }}"
+            value="{{ old('numberOfPage') ?? $book->numberOfPage ?? "" }}"
+            min="1"
             name="numberOfPage"
             required>
         </div>
@@ -95,7 +103,7 @@
             id="inputSinopsis" 
             rows="3"
             name="synopsis"
-            >{{old('synopsis')}}</textarea>
+            >{{old('synopsis')??$book->synopsis??""}}</textarea>
         </div>
       </div>
       <div class="form-group row"> {{-- Harga --}}
@@ -106,20 +114,9 @@
             class="form-control"
             min="1"
             id="inputHarga"
-            value="{{ old('price') }}"
+            value="{{ old('price') ?? $book->price ?? "" }}"
             name="price"
             required>
-        </div>
-      </div>
-      <div class="form-group row"> {{-- File Ebook --}}
-        <label for="inputEbookFile" class="col-sm-2 col-form-label">File Ebook</label>
-        <div class="col-sm-10">
-          <input 
-            type="file"
-            class="form-control-file"
-            id="inputEbookFile"
-            name="ebookFile"
-            accept=".pdf">
         </div>
       </div>
       <div class="form-group row"> {{-- File Sample Ebook --}}
@@ -139,19 +136,22 @@
           <input 
             type="file"
             class="form-control-file"
-            id="inputSampleEbookFile"
+            id="inputCoverEbookFile"
             name="photo"
             accept=".jpg,.jpeg,.png">
         </div>
       </div>
       <input {{-- Submit --}}
         type="submit"
-        value="Tambah Buku"
+        value="Edit Buku"
         class="float-right button mb-5">
     </form>
   </div>
 @endsection
 
 @push('add-on-script')
-  
+  <script
+    type="text/javascript"
+    src="{{ url('js/view/publisher/edit_book.js') }}">
+  </script>
 @endpush
