@@ -4,9 +4,19 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use App\Publisher;
+use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
-class Book
+class Book extends Model
 {
+    protected $table = "books";
+
+    protected $fillable = [
+        'id', 'title', 'author', 'languageId', 'numberOfPage',
+        'price', 'synopsis', 'isDeleted', 'ebookFileId',
+        'sampleEbookFileId', 'ebookCoverId', 'publisherId', 'categoryId',
+    ];
+    
     public static function store($ebookData, $ebookFilesData, $sampleEbookFilesData, $ebookCoverData)
     {
         DB::table('ebook_files')->insert($ebookFilesData);
@@ -124,5 +134,76 @@ class Book
         return DB::table('books')
             ->where('id', $bookId)
             ->first();
+    }
+
+    public static function updateBook($book) {
+        $data = [];
+        if ($book["title"] != null) {
+            $data = array_merge($data, array('title' => $book["title"]));
+        }
+        if ($book["author"] != null) {
+            $data = array_merge($data, array('author' => $book["author"]));
+        }
+        if ($book["languageId"] != null) {
+            $data = array_merge($data, array('languageId' => $book["languageId"]));
+        }
+        if ($book["numberOfPage"] != null) {
+            $data = array_merge($data, array('numberOfPage' => $book["numberOfPage"]));
+        }
+        if ($book["price"] != null) {
+            $data = array_merge($data, array('price' => $book["price"]));
+        }
+        if ($book["synopsis"] != null) {
+            $data = array_merge($data, array('synopsis' => $book["synopsis"]));
+        }
+        if ($book["categoryId"] != null) {
+            $data = array_merge($data, array('categoryId' => $book["categoryId"]));
+        }
+        $data = array_merge($data, array("updated_at" => Carbon::now()));
+        Book::where('id', $book["id"])->update($data);
+    }
+
+    public static function uploadCoverPhoto($file, $bookId)
+    {
+        $photoId = Book::getNewEbookCoverId();
+        $photo = $file;
+        $nama_file = $photo->getClientOriginalName();
+        $tujuan_upload = 'ebook/ebook_cover/'.$photoId;
+        $photo->move($tujuan_upload,$nama_file);
+        DB::table('ebook_covers')->insert([
+            "id" => $photoId,
+            "name" => $photo->getClientOriginalName(),
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]);
+        DB::table('books')
+            ->join('ebook_covers', 'books.ebookCoverId', '=', 'ebook_covers.id')
+            ->where('books.id',$bookId)
+            ->update([
+                "ebookCoverId" => $photoId,
+                "books.updated_at" => Carbon::now(),
+            ]);
+    }
+
+    public static function uploadSampleEbook($file, $bookId)
+    {
+        $sampleEbookId = Book::getNewSampleEbookFilesId();
+        $SampleEbook = $file;
+        $nama_file = $SampleEbook->getClientOriginalName();
+        $tujuan_upload = 'ebook/sample_ebook_files/'.$sampleEbookId;
+        $SampleEbook->move($tujuan_upload,$nama_file);
+        DB::table('sample_ebook_files')->insert([
+            "id" => $sampleEbookId,
+            "name" => $SampleEbook->getClientOriginalName(),
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]);
+        DB::table('books')
+            ->join('sample_ebook_files', 'books.sampleEbookFileId', '=', 'sample_ebook_files.id')
+            ->where('books.id',$bookId)
+            ->update([
+                "sampleEbookFileId" => $sampleEbookId,
+                "books.updated_at" => Carbon::now(),
+            ]);
     }
 }

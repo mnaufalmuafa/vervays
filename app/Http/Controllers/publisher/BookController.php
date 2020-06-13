@@ -108,4 +108,20 @@ class BookController extends Controller
         ];
         return view('pages.publisher.edit_book', $data);
     }
+
+    public function update(Request $request)
+    {
+        Book::updateBook($request->all());
+        $cover = $request->photo;
+
+        if ($cover != null) {
+            Book::uploadCoverPhoto($cover, $request->post('id'));
+        }
+
+        if ($request->sampleEbookFile != null) {
+            Book::uploadSampleEbook($request->sampleEbookFile, $request->post('id'));
+        }
+
+        return redirect()->route('dashboard-publisher');
+    }
 }

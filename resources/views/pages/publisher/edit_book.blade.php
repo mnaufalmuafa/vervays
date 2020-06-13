@@ -21,13 +21,14 @@
   <div class="container-fluid">
     <h3 class="font-weight-bold mt-3">Edit Buku</h3>
     <form
-      action="{{ route('input-book-POST') }}"
+      action="{{ route('edit-book-POST') }}"
       method="POST"
       enctype="multipart/form-data"
       id="form"
       languageId="{{ $book->languageId }}"
       categoryId="{{ $book->categoryId }}">
       @csrf
+      <input type="hidden" value="{{ $book->id }}" name="id">
       <div class="form-group row"> {{-- Judul --}}
         <label for="inputJudul" class="col-sm-2 col-form-label">Judul</label>
         <div class="col-sm-10">

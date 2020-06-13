@@ -67,4 +67,7 @@ Route::prefix('/publisher')->group(function() {
     Route::get('/edit/book', 'publisher\BookController@edit')
         ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
         ->name('edit-book');
+    Route::post('/edit/book', 'publisher\BookController@update')
+        ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
+        ->name('edit-book-POST');
 });
