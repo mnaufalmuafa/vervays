@@ -18,7 +18,7 @@ class DoesPublisherHaveThatBook
     {
         $userId = session('id');
         $publisherId = Publisher::getPublisherIdWithUserId($userId);
-        if (Publisher::doesThePublisherHaveThatBook($publisherId,$request->get('id'))) {
+        if (Publisher::doesThePublisherHaveThatBook($publisherId,$request->get('id') ?? $request->post('id'))) {
             return $next($request);
         }
         return redirect()->route('dashboard-publisher');

@@ -70,4 +70,7 @@ Route::prefix('/publisher')->group(function() {
     Route::post('/edit/book', 'publisher\BookController@update')
         ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
         ->name('edit-book-POST');
+    Route::post('/delete/book', 'publisher\BookController@destroy')
+        ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
+        ->name('delete-book');
 });

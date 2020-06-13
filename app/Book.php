@@ -206,4 +206,10 @@ class Book extends Model
                 "books.updated_at" => Carbon::now(),
             ]);
     }
+
+    public static function deleteBook($id) {
+        $book = Book::find($id);
+        $book->isDeleted = 1;
+        $book->save();
+    }
 }
