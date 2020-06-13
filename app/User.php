@@ -79,7 +79,9 @@ class User
 
     public static function bePublisher($id) {
         $user = DB::table('publishers')
+            ->join('users', 'users.id', '=', 'publishers.userId')
             ->where('userId', $id)
+            ->where('users.isDeleted', 0)
             ->first();
         if ($user == null) { //Belum menjadi publisher
             $name = User::getFirstName($id) . ' '
@@ -159,5 +161,19 @@ class User
             return "November";
         }
         return "Desember";
+    }
+
+    public static function doesUserAmongThePublishers($userId)
+    {
+        $value = DB::table('publishers')
+            ->join('users', 'users.id', '=', 'publishers.userId')
+            ->where('userId', $userId)
+            ->where('users.isDeleted', 0)
+            ->get()
+            ->count();
+        if ($value == 1) {
+            return true;
+        }
+        return false;
     }
 }

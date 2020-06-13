@@ -47,7 +47,9 @@ Route::post('/bepublisher', 'publisher\DashboardController@bePublisher')
     ->middleware('IsLogin');
 
 // UNTUK PUBLISHER
-Route::prefix('/publisher')->group(function() {
+Route::prefix('/publisher')
+    ->middleware('DoesPublishers')
+    ->group(function() {
     Route::get('/dashboard', 'publisher\DashboardController@index')
         ->middleware('IsLogin')
         ->name('dashboard-publisher');

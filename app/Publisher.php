@@ -55,6 +55,7 @@ class Publisher
         $value = DB::table('books')
             ->join('publishers', 'publishers.id', '=', 'books.publisherId')
             ->where('publishers.id', $publisherId)
+            ->where('books.isDeleted', 0)
             ->where('books.id', $bookId)
             ->count();
         if ($value == 1) {
