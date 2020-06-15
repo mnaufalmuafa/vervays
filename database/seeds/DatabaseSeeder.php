@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(PaymentsSeeder::class);
         // $this->call(PaymentMethodsSeeder::class);
         // $this->call(StepSeeder::class);
-        // $this->call(profile_photos_seeder::class);
-        $this->call(CategoriesSeeder::class);
+        $this->call(profile_photos_seeder::class);
+        // $this->call(CategoriesSeeder::class);
     }
 }

@@ -68,5 +68,7 @@ class Kernel extends HttpKernel
         'LoginAndSignUpMiddleware' => \App\Http\Middleware\LoginAndSignUpMiddleware::class,
         'DoesPublisherHaveThatBook' => \App\Http\Middleware\DoesPublisherHaveThatBook::class,
         'DoesPublishers' =>  \App\Http\Middleware\DoesPublishers::class,
+        'IsTheEmailNotVerified' => \App\Http\Middleware\IsTheEmailNotVerified::class,
+        'HasTheEmailBeenVerified' => \App\Http\Middleware\HasTheEmailBeenVerified::class,
     ];
 }

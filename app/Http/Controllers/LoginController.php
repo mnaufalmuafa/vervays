@@ -27,7 +27,7 @@ class LoginController extends Controller
 
         $id = User::checkLogin($request->email, $request->password);
         if ($id == 0) {
-            return view('pages.login', ["InvalidInputErrorMessage" => "Username atau password salah"]);
+            return view('pages.login', ["InvalidInputErrorMessage" => "Email atau password salah"]);
         }
         else {
             return redirect()->route('dashboard');

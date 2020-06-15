@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Faker\Factory as Faker;
 
 class User
 {
@@ -175,5 +176,63 @@ class User
             return true;
         }
         return false;
+    }
+
+    public static function IsTheEmailNotVerified()
+    {
+        $id = session('id');
+        $value = DB::table('users')
+            ->select('email_verified_at')
+            ->where('id', $id)
+            ->first()
+            ->email_verified_at;
+        if ($value == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function createEmailVerificationToken() {
+        $faker = Faker::create('id_ID');
+        $id = session('id');
+        $token = $faker->md5;
+        DB::table('email_verification_tokens')->insert([
+            "userId" => $id,
+            "token" => $token,
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]);
+        return $token;
+    }
+
+    public static function isEmailVerificationExist($userId, $token)
+    {
+        $value = DB::table('email_verification_tokens')
+            ->where('userId', $userId)
+            ->where('token', $token)
+            ->first();
+        return $value != null;
+    }
+
+    public static function verificateEmail($userId)
+    {
+        DB::table('email_verification_tokens')
+            ->where('userId', $userId)
+            ->delete();
+        DB::table('users')
+            ->where('id', $userId)
+            ->update([
+                "email_verified_at" => Carbon::now(),
+                "updated_at" => Carbon::now(),
+            ]);
+    }
+
+    public static function getCurrentUserEmail()
+    {
+        $id = session('id');
+        return DB::table('users')
+            ->where('id', $id)
+            ->first()
+            ->email;
     }
 }

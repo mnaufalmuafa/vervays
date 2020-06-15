@@ -14,65 +14,73 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function() {
+    session(['id' => 0]);
     return redirect()->route('dashboard');
 });
 
-Route::get('/login', 'LoginController@index')
-    ->middleware('LoginAndSignUpMiddleware')
-    ->name('login');
+Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
+    Route::get('/login', 'LoginController@index')
+        ->name('login');
 
-Route::post('/login', 'LoginController@checkLogin')
-    ->middleware('LoginAndSignUpMiddleware');
+    Route::post('/login', 'LoginController@checkLogin');
+
+    Route::get('/signup', 'SignUpController@index')
+        ->name('signup');
+
+    Route::post('/signup', 'SignUpController@signUp');
+});
 
 Route::post('/logout', 'LogoutController@index');
 
-Route::get('/signup', 'SignUpController@index')
-    ->middleware('LoginAndSignUpMiddleware')
-    ->name('signup');
+Route::get('/account/verificate', 'SignUpController@verificateEmail');
 
-Route::post('/signup', 'SignUpController@signUp')
-    ->middleware('LoginAndSignUpMiddleware');
+Route::middleware(['IsLogin'])->group(function() {
+    Route::get('/email/verification', 'SignUpController@emailVerification')
+        ->middleware('IsTheEmailNotVerified')
+        ->name('email-verification');
 
+    Route::middleware(['HasTheEmailBeenVerified'])->group(function(){
+        // UNTUK BUYER
+        Route::get('/dashboard', 'buyer\DashboardController@index')
+            ->name('dashboard');
 
-// UNTUK BUYER
-Route::get('/dashboard', 'buyer\DashboardController@index')
-    ->middleware('IsLogin')
-    ->name('dashboard');
+        Route::get('/search', 'buyer\SearchController@index')
+            ->name('search');
 
-Route::get('/search', 'buyer\SearchController@index')
-    ->middleware('IsLogin')
-    ->name('search');
+        Route::post('/bepublisher', 'publisher\DashboardController@bePublisher');
 
-Route::post('/bepublisher', 'publisher\DashboardController@bePublisher')
-    ->middleware('IsLogin');
+        // UNTUK PUBLISHER
+        Route::prefix('/publisher')->middleware('DoesPublishers')->group(function() {
 
-// UNTUK PUBLISHER
-Route::prefix('/publisher')
-    ->middleware('DoesPublishers')
-    ->group(function() {
-    Route::get('/dashboard', 'publisher\DashboardController@index')
-        ->middleware('IsLogin')
-        ->name('dashboard-publisher');
+            Route::get('/dashboard', 'publisher\DashboardController@index')
+                ->name('dashboard-publisher');
 
-    Route::get('/edit', 'publisher\DashboardController@editDataPublisher')
-        ->middleware('IsLogin')
-        ->name('edit-data-publisher');
-    Route::post('/edit', 'publisher\DashboardController@updateDataPublisher')
-        ->middleware('IsLogin')
-        ->name('edit-data-publisher-POST');
-    Route::get('/input/book', 'publisher\BookController@create')
-        ->middleware('IsLogin')
-        ->name('input-book');
-    Route::post('/input/book', 'publisher\BookController@store')
-        ->middleware('IsLogin')
-        ->name('input-book-POST');
-    Route::get('/edit/book', 'publisher\BookController@edit')
-        ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
-        ->name('edit-book');
-    Route::post('/edit/book', 'publisher\BookController@update')
-        ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
-        ->name('edit-book-POST');
-    Route::post('/delete/book', 'publisher\BookController@destroy')
-        ->middleware('IsLogin', 'DoesPublisherHaveThatBook')
-        ->name('delete-book');
+            Route::get('/edit', 'publisher\DashboardController@editDataPublisher')
+                ->name('edit-data-publisher');
+            
+            Route::post('/edit', 'publisher\DashboardController@updateDataPublisher')
+                ->name('edit-data-publisher-POST');
+            
+            Route::get('/input/book', 'publisher\BookController@create')
+                ->name('input-book');
+
+            Route::post('/input/book', 'publisher\BookController@store')
+                ->name('input-book-POST');
+
+            Route::middleware(['DoesPublisherHaveThatBook'])->group(function() {
+                Route::get('/edit/book', 'publisher\BookController@edit')
+                    ->name('edit-book');
+
+                Route::post('/edit/book', 'publisher\BookController@update')
+                    ->name('edit-book-POST');
+
+                Route::post('/delete/book', 'publisher\BookController@destroy')
+                    ->name('delete-book');
+            });
+
+        });
+    });
+
+        
 });
+
