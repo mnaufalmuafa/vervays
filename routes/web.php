@@ -28,6 +28,14 @@ Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
         ->name('signup');
 
     Route::post('/signup', 'SignUpController@signUp');
+
+    Route::prefix('/account')->group(function() {
+        Route::get('/begin_reset_password', 'LoginController@beginResetPassword');
+        Route::post('/begin_reset_password', 'LoginController@resetPassword');
+        Route::get('/reset/password/from/email', 'LoginController@changePassword');
+        Route::get('/reset/password/sent', 'LoginController@resetPasswordSent')->name('reset-password-sent');
+        Route::post('/reset/password/from/email', 'LoginController@updatePassword');
+    });
 });
 
 Route::post('/logout', 'LogoutController@index');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Mail\ForgotPasswordMail;
+use Illuminate\Support\Facades\Mail;
 
 class LoginController extends Controller
 {
@@ -32,5 +34,58 @@ class LoginController extends Controller
         else {
             return redirect()->route('dashboard');
         }
+    }
+
+    public function beginResetPassword()
+    {
+        return view('pages.reset_password.begin');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $this->validate($request, [
+            "email" => 'required|email'
+        ], [
+            "email.required" => 'Masukkan alamat email',
+            "email.email" => 'Masukkan email dengan format yang benar',
+        ]);
+        $email = $request->email;
+        $token = User::createResetPasswordToken($email);
+        if ($token != 0) {
+            Mail::to($request->email)->send(new ForgotPasswordMail($token, $email));
+        }
+        return redirect()->route('reset-password-sent');
+    }
+
+    public function resetPasswordSent()
+    {
+        return view('pages.reset_password.sent');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $id = User::getIdByEmail($request->get('email'));
+        if (User::isPasswordResetRequestExist($id, $request->get('token'))) {
+            $data = [
+                "id" => $id,
+            ];
+            return view('pages.reset_password.change_password', $data);
+        }
+        else {
+            return view('errors.404');
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $this->validate($request, [
+            "password" => "required|min:8",
+            "id" => "required"
+        ]);
+        $updatePassword = User::updatePassword($request->get('id'), $request->get('password'));
+        if ($updatePassword) {
+            session(['id' => $request->get('id')]);
+        }
+        return redirect()->route('signup');
     }
 }

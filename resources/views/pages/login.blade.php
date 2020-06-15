@@ -69,7 +69,8 @@
               @enderror
           </div>
           <button type="submit" class="btn btn-danger">Login</button>
-          <p class="mt-5">Belum punya akun? <a href="/signup">Daftar disini</a></p>
+          <p class="mt-5 signuplink">Belum punya akun? <a href="/signup">Daftar disini</a></p>
+          <p class="">Lupa Password? <a href="/account/begin_reset_password">Reset password</a></p>
         </form>
       </div>
     </div>

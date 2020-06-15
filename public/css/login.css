@@ -50,3 +50,7 @@ form button {
   color: red;
   font-size: 13px;
 }
+
+p.signuplink {
+  margin-bottom: 2px;
+}
