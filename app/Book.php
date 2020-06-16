@@ -159,6 +159,9 @@ class Book extends Model
         if ($book["categoryId"] != null) {
             $data = array_merge($data, array('categoryId' => $book["categoryId"]));
         }
+        if ($book["release_at"] != null) {
+            $data = array_merge($data, array('release_at' => $book["release_at"]));
+        }
         $data = array_merge($data, array("updated_at" => Carbon::now()));
         Book::where('id', $book["id"])->update($data);
     }

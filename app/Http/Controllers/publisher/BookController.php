@@ -18,12 +18,14 @@ class BookController extends Controller
             "publisher" => User::getPublisherData(session('id')),
             "categories" => Book::getCategories(),
             "languages" => Book::getLanguages(),
+            "currentDate" => date("Y-m-d"),
         ];
         return view('pages.publisher.input_book', $data);
     }
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             "title" => "required|string",
             "author" => "required|string",
@@ -32,6 +34,7 @@ class BookController extends Controller
             "categoryId" => "required|integer",
             "synopsis" => "required|string",
             "price" => "required|integer",
+            "release_at" => "required|date",
             "ebookFile" => "required|file|mimes:pdf",
             "sampleEbookFile" => "required|file|mimes:pdf",
             "photo" => "required|file|mimes:jpeg,jpg,png",
@@ -66,6 +69,7 @@ class BookController extends Controller
             "languageId" => $request->languageId,
             "numberOfPage" => $request->numberOfPage,
             "price" => $request->price,
+            "release_at" => $request->release_at,
             "synopsis" => $request->synopsis,
             "ebookFileId" => $ebookFileId,
             "sampleEbookFileId" => $sampleEbookId,
@@ -105,6 +109,7 @@ class BookController extends Controller
             "categories" => Book::getCategories(),
             "languages" => Book::getLanguages(),
             "book" => Book::getBook($request->id),
+            "currentDate" => date("Y-m-d"),
         ];
         return view('pages.publisher.edit_book', $data);
     }

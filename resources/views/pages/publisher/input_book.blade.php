@@ -5,7 +5,7 @@
 @endpush
 
 @section('title')
-  Edit Data Publisher
+  Input Buku
 @endsection
 
 @section('content')
@@ -69,6 +69,18 @@
             id="inputJumlahHalaman"
             value="{{ old('numberOfPage') }}"
             name="numberOfPage"
+            required>
+        </div>
+      </div>
+      <div class="form-group row"> {{-- Tanggal Rilis --}}
+        <label for="inputTanggalRilis" class="col-sm-2 col-form-label">Tanggal rilis</label>
+        <div class="col-sm-10">
+          <input 
+            type="date"
+            class="form-control"
+            id="inputTanggalRilis"
+            max="{{ $currentDate }}"
+            name="release_at"
             required>
         </div>
       </div>
@@ -139,7 +151,7 @@
           <input 
             type="file"
             class="form-control-file"
-            id="inputSampleEbookFile"
+            id="photoCoverFile"
             name="photo"
             accept=".jpg,.jpeg,.png">
         </div>
@@ -153,5 +165,7 @@
 @endsection
 
 @push('add-on-script')
-  
+  <script
+    type="text/javascript"
+    src="{{ url('js/view/publisher/input_book.js') }}"></script>
 @endpush

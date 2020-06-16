@@ -81,6 +81,20 @@
             required>
         </div>
       </div>
+      <div class="form-group row"> {{-- Tanggal Rilis --}}
+        <label for="inputTanggalRilis" class="col-sm-2 col-form-label">Tanggal rilis</label>
+        <div class="col-sm-10">
+          <input 
+            type="date"
+            class="form-control"
+            id="inputTanggalRilis"
+            max="{{ $currentDate }}"
+            name="release_at"
+            value="{{ old('release_at') ?? $book->release_at ?? "" }}"
+            {{-- value="2013-09-18" --}}
+            required>
+        </div>
+      </div>
       <div class="form-group row"> {{-- Kategori --}}
         <label for="inputCategory" class="col-sm-2 col-form-label">Kategori</label>
         <div class="col-sm-10">
