@@ -15,4 +15,4 @@ yarn-error.log
 /public/ebook/ebook_files
 /public/ebook/sample_ebook_files
 
-/image/profile_photos
+public/image/profile_photos
