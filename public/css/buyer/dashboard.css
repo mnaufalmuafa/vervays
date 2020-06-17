@@ -28,3 +28,7 @@ p.bookAuthor {
 .star-image {
   height: 15px;
 }
+
+.book-card:hover {
+  cursor: pointer;
+}
