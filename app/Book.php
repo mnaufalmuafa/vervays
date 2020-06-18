@@ -229,8 +229,8 @@ class Book extends Model
         }
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
-            // $rating = Book::getBookRating($bookArray[$i]["id"]);
-            $rating = 3.4;
+            $rating = Book::getBookRating($bookArray[$i]["id"]);
+            // $rating = 3.4;
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
         }
         for ($i=0; $i < count($books); $i++) {
@@ -253,8 +253,8 @@ class Book extends Model
         }
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
-            // $rating = Book::getBookRating($bookArray[$i]["id"]);
-            $rating = 4.2;
+            $rating = Book::getBookRating($bookArray[$i]["id"]);
+            // $rating = 4.2;
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
         }
         for ($i=0; $i < count($books); $i++) {

@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @push('add-on-style')
+  <meta name="keyword" content="{{ $keyword }}">
   <link 
     rel="stylesheet" 
-    href="{{ url('css/buyer/dashboard.css') }}">
+    href="{{ url('css/buyer/search.css') }}">
 @endpush
 
 @section('title')
@@ -11,13 +12,150 @@
 @endsection
 
 @section('content')
-  <h1>Search</h1>
-  <h2>Keyword : {{ $keyword }}</h2>
+  <div class="container-fluid">
+    <div class="row justify-content-between mt-3 mx-1 first-row">
+      <p class="col" id="keyword">Hasil pencarian untuk "<span></span>"</p>
+      <div class="col">
+        <select name="" id="#orderOption" class="d-inline float-right ml-2">
+          <optgroup>
+            <option value="1" selected>Bestseller</option>
+            <option value="2">Harga - Termahal ke termurah</option>
+            <option value="3">Harga - Termurah ke termahal</option>
+          </optgroup>
+        </select>
+        <p class="d-inline float-right">Urutkan berdasarkan : </p>
+      </div>
+    </div>
+    <div class="row second-row">
+      <div class="col-2">
+        <div class="filter-wrapper"> {{-- Filter kategori --}}
+          <div 
+            class="collapse-header" 
+            id="categoryListCollapseHeader"
+            data-toggle="collapse" 
+            data-target="#categoryList" 
+            aria-expanded="false" 
+            aria-controls="categoryList">
+            <p class="d-inline">Kategori</p>
+            <i 
+              class="fa fa-fw fa-sort-desc d-inline float-right"
+              id="ic-sort-desc-category"></i>
+          </div>
+          <ul class="collapse" id="categoryList">
+            <li>
+              <p class="d-inline">Fantasi</p>
+              <div class="float-right d-none">
+                <i class="fa fa-fw fa-check d-inline"></i>
+              </div>
+            </li>
+            <li>
+              <p class="d-inline">Horror</p>
+              <div class="float-right d-none">
+                <i class="fa fa-fw fa-check d-inline"></i>
+              </div>
+            </li>
+            <li>
+              <p class="d-inline">Biografi</p>
+              <div class="float-right d-none">
+                <i class="fa fa-fw fa-check d-inline"></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="filter-wrapper"> {{-- Filter bahasa --}}
+          <div 
+            class="collapse-header" 
+            id="languageListCollapseHeader"
+            data-toggle="collapse" 
+            data-target="#languageList" 
+            aria-expanded="false" 
+            aria-controls="languageList">
+            <p class="d-inline">Bahasa</p>
+            <i 
+              class="fa fa-fw fa-sort-desc d-inline float-right"
+              id="ic-sort-desc-language"></i>
+          </div>
+          <ul class="collapse" id="languageList">
+            <li>
+              <p class="d-inline">Indonesia</p>
+              <div class="float-right d-none">
+                <i class="fa fa-fw fa-check d-inline"></i>
+              </div>
+            </li>
+            <li>
+              <p class="d-inline">Inggris</p>
+              <div class="float-right d-none">
+                <i class="fa fa-fw fa-check d-inline"></i>
+              </div>
+            </li>
+            <li>
+              <p class="d-inline">Jerman</p>
+              <div class="float-right d-none">
+                <i class="fa fa-fw fa-check d-inline"></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+      <div class="col-10">
+        <div 
+          class="row card-book"
+          rating="4.5"
+          id="book-1">
+          <div class="col-2">
+            <img 
+              src="{{ url('image/book_placeholder.png') }}" 
+              alt=""
+              class="ebook-image"
+              book-id="id">
+          </div>
+          <div class="col-10">
+            <h4
+              class="book-title"
+              book-id="">Judul Buku</h4>
+            <p
+              class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">Nama penulis</span></p>
+            <p
+              class="synopsis">I'm baby tacos authentic letterpress, beard hella direct trade cronut trust fund tousled bitters venmo tote bag raw denim. Forage before they sold out migas banh mi echo park, scenester prism. Pickled keytar iceland, asymmetrical pork belly disrupt pop-up farm-to-table food truck marfa raclette austin slow-carb woke. Health goth art party roof party yr disrupt pitchfork kickstarter VHS affogato hell of poutine XOXO flannel. Health goth austin gluten-free put a bird on it cronut bespoke.</p>
+            <div class="book-rating-container">
+              <div class="star-container d-inline">
+                <img 
+                  src="{{ url('image/icon/blank_star.png') }}"
+                  alt=""
+                  class="star-image first-star">
+                <img 
+                  src="{{ url('image/icon/blank_star.png') }}"
+                  alt=""
+                  class="star-image second-star">
+                <img 
+                  src="{{ url('image/icon/blank_star.png') }}"
+                  alt=""
+                  class="star-image third-star">
+                <img 
+                  src="{{ url('image/icon/blank_star.png') }}"
+                  alt=""
+                  class="star-image fourth-star">
+                <img
+                  src="{{ url('image/icon/blank_star.png') }}"
+                  alt=""
+                  class="star-image fifth-star">
+              </div>
+              <p class="d-inline mt-1"><span>4.5</span> &emsp; (<span>25</span> Ulasan) &emsp; <span>100</span>x terjual</p>
+            </div>
+            <p 
+              class="price font-weight-bold d-inline">Rp. 154.000</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @push('add-on-script')
   <script 
     type="text/javascript"
-    src= "{{ url('js/view/buyer/dashboard.js') }}">
+    src= "{{ url('js/view/buyer/search.js') }}">
   </script>
 @endpush
