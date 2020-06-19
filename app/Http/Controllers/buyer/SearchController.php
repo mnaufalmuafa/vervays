@@ -5,6 +5,7 @@ namespace App\Http\Controllers\buyer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Book;
 
 class SearchController extends Controller
 {
@@ -20,5 +21,10 @@ class SearchController extends Controller
             ];
             return view('pages.buyer.search', $data);
         }
+    }
+
+    public function search(Request $request)
+    {
+        return Book::getBookForSearch($request->get('keyword'));
     }
 }

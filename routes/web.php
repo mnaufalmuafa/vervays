@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function() {
-    session(['id' => 0]);
     return redirect()->route('dashboard');
 });
+
+// Route::get('/', 'buyer\SearchController@search');
 
 Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
     Route::get('/login', 'LoginController@index')
@@ -41,6 +42,8 @@ Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
 Route::post('/logout', 'LogoutController@index');
 
 Route::get('/account/verificate', 'SignUpController@verificateEmail');
+
+Route::get('/search/book', 'buyer\SearchController@search');
 
 Route::middleware(['IsLogin'])->group(function() {
     Route::get('/email/verification', 'SignUpController@emailVerification')

@@ -263,4 +263,35 @@ class Book extends Model
         }
         return $bookArray;
     }
+
+    public static function getBookForSearch($keyword)
+    {
+        $keywords = explode(" ",$keyword);
+        $addOnQuery = " ";
+        foreach ($keywords as $katakunci) {
+            $addOnQuery = $addOnQuery."AND `title` LIKE '%".$katakunci."%' ";
+        }
+        $query = "SELECT
+                    `books`.`id`, `title`, `author`, `languageId`, `price`, `release_at`, `synopsis`,
+                    `ebookCoverId`, `categoryId`,
+                    `languages`.`name` as 'Language' ,
+                    `ebook_covers`.`name` as 'ebookCoverName',
+                    `categories`.`name` as 'Category'
+                    FROM `books` 
+                    JOIN `ebook_covers` ON `books`.`ebookCoverId` = `ebook_covers`.`id`
+                    JOIN `languages` ON `books`.`languageId` = `languages`.`id`
+                    JOIN `categories` ON `books`.`categoryId` = `categories`.`id`
+                    WHERE `isDeleted` = 0";
+        $query = $query.$addOnQuery;
+        $books = DB::select($query, [1]);
+        foreach ($books as $book) {
+            $book->rating = Book::getBookRating($book->id);
+            // $book->rating = 5.0;
+            $book->ratingCount = Book::getBookRatingCount($book->id);
+            $book->soldCount = Book::getBookSoldCount($book->id);
+            $book->priceForHuman = Book::convertPriceToCurrencyFormat($book->price);
+        }
+        // dd($books[0]);
+        return response()->json($books);
+    }
 }
