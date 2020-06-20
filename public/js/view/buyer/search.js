@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  $('.text-info-book-not-found').hide();
   var keyword = $('meta[name=keyword]').attr("content");
   while (keyword.includes("-", 0)) {
     keyword = keyword.replace('-', ' ');
@@ -14,6 +15,9 @@ $(document).ready(function() {
     var arrBook = Object.values(data);
     var template = document.querySelector('#productRow');
     var colBook = document.querySelector("#col-book");
+    if (arrBook.length == 0) {
+      $('.text-info-book-not-found').show();
+    }
     for (var i = 0 ; i < arrBook.length ; i++) {
       var clone = template.content.cloneNode(true);
       var ebookCoverId = arrBook[i].ebookCoverId;

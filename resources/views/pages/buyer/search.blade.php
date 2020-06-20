@@ -100,6 +100,8 @@
         
       </div>
       <div class="col-10" id="col-book">
+        <h3 class="ml-4 text-info-book-not-found">Maaf, buku tidak ditemukan</h3>
+        <p class="ml-4 text-info-book-not-found">Cek lagi kata pencarianmu</p>
         <template id="productRow">
           <div 
             class="row card-book"
