@@ -16,7 +16,7 @@
     <div class="row justify-content-between mt-3 mx-1 first-row">
       <p class="col" id="keyword">Hasil pencarian untuk "<span></span>"</p>
       <div class="col">
-        <select name="" id="#orderOption" class="d-inline float-right ml-2">
+        <select name="" id="orderOption" class="d-inline float-right ml-2">
           <optgroup>
             <option value="1" selected>Bestseller</option>
             <option value="2">Harga - Termahal ke termurah</option>
@@ -51,6 +51,7 @@
               </li>
             </template>
           </ul>
+          <input type="hidden" name="category" id="categoryWrapper" value="">
         </div>
 
         <div class="filter-wrapper"> {{-- Filter bahasa --}}
@@ -67,7 +68,7 @@
               id="ic-sort-desc-language"></i>
           </div>
           <ul class="collapse" id="languageList">
-            <template>
+            <template id="language-row">
               <li class="li-language" id="">
                 <p class="d-inline language-name"></p>
                 <div class="float-right d-none">
@@ -76,6 +77,7 @@
               </li>
             </template>
           </ul>
+          <input type="hidden" name="category" id="languageWrapper" value="">
         </div>
         
       </div>
@@ -86,7 +88,7 @@
           <div 
             class="row card-book"
             rating="4.5"
-            id="book-1">
+            id="book">
             <div class="col-2">
               <img 
                 src="{{ url('image/book_placeholder.png') }}" 
