@@ -15,11 +15,46 @@ $(document).ready(function() {
     var arrBook = Object.values(data);
     var template = document.querySelector('#productRow');
     var colBook = document.querySelector("#col-book");
-    if (arrBook.length == 0) {
+    if (arrBook.length == 0) { // Jika tidak ada buku yang sesuai dengan kata kunci pencarian
       $('.text-info-book-not-found').show();
     }
+    else { // Jika ada buku yang sesuai dengan kata kunci pencarian
+      var arrPureCategory = [];
+      var arrCategory = [];
+      var arrPureLanguage = [];
+      var arrLanguage = [];
+      arrBook.forEach(function(item) {
+        if (!(arrPureCategory.includes(item.Category))) {
+          var namaKategori = item.Category;
+          var idKategori = item.categoryId;
+          arrCategory.push( { namaKategori, idKategori });
+          arrPureCategory.push(item.Category);
+        }
+        if (!(arrPureLanguage.includes(item.Language))) {
+          var namaBahasa = item.Language;
+          var idBahasa = item.languageId;
+          arrLanguage.push({ namaBahasa, idBahasa });
+          arrPureLanguage.push(item.Language);
+        }
+      });
+      console.log({ arrBook, arrCategory, arrLanguage });
+      var categoryRowTemplate = document.querySelector('#category-row');
+      var languageRowTemplate = document.querySelector('#category-row');
+      arrCategory.forEach(function(item) {
+        var clone = categoryRowTemplate.content.cloneNode(true);
+        clone.querySelector('li').setAttribute("id", "category-"+item.idKategori);
+        clone.querySelector('p.category-name').innerHTML = item.namaKategori;
+        document.querySelector("ul#categoryList").appendChild(clone);
+      });
+      arrLanguage.forEach(function(item) {
+        var clone = languageRowTemplate.content.cloneNode(true);
+        clone.querySelector('li').setAttribute("id", "language-"+item.idBahasa);
+        clone.querySelector('p').innerHTML = item.namaBahasa;
+        document.querySelector("ul#languageList").appendChild(clone);
+      });
+    }
     for (var i = 0 ; i < arrBook.length ; i++) {
-      var clone = template.content.cloneNode(true);
+      clone = template.content.cloneNode(true);
       var ebookCoverId = arrBook[i].ebookCoverId;
       var ebookCoverFileName = arrBook[i].ebookCoverName;
       var ebookCoverURL = "/ebook/ebook_cover/"+ebookCoverId+"/"+ebookCoverFileName;

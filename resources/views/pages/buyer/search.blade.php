@@ -42,24 +42,14 @@
               id="ic-sort-desc-category"></i>
           </div>
           <ul class="collapse" id="categoryList">
-            <li>
-              <p class="d-inline">Fantasi</p>
-              <div class="float-right d-none">
-                <i class="fa fa-fw fa-check d-inline"></i>
-              </div>
-            </li>
-            <li>
-              <p class="d-inline">Horror</p>
-              <div class="float-right d-none">
-                <i class="fa fa-fw fa-check d-inline"></i>
-              </div>
-            </li>
-            <li>
-              <p class="d-inline">Biografi</p>
-              <div class="float-right d-none">
-                <i class="fa fa-fw fa-check d-inline"></i>
-              </div>
-            </li>
+            <template id="category-row">
+              <li class="li-category" id="">
+                <p class="d-inline category-name"></p>
+                <div class="float-right d-none">
+                  <i class="fa fa-fw fa-check d-inline"></i>
+                </div>
+              </li>
+            </template>
           </ul>
         </div>
 
@@ -77,24 +67,14 @@
               id="ic-sort-desc-language"></i>
           </div>
           <ul class="collapse" id="languageList">
-            <li>
-              <p class="d-inline">Indonesia</p>
-              <div class="float-right d-none">
-                <i class="fa fa-fw fa-check d-inline"></i>
-              </div>
-            </li>
-            <li>
-              <p class="d-inline">Inggris</p>
-              <div class="float-right d-none">
-                <i class="fa fa-fw fa-check d-inline"></i>
-              </div>
-            </li>
-            <li>
-              <p class="d-inline">Jerman</p>
-              <div class="float-right d-none">
-                <i class="fa fa-fw fa-check d-inline"></i>
-              </div>
-            </li>
+            <template>
+              <li class="li-language" id="">
+                <p class="d-inline language-name"></p>
+                <div class="float-right d-none">
+                  <i class="fa fa-fw fa-check d-inline"></i>
+                </div>
+              </li>
+            </template>
           </ul>
         </div>
         
