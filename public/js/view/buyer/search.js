@@ -1,5 +1,6 @@
 $(document).ready(function() {
   $('.text-info-book-not-found').hide();
+  $('.text-info-book-not-found-after-filter').hide();
   var keyword = $('meta[name=keyword]').attr("content");
   while (keyword.includes("-", 0)) {
     keyword = keyword.replace('-', ' ');
@@ -139,6 +140,12 @@ function showBookListWithFilter(arrBook) {
     colBook.appendChild(clone);
   }
   setBookOnClickListener(arrBook);
+  if (filteredArrBook.length === 0) {
+    $('.text-info-book-not-found-after-filter').show();
+  }
+  else {
+    $('.text-info-book-not-found-after-filter').hide();
+  }
 }
 
 function firstAjaxRequest(keyword) {

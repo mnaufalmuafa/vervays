@@ -84,6 +84,7 @@
       <div class="col-10" id="col-book">
         <h3 class="ml-4 text-info-book-not-found">Maaf, buku tidak ditemukan</h3>
         <p class="ml-4 text-info-book-not-found">Cek lagi kata pencarianmu</p>
+        <h3 class="ml-4 text-info-book-not-found-after-filter">Oops, buku tidak ditemukan</h3>
         <template id="productRow">
           <div 
             class="row card-book"
