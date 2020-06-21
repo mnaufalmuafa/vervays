@@ -211,18 +211,30 @@ function displayCategoryAndLanguageFilter(arrBook) {
 function setListOnClickListener(arrBook) {
   $('.li-category').click(function() {
     var id = $(this).attr("id");
-    $('.li-category div').attr("class", "float-right d-none"); //menghilangkan
-    $('.li-category#'+id+' div').attr("class", "float-right"); //memunculkan
-    var category = $('.li-category#'+id+' p').html();
-    $('#categoryWrapper').val(category);
+    if ($('.li-category#'+id+' div').attr("class").includes("d-none")) { // Jika kategori telah dipilih sebelumnya
+      $('.li-category div').attr("class", "float-right d-none"); //menghilangkan
+      $('.li-category#'+id+' div').attr("class", "float-right"); //memunculkan
+      var category = $('.li-category#'+id+' p').html();
+      $('#categoryWrapper').val(category);
+    }
+    else {
+      $('#categoryWrapper').val("");
+      $('.li-category div').attr("class", "float-right d-none"); //menghilangkan
+    }
     showBookListWithFilter(arrBook);
   });
   $('.li-language').click(function() {
     var id = $(this).attr("id");
-    $('.li-language div').attr("class", "float-right d-none"); //menghilangkan
-    $('.li-language#'+id+' div').attr("class", "float-right"); //memunculkan
-    var language = $('.li-language#'+id+' p').html();
-    $('#languageWrapper').val(language);
+    if ($('.li-language#'+id+' div').attr("class").includes("d-none")) { // Jika bahasa telah dipilih sebelumnya
+      $('.li-language div').attr("class", "float-right d-none"); //menghilangkan
+      $('.li-language#'+id+' div').attr("class", "float-right"); //memunculkan
+      var language = $('.li-language#'+id+' p').html();
+      $('#languageWrapper').val(language);
+    }
+    else {
+      $('#languageWrapper').val("");
+      $('.li-language div').attr("class", "float-right d-none"); //menghilangkan
+    }
     showBookListWithFilter(arrBook);
   });
 }
