@@ -32,6 +32,7 @@
       </div>
       <div class="col-6 right-side" id="right-side">
         <form action="/login" class="form" method="POST">
+          @csrf
           <h2 class="text-center font-weight-bold">Login</h2>
           @isset($InvalidInputErrorMessage)
             <div class="alert alert-danger" role="alert">
