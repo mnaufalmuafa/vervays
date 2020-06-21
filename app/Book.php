@@ -230,10 +230,8 @@ class Book extends Model
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
             $rating = Book::getBookRating($bookArray[$i]["id"]);
-            // $rating = 3.4;
+            $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
-        }
-        for ($i=0; $i < count($books); $i++) {
             $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
         }
@@ -254,10 +252,8 @@ class Book extends Model
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
             $rating = Book::getBookRating($bookArray[$i]["id"]);
-            // $rating = 4.2;
+            $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
-        }
-        for ($i=0; $i < count($books); $i++) {
             $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
         }
