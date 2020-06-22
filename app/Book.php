@@ -260,6 +260,51 @@ class Book extends Model
         return $bookArray;
     }
 
+    public static function getSixBestsellerBookForBuyerDashboard()
+    {
+        $booksId = DB::select("SELECT `books`.`id` FROM `books`
+                                JOIN `book_snapshots` ON `books`.`id` = `book_snapshots`.`bookId`
+                                JOIN `orders` ON `book_snapshots`.`orderId` = `orders`.`id`
+                                WHERE `orders`.`status` = 'success'
+                                AND `books`.`isDeleted` = 0
+                                GROUP BY `books`.`id`
+                                ORDER BY COUNT(`books`.`id`) DESC
+                                LIMIT 6"); //berupa array of object (array biasa)
+        if (count($booksId) == 0) { // Jika tidak ada buku yang terjual
+            return null;
+        }
+        $arrBooksId = [];
+        array_splice($arrBooksId,0,1,$booksId);
+        $pureArrBooksId = [];
+        for ($i=0; $i < count($arrBooksId); $i++) { 
+            if ($i == 0) {
+                $pureArrBooksId[0] = $arrBooksId[0]->id;
+            }
+            else {
+                array_push($pureArrBooksId, $arrBooksId[$i]->id);
+            }
+        }
+        //
+        $books = DB::table('books')
+            ->select('id', 'title', 'author', 'price',  'ebookCoverId')
+            ->where('isDeleted', '0')
+            ->whereIn('id', $pureArrBooksId)
+            ->take(6)
+            ->get();
+        foreach ($books as $book) {
+            $book->price = Book::convertPriceToCurrencyFormat($book->price);
+        }
+        $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
+        for ($i=0; $i < count($books); $i++) { 
+            $rating = Book::getBookRating($bookArray[$i]["id"]);
+            $rating = number_format((float) $rating, 1, '.', '');
+            $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
+            $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
+            $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
+        }
+        return $bookArray;
+    }
+
     public static function getBookForSearch($keyword)
     {
         $keywords = explode(" ",$keyword);

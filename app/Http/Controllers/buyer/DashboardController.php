@@ -14,8 +14,9 @@ class DashboardController extends Controller
             "firstName" => User::getFirstName(session('id')),
             "newestBook" => Book::getSixNewestBookForBuyerDashboard(), //Berupa array asosiatif
             "editorChoicesBook" => Book::getSixEditorChoiceBookForBuyerDashboard(), //Berupa array asosiatif
+            "bestsellerBook" => Book::getSixBestsellerBookForBuyerDashboard(),
         ];
-        // dd($data["newestBook"]);
+        // dd($data["bestsellerBook"]);
         return view('pages.buyer.dashboard', $data);
     }
 }

@@ -15,14 +15,17 @@
     <div class="container-fluid mt-1"> {{-- Bestseller --}}
       <h2>Bestseller</h2>
       <div class="row">
-        @for ($i = 0; $i < 6; $i++)
-          <div class="col-2 book-card">
+        @foreach ($bestsellerBook as $book)
+          <div 
+            class="col-2 book-card"
+            rating="{{ $book["rating"] }}"
+            id="book-card-{{ $book["id"] }}-bestseller">
             <img 
-              src="/image/book_placeholder.png" 
+              src="{{ $book["imageURL"] }}" 
               alt=""
               class="book-cover">
-            <p class="bookTitle">Unlock Your Ideas for Your Business Unlock Your Ideas for Your Business</p>
-            <p class="bookAuthor">Asma Nadia</p>
+            <p class="bookTitle">{{ $book["title"] }}</p>
+            <p class="bookAuthor">{{ $book["author"] }}</p>
             <img 
               src="{{ url('image/icon/blank_star.png') }}"
               alt=""
@@ -43,10 +46,10 @@
               src="{{ url('image/icon/blank_star.png') }}"
               alt=""
               class="star-image d-inline fifth-star">
-            <p class="rating-text d-inline">(3.4)</p>
-            <p class="price mt-2">Rp. 34.000</p>
+            <p class="rating-text d-inline">({{ $book["rating"] }})</p>
+            <p class="price mt-2">Rp. {{ $book["price"] }}</p>
           </div>
-        @endfor
+          @endforeach
       </div>
     </div>
   @endisset
