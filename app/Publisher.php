@@ -70,4 +70,66 @@ class Publisher
                     ->where('id', $publisherId)
                     ->pluck('name')[0];
     }
+
+    public static function getPublisherData($userId)
+    {
+        $publisher = DB::table('publishers')
+            ->select('id', 'profilePhotoId', 'publishers.name', 'description', 'balance', 'created_at')
+            ->where('userId', $userId)
+            ->first();
+        $photo = DB::table('profile_photos')
+            ->select('name')
+            ->where('id', $publisher->profilePhotoId)
+            ->first();
+        $balance = number_format($publisher->balance,2,',','.');
+        $photoURL = '/image/profile_photos/'.$publisher->profilePhotoId;
+        $photoURL = $photoURL.'/'.$photo->name;
+        $photoURL = url($photoURL);
+        $parsedDate = Carbon::parse($publisher->created_at);
+        return [
+            "photoURL" => $photoURL,
+            "name" => $publisher->name,
+            "description" => $publisher->description,
+            "balance" => $balance,
+            "month" => Publisher::convert_month_int_to_string_word($parsedDate->month),
+            "year" => $parsedDate->year,
+        ];
+    }
+
+    private static function convert_month_int_to_string_word($month) {
+        if ($month == 1) {
+            return "Januari";
+        }
+        if ($month == 2) {
+            return "Februari";
+        }
+        if ($month == 3) {
+            return "Maret";
+        }
+        if ($month == 4) {
+            return "April";
+        }
+        if ($month == 5) {
+            return "Mei";
+        }
+        if ($month == 6) {
+            return "Juni";
+        }
+        if ($month == 7) {
+            return "Juli";
+        }
+        if ($month == 8) {
+            return "Agustus";
+        }
+        if ($month == 9) {
+            return "September";
+        }
+        if ($month == 10) {
+            return "Oktober";
+        }
+        if ($month == 11) {
+            return "November";
+        }
+        return "Desember";
+    }
 }
