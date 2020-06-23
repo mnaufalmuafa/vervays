@@ -354,7 +354,7 @@ class Book extends Model
         $book->publisher = Publisher::getPublisherName($book->publisherId);
         $rating = Book::getBookRating($book->id);
         $rating = number_format((float) $rating, 1, '.', '');
-        $book->rating = 3.4;
+        $book->rating = $rating;
         $book->ratingCount = Book::getBookRatingCount($book->id);
         $book->soldCount = Book::getBookSoldCount($book->id);
         unset($book->created_at);
@@ -363,5 +363,22 @@ class Book extends Model
         unset($book->isDeleted);
         unset($book->isEditorChoice);
         return json_decode(json_encode($book), true);
+    }
+
+    public static function getPeopleGaveStarsCountAllRating($bookId)
+    {
+        return DB::table('reviews')
+                    ->join('have', 'reviews.haveId', '=', 'have.id')
+                    ->where('have.id', $bookId)
+                    ->count();
+    }
+
+    public static function getPeopleGaveFiveStarsCountByRating($bookId, $rating)
+    {
+        return DB::table('reviews')
+                    ->join('have', 'reviews.haveId', '=', 'have.id')
+                    ->where('have.id', $bookId)
+                    ->where('rating', $rating)
+                    ->count();
     }
 }
