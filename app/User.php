@@ -106,7 +106,7 @@ class User
     public static function getPublisherData($userId)
     {
         $publisher = DB::table('publishers')
-            ->select('id', 'profilePhotoId', 'publishers.name', 'description', 'balance', 'month', 'year')
+            ->select('id', 'profilePhotoId', 'publishers.name', 'description', 'balance', 'created_at')
             ->where('userId', $userId)
             ->first();
         $photo = DB::table('profile_photos')
@@ -117,13 +117,14 @@ class User
         $photoURL = '/image/profile_photos/'.$publisher->profilePhotoId;
         $photoURL = $photoURL.'/'.$photo->name;
         $photoURL = url($photoURL);
+        $parsedDate = Carbon::parse($publisher->created_at);
         return [
             "photoURL" => $photoURL,
             "name" => $publisher->name,
             "description" => $publisher->description,
             "balance" => $balance,
-            "month" => User::convert_month_int_to_string_word($publisher->month),
-            "year" => $publisher->year,
+            "month" => User::convert_month_int_to_string_word($parsedDate->month),
+            "year" => $parsedDate->year,
         ];
     }
 

@@ -63,4 +63,11 @@ class Publisher
         }
         return false;
     }
+
+    public static function getPublisherName($publisherId)
+    {
+        return DB::table('publishers')
+                    ->where('id', $publisherId)
+                    ->pluck('name')[0];
+    }
 }

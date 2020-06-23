@@ -18,7 +18,7 @@
           src="{{ url('/image/book_placeholder.png') }}" 
           alt=""
           class="ebook-cover">
-        <h5>Rp. 34.000</h5>
+        <h5>Rp. {{ $book["priceForHuman"] }}</h5>
         <div class="button-container mt-4" role="1" id="button-container">
           <button class="button-aside" id="btnDelete">Hapus Buku</button>
           <button class="button-aside" id="btnEdit">Edit Buku</button>
@@ -34,8 +34,8 @@
       </div>
       <div class="col-10">
         <section class="first-section">
-          <h2>Judul Buku</h2>
-          <p class="author-info">Ditulis oleh <span>Nama Penulis</span></p>
+          <h2>{{ $book["title"] }}</h2>
+          <p class="author-info">Ditulis oleh <span>{{ $book["author"] }}</span></p>
           <div class="row rating-row">
             <img 
               src="{{ url('image/icon/blank_star.png') }}"
@@ -44,40 +44,28 @@
             <img 
               src="{{ url('image/icon/blank_star.png') }}"
               alt=""
-              class="star-image d-inline first-star">
+              class="star-image d-inline second-star">
             <img 
               src="{{ url('image/icon/blank_star.png') }}"
               alt=""
-              class="star-image d-inline first-star">
+              class="star-image d-inline third-star">
             <img 
               src="{{ url('image/icon/blank_star.png') }}"
               alt=""
-              class="star-image d-inline first-star">
+              class="star-image d-inline fourth-star">
             <img 
               src="{{ url('image/icon/blank_star.png') }}"
               alt=""
-              class="star-image d-inline first-star">
-            <p class="d-inline-block rating mt-1 ml-2">4.5</p>
-            <p class="d-inline-block rating-count mt-1 ml-3">(127 Ulasan)</p>
+              class="star-image d-inline fifth-star">
+            <p class="d-inline-block rating mt-1 ml-2">{{ $book["rating"] }}</p>
+            <p class="d-inline-block rating-count mt-1 ml-3">({{ $book["ratingCount"] }} Ulasan)</p>
           </div>
-          <p class="order-sold-info">237 kali terjual</p>
+          <p class="order-sold-info">{{ $book["soldCount"] }} kali terjual</p>
           <hr>
         </section>
         <section class="synopsis-section">
           <h4>Sinopsis</h4>
-          <p>
-            Est single shot aromatic, a eu caramelization plunger pot, a, carajillo barista coffee id french press plunger 
-            pot aromatic café au lait milk instant ristretto. Chicory java cinnamon mazagran, dark arabica, macchiato
-            milk beans grinder cinnamon crema café au lait arabica. Ut aroma, chicory lungo plunger pot iced, chicory, 
-            aromatic aged spoon caffeine strong irish, and americano froth shop americano aged. Mocha spoon barista 
-            eu aftertaste siphon cappuccino frappuccino to go.
-          </p>
-          <p>
-            Mug doppio et flavour body café au lait latte cappuccino. Froth caffeine extra brewed, rich, saucer skinny 
-            roast so irish strong, fair trade white, latte brewed, dark, wings barista steamed mazagran pumpkin spice 
-            fair trade. Brewed single origin wings, caramelization ristretto sugar that, robusta grinder java
-            flavour extraction galão.
-          </p>
+          <div id="textSynopsis" style="white-space: pre-wrap">{{ $book["synopsis"] }}</div>
           <hr>
         </section>
         <section class="detail-section">
@@ -91,11 +79,11 @@
               <p>Terbit</p>
             </div>
             <div class="d-inline">
-              <p>: Inggris</p>
-              <p id="publisherText">: <span>Elex Media Computindo</span></p>
-              <p>: Asma Nadia</p>
-              <p>: 213</p>
-              <p>: 15 April 2020</p>
+              <p>: {{ $book["language"] }}</p>
+              <p id="publisherText" data-id="{{ $book["publisherId"] }}">: <span>{{ $book["publisher"] }}</span></p>
+              <p>: {{ $book["author"] }}</p>
+              <p>: {{ $book["numberOfPage"] }}</p>
+              <p>: {{ $book["release_at"] }}</p>
             </div>
           </div>
           <hr>
@@ -105,7 +93,7 @@
           <div class="row">
             <div class="d-inline">
               <div class="text-center">
-                <h1 class="d-inline rating">4.5</h1>
+                <h1 class="d-inline rating">{{ $book["rating"] }}</h1>
                 <p class="d-inline">/5</p>
               </div>
               <div class="row rating-row mt-1 mb-2">
@@ -116,21 +104,21 @@
                 <img 
                   src="{{ url('image/icon/blank_star.png') }}"
                   alt=""
-                  class="star-image d-inline first-star">
+                  class="star-image d-inline second-star">
                 <img 
                   src="{{ url('image/icon/blank_star.png') }}"
                   alt=""
-                  class="star-image d-inline first-star">
+                  class="star-image d-inline third-star">
                 <img 
                   src="{{ url('image/icon/blank_star.png') }}"
                   alt=""
-                  class="star-image d-inline first-star">
+                  class="star-image d-inline fourth-star">
                 <img 
                   src="{{ url('image/icon/blank_star.png') }}"
                   alt=""
-                  class="star-image d-inline first-star">
+                  class="star-image d-inline fifth-star">
               </div>
-              <p class="rating-count text-center">127 Ulasan</p>
+              <p class="rating-count text-center">{{ $book["ratingCount"] }} Ulasan</p>
             </div>
             <div class="d-inline pl-5">
               <div class="row rating-row-progress" id="fifth-rating-row">
@@ -298,3 +286,7 @@
     </div>
   </div>
 @endsection
+
+@push('add-on-script')
+  <script src="{{ url('js/view/buyer/ebook_info.js') }}"></script>
+@endpush

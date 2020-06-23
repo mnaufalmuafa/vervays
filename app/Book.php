@@ -335,4 +335,33 @@ class Book extends Model
         // dd($books[0]);
         return response()->json($books);
     }
+
+    private static function getLanguageName($languageId)
+    {
+        return DB::table('languages')
+                    ->where('id', $languageId)
+                    ->pluck('name')[0];
+    }
+
+    public static function getBookForInfoPage($id)
+    {
+        $book = DB::table('books')
+                    ->where('id', $id)
+                    ->where('isDeleted', '0')
+                    ->first();
+        $book->priceForHuman = Book::convertPriceToCurrencyFormat($book->price);
+        $book->language = Book::getLanguageName($book->languageId);
+        $book->publisher = Publisher::getPublisherName($book->publisherId);
+        $rating = Book::getBookRating($book->id);
+        $rating = number_format((float) $rating, 1, '.', '');
+        $book->rating = 3.4;
+        $book->ratingCount = Book::getBookRatingCount($book->id);
+        $book->soldCount = Book::getBookSoldCount($book->id);
+        unset($book->created_at);
+        unset($book->updated_at);
+        unset($book->price);
+        unset($book->isDeleted);
+        unset($book->isEditorChoice);
+        return json_decode(json_encode($book), true);
+    }
 }

@@ -145,3 +145,9 @@ p.review-date {
   color: white;
   padding: 3px 15px;  
 }
+
+#textSynopsis {
+  font-weight: 400;
+  font-size: 1em;
+  color: #212529;
+}
