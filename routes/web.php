@@ -60,6 +60,8 @@ Route::middleware(['IsLogin'])->group(function() {
 
         Route::post('/bepublisher', 'publisher\DashboardController@bePublisher');
 
+        Route::get('/book/detail/{id}/{slug}', 'buyer\BookController@index');
+
         // UNTUK PUBLISHER
         Route::prefix('/publisher')->middleware('DoesPublishers')->group(function() {
 
