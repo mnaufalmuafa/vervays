@@ -26,6 +26,6 @@ class BookController extends Controller
 
     public function getPeopleGaveStarsCountByRating(Request $request)
     {
-        return Book::getPeopleGaveFiveStarsCountByRating($request->get('id'), $request->get('rating'));
+        return Book::getPeopleGaveStarsCountByRating($request->get('id'), $request->get('rating'));
     }
 }

@@ -373,7 +373,7 @@ class Book extends Model
                     ->count();
     }
 
-    public static function getPeopleGaveFiveStarsCountByRating($bookId, $rating)
+    public static function getPeopleGaveStarsCountByRating($bookId, $rating)
     {
         return DB::table('reviews')
                     ->join('have', 'reviews.haveId', '=', 'have.id')
