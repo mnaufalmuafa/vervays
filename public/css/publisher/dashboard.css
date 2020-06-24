@@ -109,3 +109,11 @@ p.price {
   color: red;
   cursor: pointer;
 }
+
+.book-rating-container {
+  padding-left: 15px;
+}
+
+.book-rating-container p {
+  margin-top: 4.5px;
+}

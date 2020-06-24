@@ -78,7 +78,7 @@
             class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">{{ $book["author"] }}</span></p>
           <p
             class="synopsis">{{ $book["synopsis"] }}</p>
-          <div class="book-rating-container">
+          <div class="book-rating-container row">
             <div class="star-container d-inline">
               <img 
                 src="{{ url('image/icon/blank_star.png') }}"
@@ -101,7 +101,7 @@
                 alt=""
                 class="star-image fifth-star">
             </div>
-            <p class="d-inline mt-1"><span>{{ $book["rating"] }}</span> &emsp; (<span>{{ $book["ratingCount"] }}</span> Ulasan) &emsp; <span>{{ $book["soldCount"] }}</span>x terjual</p>
+            <p class="d-inline-block ml-3"><span>{{ $book["rating"] }}</span> &emsp; (<span>{{ $book["ratingCount"] }}</span> Ulasan) &emsp; <span>{{ $book["soldCount"] }}</span>x terjual</p>
           </div>
           <p 
             class="price font-weight-bold d-inline">Rp. {{ $book["price"] }}</p>
