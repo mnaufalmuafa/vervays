@@ -196,19 +196,19 @@
                     <img 
                       src="{{ url('image/icon/blank_star.png') }}"
                       alt=""
-                      class="star-image d-inline first-star">
+                      class="star-image d-inline second-star">
                     <img 
                       src="{{ url('image/icon/blank_star.png') }}"
                       alt=""
-                      class="star-image d-inline first-star">
+                      class="star-image d-inline third-star">
                     <img 
                       src="{{ url('image/icon/blank_star.png') }}"
                       alt=""
-                      class="star-image d-inline first-star">
+                      class="star-image d-inline fourth-star">
                     <img 
                       src="{{ url('image/icon/blank_star.png') }}"
                       alt=""
-                      class="star-image d-inline first-star">
+                      class="star-image d-inline fifth-star">
                     <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">Kikim Rahmawati</p>
                   </div>
                 </div>

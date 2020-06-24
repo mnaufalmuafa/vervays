@@ -123,6 +123,33 @@ function displayReview() {
       var clone = template.content.cloneNode(true);
       var name = getReviewerFormattedName(data[i].firstName, data[i].lastName, data[i].isAnonymous, data[i].isDeleted);
       var date = getFormattedDateForReviewSection(data[i].created_at);
+      switch (data[i].rating) {
+        case 5:
+          clone.querySelector('.fifth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 4 :
+          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 3 :
+          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 2 :
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 1 :
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+      }
       clone.querySelector('.card-custom').setAttribute("id", "rating-"+data[i].id);
       clone.querySelector('p.reviewer').innerHTML = name;
       clone.querySelector('p.review').innerHTML = data[i].review;
@@ -152,6 +179,33 @@ function continueDisplayReview(loaded, reviewsCount, data) {
       var clone = template.content.cloneNode(true);
       var name = getReviewerFormattedName(data[i].firstName, data[i].lastName, data[i].isAnonymous, data[i].isDeleted);
       var date = getFormattedDateForReviewSection(data[i].created_at);
+      switch (data[i].rating) {
+        case 5:
+          clone.querySelector('.fifth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 4 :
+          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 3 :
+          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 2 :
+          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+        case 1 :
+          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
+          break;
+      }
       clone.querySelector('.card-custom').setAttribute("id", "rating-"+data[i].id);
       clone.querySelector('p.reviewer').innerHTML = name;
       clone.querySelector('p.review').innerHTML = data[i].review;
