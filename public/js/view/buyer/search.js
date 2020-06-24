@@ -95,7 +95,9 @@ function showBookList(arrBook) {
     clone.querySelector("span.author-text").innerHTML = arrBook[i].author;
     clone.querySelector("p.synopsis").innerHTML = arrBook[i].synopsis;
     clone.querySelector("span.price").innerHTML = arrBook[i].priceForHuman;
-    arrBook[i].rating = arrBook[i].rating.toPrecision(2);
+    var rating = parseFloat(arrBook[i].rating);
+    rating = rating.toPrecision(2);
+    arrBook[i].rating = rating;
     clone.querySelector("span.rating").innerHTML = arrBook[i].rating;
     clone.querySelector("span.ratingCount").innerHTML = arrBook[i].ratingCount;
     clone.querySelector("span.soldCount").innerHTML = arrBook[i].soldCount;
@@ -138,7 +140,6 @@ function showBookListWithFilter(arrBook) {
     clone.querySelector("span.price").innerHTML = filteredArrBook[i].priceForHuman;
     // filteredArrBook[i].rating = filteredArrBook[i].rating.toPrecision(2);
     var rating = filteredArrBook[i].rating;
-    console.log({i, rating});
     clone.querySelector("span.rating").innerHTML = filteredArrBook[i].rating;
     clone.querySelector("span.ratingCount").innerHTML = filteredArrBook[i].ratingCount;
     clone.querySelector("span.soldCount").innerHTML = filteredArrBook[i].soldCount;
@@ -204,7 +205,6 @@ function displayCategoryAndLanguageFilter(arrBook) {
       arrPureLanguage.push(item.Language);
     }
   });
-  console.log({ arrBook, arrCategory, arrLanguage });
   var categoryRowTemplate = document.querySelector('#category-row');
   var languageRowTemplate = document.querySelector('#language-row');
   arrCategory.forEach(function(item) {
