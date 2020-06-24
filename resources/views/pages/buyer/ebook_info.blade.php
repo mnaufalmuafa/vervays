@@ -19,7 +19,7 @@
     <div class="row mt-2">
       <div class="col-2">
         <img 
-          src="{{ url('/image/book_placeholder.png') }}" 
+          src="{{ $book["imageURL"] }}" 
           alt=""
           class="ebook-cover">
         <h5>Rp. {{ $book["priceForHuman"] }}</h5>

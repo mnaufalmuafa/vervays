@@ -357,6 +357,8 @@ class Book extends Model
         $book->rating = $rating;
         $book->ratingCount = Book::getBookRatingCount($book->id);
         $book->soldCount = Book::getBookSoldCount($book->id);
+        $book->imageURL = Book::getEbookCoverURL($book->ebookCoverId);
+        unset($book->ebookCoverId);
         unset($book->created_at);
         unset($book->updated_at);
         unset($book->price);
