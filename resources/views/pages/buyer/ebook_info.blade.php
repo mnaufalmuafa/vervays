@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('add-on-meta')
+  <meta name="book-id" content="{{ $book["id"] }}">
+@endpush
+
 @push('add-on-style')
   <link 
     rel="stylesheet" 
@@ -7,7 +11,7 @@
 @endpush
 
 @section('title')
-  Judul Buku
+  Jual ebook {{ $book["title"] }}
 @endsection
 
 @section('content')
@@ -130,7 +134,7 @@
                 <div class="custom-progress mt-2 ml-2">
                   <div class="loaded"></div>
                 </div>
-                <p class="mt-1 ml-2">75</p>       
+                <p class="mt-1 ml-2">0</p>       
               </div>
               <div class="row rating-row-progress" id="fourth-rating-row">
                 <img 
@@ -141,7 +145,7 @@
                 <div class="custom-progress mt-2 ml-2">
                   <div class="loaded"></div>
                 </div>
-                <p class="mt-1 ml-2">75</p>       
+                <p class="mt-1 ml-2">0</p>       
               </div>
               <div class="row rating-row-progress" id="third-rating-row">
                 <img 
@@ -152,7 +156,7 @@
                 <div class="custom-progress mt-2 ml-2">
                   <div class="loaded"></div>
                 </div>
-                <p class="mt-1 ml-2">75</p>       
+                <p class="mt-1 ml-2">0</p>       
               </div>
               <div class="row rating-row-progress" id="second-rating-row">
                 <img 
@@ -163,7 +167,7 @@
                 <div class="custom-progress mt-2 ml-2">
                   <div class="loaded"></div>
                 </div>
-                <p class="mt-1 ml-2">75</p>       
+                <p class="mt-1 ml-2">0</p>       
               </div>
               <div class="row rating-row-progress" id="first-rating-row">
                 <img 
@@ -174,7 +178,7 @@
                 <div class="custom-progress mt-2 ml-2">
                   <div class="loaded"></div>
                 </div>
-                <p class="mt-1 ml-2">75</p>       
+                <p class="mt-1 ml-2">0</p>       
               </div>
             </div>
           </div>

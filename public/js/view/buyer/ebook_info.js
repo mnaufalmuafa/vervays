@@ -2,6 +2,7 @@ $(document).ready(function() {
   setRating("first");
   setPublisherTextOnClickListener();
   setRating("rating");
+  setRatingProgress();
 });
 
 function setRating(section) {
@@ -49,4 +50,35 @@ function string_to_slug (str) {
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;
+}
+
+function setRatingProgress() {
+  var id = $('meta[name=book-id]').attr("content");
+  $.ajax({
+    type : "GET",
+    url : "/get/get_people_gave_stars_count_all_rating/"+id,
+  }).done(function(data) {
+    var ratingAllCount = data;
+    console.log({ ratingAllCount, id });
+    setRatingProgressPerRating(id, 5, "fifth", ratingAllCount);
+    setRatingProgressPerRating(id, 4, "fourth", ratingAllCount);
+    setRatingProgressPerRating(id, 3, "third", ratingAllCount);
+    setRatingProgressPerRating(id, 2, "second", ratingAllCount);
+    setRatingProgressPerRating(id, 1, "first", ratingAllCount);
+  });
+}
+
+function setRatingProgressPerRating(id, rating, standing, ratingAllCount) {
+  $.ajax({
+    type : "GET",
+    url : "/get/get_people_gave_stars_count_by_rating/"+id+"/"+rating
+  }).done(function(data) {
+    console.log(rating+" : "+data);
+    var width = 0;
+    if (ratingAllCount != 0) {
+      width = (data/ratingAllCount)*100;
+    }
+    $("#"+standing+"-rating-row .loaded").css("width", width+"%");
+    $("#"+standing+"-rating-row p:last-child").html(data);
+  });
 }

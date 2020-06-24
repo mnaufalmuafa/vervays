@@ -369,7 +369,7 @@ class Book extends Model
     {
         return DB::table('reviews')
                     ->join('have', 'reviews.haveId', '=', 'have.id')
-                    ->where('have.id', $bookId)
+                    ->where('have.bookId', $bookId)
                     ->count();
     }
 
@@ -377,7 +377,7 @@ class Book extends Model
     {
         return DB::table('reviews')
                     ->join('have', 'reviews.haveId', '=', 'have.id')
-                    ->where('have.id', $bookId)
+                    ->where('have.bookId', $bookId)
                     ->where('rating', $rating)
                     ->count();
     }

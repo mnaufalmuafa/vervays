@@ -88,7 +88,7 @@ hr {
 }
 
 .custom-progress .loaded {
-  width: 50%;
+  width: 0%;
   background-color: #FFF822;
   height: 100%;
   border-radius: 4px;
