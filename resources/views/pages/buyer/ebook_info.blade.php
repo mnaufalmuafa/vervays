@@ -184,104 +184,42 @@
           </div>
         </section>
         <section class="review-section mt-4">
-          <div class="card-custom">
-            <div class="rating-row">
-              <div class="row rating-row mt-1">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">Kikim Rahmawati</p>
+          <div id="reviews-container">
+            <template id="ratingContainer">
+              <div class="card-custom" id="rating-">
+                <div class="rating-row">
+                  <div class="row rating-row mt-1">
+                    <img 
+                      src="{{ url('image/icon/blank_star.png') }}"
+                      alt=""
+                      class="star-image d-inline first-star">
+                    <img 
+                      src="{{ url('image/icon/blank_star.png') }}"
+                      alt=""
+                      class="star-image d-inline first-star">
+                    <img 
+                      src="{{ url('image/icon/blank_star.png') }}"
+                      alt=""
+                      class="star-image d-inline first-star">
+                    <img 
+                      src="{{ url('image/icon/blank_star.png') }}"
+                      alt=""
+                      class="star-image d-inline first-star">
+                    <img 
+                      src="{{ url('image/icon/blank_star.png') }}"
+                      alt=""
+                      class="star-image d-inline first-star">
+                    <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">Kikim Rahmawati</p>
+                  </div>
+                </div>
+                <p class="review">
+                  My reading tastes seem to have changed this past year and I've been scooping up a lot of books in the mystery/suspense genre. So when St. Martin's Press sent me a paperback of this book, I couldn't wait to dive in. I am impressed with T.M. Logan's writing. I was practically glued to the pages of this book.
+                </p>
+                <div class="review-date-row">
+                  <p class="review-date">28 September 2020</p>
+                </div>
               </div>
-            </div>
-            <p class="review">
-              My reading tastes seem to have changed this past year and I've been scooping up a lot of books in the mystery/suspense genre. So when St. Martin's Press sent me a paperback of this book, I couldn't wait to dive in. I am impressed with T.M. Logan's writing. I was practically glued to the pages of this book.
-            </p>
-            <div class="review-date-row">
-              <p class="review-date">28 September 2020</p>
-            </div>
-          </div>
-          <div class="card-custom">
-            <div class="rating-row">
-              <div class="row rating-row mt-1">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">Kikim Rahmawati</p>
-              </div>
-            </div>
-            <p class="review">
-              My reading tastes seem to have changed this past year and I've been scooping up a lot of books in the mystery/suspense genre. So when St. Martin's Press sent me a paperback of this book, I couldn't wait to dive in. I am impressed with T.M. Logan's writing. I was practically glued to the pages of this book.
-            </p>
-            <div class="review-date-row">
-              <p class="review-date">28 September 2020</p>
-            </div>
-          </div>
-          <div class="card-custom">
-            <div class="rating-row">
-              <div class="row rating-row mt-1">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
-                  alt=""
-                  class="star-image d-inline first-star">
-                <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">Kikim Rahmawati</p>
-              </div>
-            </div>
-            <p class="review">
-              My reading tastes seem to have changed this past year and I've been scooping up a lot of books in the mystery/suspense genre. So when St. Martin's Press sent me a paperback of this book, I couldn't wait to dive in. I am impressed with T.M. Logan's writing. I was practically glued to the pages of this book.
-            </p>
-            <div class="review-date-row">
-              <p class="review-date">28 September 2020</p>
-            </div>
+            </template>
           </div>
           <button
             class="mb-5 ml-2 button" id="btnLoadMore">Muat Lebih</button>

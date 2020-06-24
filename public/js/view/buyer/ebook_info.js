@@ -1,9 +1,10 @@
 $(document).ready(function() {
   setRating("first");
   setPublisherTextOnClickListener();
-  setDateFormat();
+  setReleaseDateFormat();
   setRating("rating");
   setRatingProgress();
+  displayReview();
 });
 
 function setRating(section) {
@@ -35,11 +36,8 @@ function setPublisherTextOnClickListener() {
   });
 }
 
-function setDateFormat() {
+function setReleaseDateFormat() {
   var relaseDate = new Date($('#relaseDate span').html());
-  console.log(relaseDate.getDate());
-  console.log(relaseDate.getMonth()+1);
-  console.log(relaseDate.getFullYear());
   var date = relaseDate.getDate();
   var month = relaseDate.getMonth()+1;
   month = getMonthInBahasa(month);
@@ -89,7 +87,6 @@ function setRatingProgress() {
     url : "/get/get_people_gave_stars_count_all_rating/"+id,
   }).done(function(data) {
     var ratingAllCount = data;
-    // console.log({ ratingAllCount, id });
     setRatingProgressPerRating(id, 5, "fifth", ratingAllCount);
     setRatingProgressPerRating(id, 4, "fourth", ratingAllCount);
     setRatingProgressPerRating(id, 3, "third", ratingAllCount);
@@ -103,7 +100,6 @@ function setRatingProgressPerRating(id, rating, standing, ratingAllCount) {
     type : "GET",
     url : "/get/get_people_gave_stars_count_by_rating/"+id+"/"+rating
   }).done(function(data) {
-    // console.log(rating+" : "+data);
     var width = 0;
     if (ratingAllCount != 0) {
       width = (data/ratingAllCount)*100;
@@ -111,4 +107,81 @@ function setRatingProgressPerRating(id, rating, standing, ratingAllCount) {
     $("#"+standing+"-rating-row .loaded").css("width", width+"%");
     $("#"+standing+"-rating-row p:last-child").html(data);
   });
+}
+
+function displayReview() {
+  var id = $('meta[name=book-id]').attr("content");
+  $.ajax({
+    type : "GET",
+    url : "/get/get_reviews_by_book_id/"+id
+  }).done(function(data) {
+    var reviewsCount = data.length;
+    var template = document.querySelector('#ratingContainer');
+    var container = document.querySelector('#reviews-container');
+    var loaded = 0;
+    for (let i = 0; i < reviewsCount && i < 3; i++) {
+      var clone = template.content.cloneNode(true);
+      var name = getReviewerFormattedName(data[i].firstName, data[i].lastName, data[i].isAnonymous, data[i].isDeleted);
+      var date = getFormattedDateForReviewSection(data[i].created_at);
+      clone.querySelector('.card-custom').setAttribute("id", "rating-"+data[i].id);
+      clone.querySelector('p.reviewer').innerHTML = name;
+      clone.querySelector('p.review').innerHTML = data[i].review;
+      clone.querySelector('p.review-date').innerHTML = date;
+      container.appendChild(clone);
+      loaded++;
+    }
+    if (loaded < reviewsCount) {
+      $('#btnLoadMore').show();
+      continueDisplayReview(loaded, reviewsCount, data);
+    }
+    else {
+      $('#btnLoadMore').hide();
+    }
+  });
+}
+
+function continueDisplayReview(loaded, reviewsCount, data) {
+  $('#btnLoadMore').click(function() {
+    var template = document.querySelector('#ratingContainer');
+    var container = document.querySelector('#reviews-container');
+    var loadedNow = loaded;
+    for (let i = loaded; i < reviewsCount && i < (loadedNow+3);) {
+      if (i == reviewsCount) {
+        break;
+      }
+      var clone = template.content.cloneNode(true);
+      var name = getReviewerFormattedName(data[i].firstName, data[i].lastName, data[i].isAnonymous, data[i].isDeleted);
+      var date = getFormattedDateForReviewSection(data[i].created_at);
+      clone.querySelector('.card-custom').setAttribute("id", "rating-"+data[i].id);
+      clone.querySelector('p.reviewer').innerHTML = name;
+      clone.querySelector('p.review').innerHTML = data[i].review;
+      clone.querySelector('p.review-date').innerHTML = date;
+      container.appendChild(clone);
+      loaded++;
+      i++;
+    }
+    console.log({loaded, reviewsCount});
+    if (loaded < reviewsCount) {
+      $('#btnLoadMore').show();
+    }
+    else {
+      $('#btnLoadMore').hide();
+    }
+  });
+}
+
+function getReviewerFormattedName(firstName, lastName, isAnonymous, isUserDeleted) {
+  var name = firstName + " " + lastName;
+  if (isAnonymous == 1) {
+    name = name.substring(0,1) + "***" + name.substring(name.length-1,name.length);
+  }
+  if (isUserDeleted == 1) {
+    name = "Deleted Account";
+  }
+  return name;
+}
+
+function getFormattedDateForReviewSection(date) {
+  var newDate = new Date(date);
+  return newDate.getDate()+" "+getMonthInBahasa(newDate.getMonth()+1)+" "+newDate.getFullYear();
 }

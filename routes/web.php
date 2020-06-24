@@ -48,6 +48,7 @@ Route::get('/search/book', 'buyer\SearchController@search');
 Route::prefix('/get')->group(function() {
     Route::get('/get_people_gave_stars_count_all_rating/{id}', 'buyer\BookController@getPeopleGaveStarsCountAllRating');
     Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'buyer\BookController@getPeopleGaveStarsCountByRating');
+    Route::get('/get_reviews_by_book_id/{bookId}', 'buyer\BookController@getReviewsByBookId');
 });
 
 Route::middleware(['IsLogin'])->group(function() {

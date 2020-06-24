@@ -383,4 +383,20 @@ class Book extends Model
                     ->where('rating', $rating)
                     ->count();
     }
+
+    public static function getReviewsByBookId($bookId)
+    {
+        $reviews = DB::table('reviews')
+                        ->select('reviews.id', 'rating', 'review', 'isAnonymous', 'firstName', 'lastName', 'isDeleted', 'reviews.created_at')
+                        ->join('have', 'reviews.haveId', '=', 'have.id')
+                        ->join('users', 'have.userId', '=', 'users.id')
+                        ->where('have.bookId', $bookId)
+                        ->orderBy('reviews.id', 'asc')
+                        ->get();
+        foreach ($reviews as $review) {
+            $created_at = Carbon::parse($review->created_at)->toDateString();
+            $review->created_at = $created_at;
+        }
+        return $reviews;
+    }
 }
