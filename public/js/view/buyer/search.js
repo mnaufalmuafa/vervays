@@ -95,11 +95,13 @@ function showBookList(arrBook) {
     clone.querySelector("span.author-text").innerHTML = arrBook[i].author;
     clone.querySelector("p.synopsis").innerHTML = arrBook[i].synopsis;
     clone.querySelector("span.price").innerHTML = arrBook[i].priceForHuman;
+    arrBook[i].rating = arrBook[i].rating.toPrecision(2);
     clone.querySelector("span.rating").innerHTML = arrBook[i].rating;
     clone.querySelector("span.ratingCount").innerHTML = arrBook[i].ratingCount;
     clone.querySelector("span.soldCount").innerHTML = arrBook[i].soldCount;
     colBook.appendChild(clone);
   }
+  setAllRating();
   setBookOnClickListener(arrBook);
 }
 
@@ -134,11 +136,15 @@ function showBookListWithFilter(arrBook) {
     clone.querySelector("span.author-text").innerHTML = filteredArrBook[i].author;
     clone.querySelector("p.synopsis").innerHTML = filteredArrBook[i].synopsis;
     clone.querySelector("span.price").innerHTML = filteredArrBook[i].priceForHuman;
+    // filteredArrBook[i].rating = filteredArrBook[i].rating.toPrecision(2);
+    var rating = filteredArrBook[i].rating;
+    console.log({i, rating});
     clone.querySelector("span.rating").innerHTML = filteredArrBook[i].rating;
     clone.querySelector("span.ratingCount").innerHTML = filteredArrBook[i].ratingCount;
     clone.querySelector("span.soldCount").innerHTML = filteredArrBook[i].soldCount;
     colBook.appendChild(clone);
   }
+  setAllRating();
   setBookOnClickListener(arrBook);
   if (filteredArrBook.length === 0) {
     $('.text-info-book-not-found-after-filter').show();
@@ -316,5 +322,28 @@ function setBookOnClickListener(arrBook) {
     $('#book-'+item.id).click(function() {
       window.location.href = "/book/detail/"+item.id+"/"+string_to_slug(item.title);
     });
+  });
+}
+
+function setAllRating() {
+  $(".card-book").each(function() {
+    var id = $(this).attr("id");
+    var rating = $('#'+id+" span.rating").html();
+    rating = Math.floor(rating);
+    if (rating >= 1) {
+      $('#'+id+' .first-star').attr("src", "/image/icon/yellow_star.png");
+    }
+    if (rating >= 2) {
+      $('#'+id+' .second-star').attr("src","/image/icon/yellow_star.png");
+    }
+    if (rating >= 3) {
+      $('#'+id+' .third-star').attr("src","/image/icon/yellow_star.png");
+    }
+    if (rating >= 4) {
+      $('#'+id+' .fourth-star').attr("src","/image/icon/yellow_star.png");
+    }
+    if (rating == 5) {
+      $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
+    }
   });
 }
