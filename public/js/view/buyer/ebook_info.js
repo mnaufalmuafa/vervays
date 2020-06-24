@@ -1,6 +1,7 @@
 $(document).ready(function() {
   setRating("first");
   setPublisherTextOnClickListener();
+  setDateFormat();
   setRating("rating");
   setRatingProgress();
 });
@@ -34,6 +35,35 @@ function setPublisherTextOnClickListener() {
   });
 }
 
+function setDateFormat() {
+  var relaseDate = new Date($('#relaseDate span').html());
+  console.log(relaseDate.getDate());
+  console.log(relaseDate.getMonth()+1);
+  console.log(relaseDate.getFullYear());
+  var date = relaseDate.getDate();
+  var month = relaseDate.getMonth()+1;
+  month = getMonthInBahasa(month);
+  var year = relaseDate.getFullYear();
+  $('#relaseDate span').html(date+" "+month+" "+year);
+}
+
+function getMonthInBahasa(intMonth) {
+  switch(intMonth) {
+    case 1 : return "Januari";
+    case 2 : return "Februari";
+    case 3 : return "Maret";
+    case 4 : return "April";
+    case 5 : return "Mei";
+    case 6 : return "Juni";
+    case 7 : return "Juli";
+    case 8 : return "Agustus";
+    case 9 : return "September";
+    case 10 : return "Oktober";
+    case 11 : return "November";
+    case 12 : return "Desember";
+  }
+}
+
 function string_to_slug (str) {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();
@@ -59,7 +89,7 @@ function setRatingProgress() {
     url : "/get/get_people_gave_stars_count_all_rating/"+id,
   }).done(function(data) {
     var ratingAllCount = data;
-    console.log({ ratingAllCount, id });
+    // console.log({ ratingAllCount, id });
     setRatingProgressPerRating(id, 5, "fifth", ratingAllCount);
     setRatingProgressPerRating(id, 4, "fourth", ratingAllCount);
     setRatingProgressPerRating(id, 3, "third", ratingAllCount);
@@ -73,7 +103,7 @@ function setRatingProgressPerRating(id, rating, standing, ratingAllCount) {
     type : "GET",
     url : "/get/get_people_gave_stars_count_by_rating/"+id+"/"+rating
   }).done(function(data) {
-    console.log(rating+" : "+data);
+    // console.log(rating+" : "+data);
     var width = 0;
     if (ratingAllCount != 0) {
       width = (data/ratingAllCount)*100;

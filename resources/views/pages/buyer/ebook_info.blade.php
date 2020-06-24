@@ -87,7 +87,7 @@
               <p id="publisherText" data-id="{{ $book["publisherId"] }}">: <span>{{ $book["publisher"] }}</span></p>
               <p>: {{ $book["author"] }}</p>
               <p>: {{ $book["numberOfPage"] }}</p>
-              <p>: {{ $book["release_at"] }}</p>
+              <p id="relaseDate">: <span>{{ $book["release_at"] }}</span></p>
             </div>
           </div>
           <hr>
