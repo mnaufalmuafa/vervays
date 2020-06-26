@@ -15,7 +15,7 @@ class BookController extends Controller
     {
         $data = [
             "firstName" => User::getFirstName(session('id')),
-            "publisher" => User::getPublisherData(session('id')),
+            "publisher" => Publisher::getPublisherData(session('id')),
             "categories" => Book::getCategories(),
             "languages" => Book::getLanguages(),
             "currentDate" => date("Y-m-d"),
@@ -105,7 +105,7 @@ class BookController extends Controller
     {
         $data = [
             "firstName" => User::getFirstName(session('id')),
-            "publisher" => User::getPublisherData(session('id')),
+            "publisher" => Publisher::getPublisherData(session('id')),
             "categories" => Book::getCategories(),
             "languages" => Book::getLanguages(),
             "book" => Book::getBook($request->id),

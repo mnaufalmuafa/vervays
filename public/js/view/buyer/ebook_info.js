@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  setAsideButtonDisplay();
   setRating("first");
   setPublisherTextOnClickListener();
   setReleaseDateFormat();
@@ -238,4 +239,36 @@ function getReviewerFormattedName(firstName, lastName, isAnonymous, isUserDelete
 function getFormattedDateForReviewSection(date) {
   var newDate = new Date(date);
   return newDate.getDate()+" "+getMonthInBahasa(newDate.getMonth()+1)+" "+newDate.getFullYear();
+}
+
+function setAsideButtonDisplay() {
+  $('#btnDelete').hide();
+  $('#btnEdit').hide();
+  $('#btnRead').hide();
+  $('#btnGiveRating').hide();
+  $('#btnReadSample').hide();
+  $('#btnAddToCart').hide();
+  $('#btnAddToWishlist').hide();
+  $('#btnBuy').hide();
+  var bookId = $('meta[name=book-id]').attr("content");
+  $.ajax({
+    type : "GET",
+    url : "/get/get_user_role_for_ebook_info_page/"+bookId
+  }).done(function(role) {
+    console.log("ROLE : " + role);
+    if (role == 1) {
+      $('#btnDelete').show();
+      $('#btnEdit').show();
+    }
+    else if (role == 2) {
+      $('#btnRead').show();
+      $('#btnGiveRating').show();
+    }
+    else if (role == 3) {
+      $('#btnReadSample').show();
+      $('#btnAddToCart').show();
+      $('#btnAddToWishlist').show();
+      $('#btnBuy').show();
+    }
+  });
 }

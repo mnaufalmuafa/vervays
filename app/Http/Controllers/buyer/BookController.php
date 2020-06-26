@@ -6,6 +6,7 @@ use App\Book;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Order;
 
 class BookController extends Controller
 {
@@ -32,5 +33,10 @@ class BookController extends Controller
     public function getReviewsByBookId(Request $request)
     {
         return Book::getReviewsByBookId($request->bookId);
+    }
+
+    public function getUserRoleForEbookInfoPage(Request $request)
+    {
+        return Order::getUserRoleForEbookInfoPage($request->bookId);
     }
 }

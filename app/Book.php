@@ -399,4 +399,11 @@ class Book extends Model
         }
         return $reviews;
     }
+
+    public static function getPublisherIdByBookId($bookId)
+    {
+        return DB::table('books')
+                    ->where('id', $bookId)
+                    ->get()[0]->publisherId;
+    }
 }

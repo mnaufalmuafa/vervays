@@ -132,4 +132,12 @@ class Publisher
         }
         return "Desember";
     }
+
+    public static function getUserIdByPublisherId($publisherId)
+    {
+        return DB::table('publishers')
+                ->where('id', $publisherId)
+                ->select('userId')
+                ->pluck('userId')[0];
+    }
 }
