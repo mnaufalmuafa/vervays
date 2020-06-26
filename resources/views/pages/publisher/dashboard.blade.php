@@ -114,6 +114,10 @@
           <button
             class="button d-inline float-right mr-2 btn-edit-buku"
             book-id="{{ $book["id"] }}">Edit buku</button>
+          <button
+            class="button d-inline float-right mr-2 btn-view-buku"
+            book-id="{{ $book["id"] }}"
+            book-title="{{ $book["title"] }}">Lihat detail buku</button>
         </div>
       </div>
     </div>

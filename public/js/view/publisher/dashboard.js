@@ -7,17 +7,19 @@ $(document).ready(function() {
   });
   $('.ic-trash').click(function() {
     console.log("hapus");
-    confirm("Apakah anda yakin ingin menghapus buku \""+$(this).attr("book-title")+'" ?');
-    var id = $(this).attr("book-id");
-    $.ajax({
-      url : "/publisher/delete/book",
-      method : "POST",
-      data : {
-        "id" : id
-      }
-    }).done(function() {
-      window.location.href = "/publisher/dashboard";
-    });
+    var wantDelete = confirm("Apakah anda yakin ingin menghapus buku \""+$(this).attr("book-title")+'" ?');
+    if (wantDelete) {
+      var id = $(this).attr("book-id");
+      $.ajax({
+        url : "/publisher/delete/book",
+        method : "POST",
+        data : {
+          "id" : id
+        }
+      }).done(function() {
+        window.location.href = "/publisher/dashboard";
+      });
+    }
   });
   $('.card-book').each(function() {
     var rating = $(this).attr("rating");
@@ -42,21 +44,15 @@ $(document).ready(function() {
       $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
     }
   });
-  setCardBookOnClickListener();
   $('.btn-edit-buku').click(function() {
     var id = $(this).attr("book-id");
     window.location.href = "/publisher/edit/book?id="+id;
   });
-});
-
-function setCardBookOnClickListener() {
-  $('.card-book').click(function() {
-    var id = $(this).attr("id");
-    var title = $("#"+id+' .book-title').html();
-    id = id.replace("book-card-", "");
-    window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+  $('.btn-view-buku').click(function() {
+    var id = $(this).attr("book-id");
+    window.location.href = "/book/detail/"+id+"/"+string_to_slug($(this).attr("book-title"));
   });
-}
+});
 
 function string_to_slug (str) {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
