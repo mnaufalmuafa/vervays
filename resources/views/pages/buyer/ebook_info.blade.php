@@ -79,6 +79,7 @@
               <p>Bahasa</p>
               <p>Penerbit</p>
               <p>Penulis</p>
+              <p>Kategori</p>
               <p>Jumlah halaman &ensp;</p>
               <p>Terbit</p>
             </div>
@@ -86,6 +87,7 @@
               <p>: {{ $book["language"] }}</p>
               <p id="publisherText" data-id="{{ $book["publisherId"] }}">: <span>{{ $book["publisher"] }}</span></p>
               <p>: {{ $book["author"] }}</p>
+              <p>: {{ $book["category"] }}</p>
               <p>: {{ $book["numberOfPage"] }}</p>
               <p id="relaseDate">: <span>{{ $book["release_at"] }}</span></p>
             </div>

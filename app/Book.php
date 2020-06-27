@@ -343,6 +343,12 @@ class Book extends Model
                     ->pluck('name')[0];
     }
 
+    private static function getCategoryName($categoryId) {
+        return DB::table('categories')
+                    ->where('id', $categoryId)
+                    ->pluck('name')[0];
+    }
+
     public static function getBookForInfoPage($id)
     {
         $book = DB::table('books')
@@ -351,6 +357,7 @@ class Book extends Model
                     ->first();
         $book->priceForHuman = Book::convertPriceToCurrencyFormat($book->price);
         $book->language = Book::getLanguageName($book->languageId);
+        $book->category = Book::getCategoryName($book->categoryId);
         $book->publisher = Publisher::getPublisherName($book->publisherId);
         $rating = Book::getBookRating($book->id);
         $rating = number_format((float) $rating, 1, '.', '');
