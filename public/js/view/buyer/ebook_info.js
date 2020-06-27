@@ -241,7 +241,7 @@ function getFormattedDateForReviewSection(date) {
   return newDate.getDate()+" "+getMonthInBahasa(newDate.getMonth()+1)+" "+newDate.getFullYear();
 }
 
-function setAsideButtonDisplay() {
+function hideAllAsideButton() {
   $('#btnDelete').hide();
   $('#btnEdit').hide();
   $('#btnRead').hide();
@@ -250,6 +250,10 @@ function setAsideButtonDisplay() {
   $('#btnAddToCart').hide();
   $('#btnAddToWishlist').hide();
   $('#btnBuy').hide();
+}
+
+function setAsideButtonDisplay() {
+  hideAllAsideButton();
   var bookId = $('meta[name=book-id]').attr("content");
   $.ajax({
     type : "GET",
@@ -259,6 +263,24 @@ function setAsideButtonDisplay() {
     if (role == 1) {
       $('#btnDelete').show();
       $('#btnEdit').show();
+      $('#btnEdit').click(function() {
+        window.location.href = "/publisher/edit/book?id="+bookId;
+      });
+      $('#btnDelete').click(function() {
+        var wantDelete = confirm("Apakah anda yakin ingin menghapus buku \""+$(this).attr("data-title")+'" ?');
+        if (wantDelete) {
+          var id = bookId;
+          $.ajax({
+            url : "/publisher/delete/book",
+            method : "POST",
+            data : {
+              "id" : id
+            }
+          }).done(function() {
+            window.location.href = "/publisher/dashboard";
+          });
+        }
+      });
     }
     else if (role == 2) {
       $('#btnRead').show();

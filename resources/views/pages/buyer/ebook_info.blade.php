@@ -24,8 +24,8 @@
           class="ebook-cover">
         <h5>Rp. {{ $book["priceForHuman"] }}</h5>
         <div class="button-container mt-4" role="1" id="button-container">
-          <button class="button-aside" id="btnDelete">Hapus Buku</button>
           <button class="button-aside" id="btnEdit">Edit Buku</button>
+          <button class="button-aside" id="btnDelete" data-title="{{ $book["title"] }}">Hapus Buku</button>
           {{-- //////////////////////////////////////// --}}
           <button class="button-aside" id="btnRead">Baca Buku</button>
           <button class="button-aside" id="btnGiveRating">Beri Rating</button>
