@@ -39,7 +39,7 @@
       <div class="col-10">
         <section class="alert-section" id="alert-section">
           <template id="alert-template">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" data-alert-for="">
               <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
               <span class="message"></span>
             </div>

@@ -50,6 +50,7 @@ Route::prefix('/get')->group(function() {
     Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'buyer\BookController@getPeopleGaveStarsCountByRating');
     Route::get('/get_reviews_by_book_id/{bookId}', 'buyer\BookController@getReviewsByBookId');
     Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToCart');
+    Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToWishList');
 });
 
 Route::middleware(['IsLogin'])->group(function() {
@@ -76,6 +77,8 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::prefix('/post')->group(function() {
             Route::post('/add_book_to_cart/{bookId}', 'buyer\BookController@addBookToCart');
             Route::post('/remove_book_from_cart/{bookId}', 'buyer\BookController@removeBookFromCart');
+            Route::post('/add_book_to_wish_list/{bookId}', 'buyer\BookController@addBookToWishList');
+            Route::post('/remove_book_from_wish_list/{bookId}', 'buyer\BookController@removeBookFromWishList');
         });
 
         // UNTUK PUBLISHER
