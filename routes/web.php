@@ -70,6 +70,8 @@ Route::middleware(['IsLogin'])->group(function() {
 
         Route::get('/book/detail/{id}/{slug}', 'buyer\BookController@index');
 
+        Route::get('/cart', 'buyer\OrderController@index')->name('cart');
+
         Route::prefix('/get')->group(function() {
             Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'buyer\BookController@getUserRoleForEbookInfoPage');
         });

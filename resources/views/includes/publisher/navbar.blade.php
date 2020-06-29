@@ -29,7 +29,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('login') }}">
+          <a class="nav-link" href="{{ route('cart') }}">
             <img 
               src="{{ url('image/navbar/ic_cart.png') }}" 
               alt=""
