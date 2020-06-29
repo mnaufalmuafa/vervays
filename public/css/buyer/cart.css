@@ -1,0 +1,41 @@
+.book-cover {
+  width: 100%;
+}
+
+hr {
+  border-top: 1px solid #000;
+}
+
+.ic-trash {
+  height: 21px;
+  float: right;
+}
+
+.ic-trash:hover {
+  cursor: pointer;
+}
+
+.book-item {
+  position: relative;
+}
+
+p {
+  font-size: 0.95em;
+}
+
+.card p {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.card-first-section p {
+  margin-bottom: 0px;
+}
+
+.main-container .col-4 hr {
+  margin-top: 8px;
+}
+
+p.authorInfo span {
+  color: red;
+}
