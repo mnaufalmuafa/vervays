@@ -413,4 +413,54 @@ class Book extends Model
                     ->where('id', $bookId)
                     ->get()[0]->publisherId;
     }
+
+    public static function whetherTheUserHasAddedBookToCart($bookId)
+    {
+        $userId = session('id');
+        $count = DB::table('carts')
+                        ->where('userId', $userId)
+                        ->where('bookId', $bookId)
+                        ->count();
+        if ($count == 1) {
+            return json_encode(true);
+        }
+        return json_encode(false);
+    }
+
+    public static function whetherTheUserHasAddedBookToCartForModel($bookId)
+    {
+        $userId = session('id');
+        $count = DB::table('carts')
+                        ->where('userId', $userId)
+                        ->where('bookId', $bookId)
+                        ->count();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function addBookToCart($bookId)
+    {
+        if (!Book::whetherTheUserHasAddedBookToCartForModel($bookId)) {
+            $userId = session('id');
+            DB::table('carts')->insert([
+                'bookId' => $bookId,
+                'userId' => $userId,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+    }
+
+    public static  function removeBookFromCart($bookId)
+    {
+        if (Book::whetherTheUserHasAddedBookToCartForModel($bookId)) {
+            $userId = session('id');
+            DB::table('carts')
+                ->where('bookId', $bookId)
+                ->where('userId', $userId)
+                ->delete();
+        }
+    }
 }

@@ -291,6 +291,65 @@ function setAsideButtonDisplay() {
       $('#btnAddToCart').show();
       $('#btnAddToWishlist').show();
       $('#btnBuy').show();
+      setUpBtnAddToCart();
     }
   });
+}
+
+function setUpBtnAddToCart() {
+  var bookId = $('meta[name=book-id]').attr("content");
+  $.ajax({
+    type : "GET",
+    url : "/get/whether_the_user_has_added_book_to_cart/"+bookId
+  }).done(function(isUserHasAddedBookToCart) {
+    isUserHasAddedBookToCart = (isUserHasAddedBookToCart == "true");
+    if (isUserHasAddedBookToCart) { // Jika user sudah memasukkan buku ke keranjang
+      $('#btnAddToCart').html("Hapus dari Keranjang");
+      $('#btnAddToCart').attr("onclick", "deleteBookFromCart()");
+      $('#btnAddToCart').attr("id", "btnDeleteFromCart");
+    }
+    else { // Jika user belum memasukkan buku ke keranjang
+      $('#btnAddToCart').attr("onclick", "addBookToCart()");
+    }
+  });
+}
+
+function addBookToCart() {
+  $('#btnAddToCart').attr("onclick", "");
+  $('#btnAddToCart').html("....");
+  var bookId = $('meta[name=book-id]').attr("content");
+  console.log("Memasukkan buku "+bookId+" ke keranjang belanja");
+  $.ajax({
+    url : "/post/add_book_to_cart/"+bookId,
+    method : "POST"
+  }).done(function() {
+    $('#btnAddToCart').html("Hapus dari Keranjang");
+    $('#btnAddToCart').attr("onclick", "deleteBookFromCart()");
+    $('#btnAddToCart').attr("id", "btnDeleteFromCart");
+    showAlert("Berhasil menambah ebook ke keranjang belanja");
+  });
+}
+
+function deleteBookFromCart() {
+  $('#btnDeleteFromCart').html("....");
+  $('#btnDeleteFromCart').attr("onclick", "");
+  var bookId = $('meta[name=book-id]').attr("content");
+  console.log("Menghapus buku "+bookId+" dari keranjang belanja");
+  $.ajax({
+    url : "/post/remove_book_from_cart/"+bookId,
+    method : "POST"
+  }).done(function() {
+    $('#btnDeleteFromCart').html("Tambah ke Keranjang");
+    $('#btnDeleteFromCart').attr("onclick", "addBookToCart()");
+    $('#btnDeleteFromCart').attr("id", "btnAddToCart");
+    showAlert("Berhasil menghapus ebook dari keranjang belanja");
+  });
+}
+
+function showAlert(message) {
+  var templateContainer = document.querySelector('#alert-section')
+  var alertTamplate = document.querySelector('#alert-template');
+  var clone = alertTamplate.content.cloneNode(true);
+  clone.querySelector(".alert span.message").innerHTML = message;
+  templateContainer.appendChild(clone);
 }

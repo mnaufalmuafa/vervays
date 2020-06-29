@@ -37,6 +37,14 @@
         </div>
       </div>
       <div class="col-10">
+        <section class="alert-section" id="alert-section">
+          <template id="alert-template">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+              <span class="message"></span>
+            </div>
+          </template>
+        </section>
         <section class="first-section">
           <h2>{{ $book["title"] }}</h2>
           <p class="author-info">Ditulis oleh <span>{{ $book["author"] }}</span></p>
@@ -226,7 +234,7 @@
           <button
             class="mb-5 ml-2 button" id="btnLoadMore">Muat Lebih</button>
         </section>
-      </div>
+      </>
     </div>
   </div>
 @endsection
