@@ -95,4 +95,13 @@ class Order extends Model
         // dd($cart);
         return response()->json($cart);
     }
+
+    public static function removeBookFromCart($bookId)
+    {
+        $userId = session('id');
+        DB::table('carts')
+            ->where('bookId', $bookId)
+            ->where('userId', $userId)
+            ->delete();
+    }
 }

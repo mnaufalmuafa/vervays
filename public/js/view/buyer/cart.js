@@ -47,10 +47,12 @@ function getCart() {
         clone.querySelector('.book-title').setAttribute("data-book-id", books[i].bookId);
         clone.querySelector('.book-title').setAttribute("data-book-title", books[i].title);
         clone.querySelector('.ic-trash').setAttribute("data-book-id", books[i].bookId);
+        clone.querySelector('.ic-trash').setAttribute("data-book-title", books[i].title);
         totalPrice = totalPrice + books[i].price;
         container.appendChild(clone);
       }
       setBookOnClickListener();
+      setTrashIconOnClickListener();
       $('#total-amount span').html(convertToRupiah(totalPrice));
     }
   });
@@ -73,6 +75,22 @@ function setBookOnClickListener() {
     var id = $(this).attr("data-book-id");
     var title = $(this).attr("data-book-title");
     window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+  });
+}
+
+function setTrashIconOnClickListener() {
+  $(".ic-trash").click(function() {
+    var id = $(this).attr("data-book-id");
+    var title = $(this).attr("data-book-title");
+    var willDeleteBookFromCart = confirm("Apakah anda yakin akan menghapus buku \""+title+"\" dari keranjang ?");
+    if (willDeleteBookFromCart) {
+      $.ajax({
+        url : "/post/remove_book_from_cart/"+id,
+        method : "POST"
+      }).done(function() {
+        location.reload();
+      });
+    }
   });
 }
 
