@@ -39,3 +39,11 @@ p {
 p.authorInfo span {
   color: red;
 }
+
+.book-title:hover {
+  color: red;
+}
+
+.book-title:hover, .book-cover:hover {
+  cursor: pointer;
+}

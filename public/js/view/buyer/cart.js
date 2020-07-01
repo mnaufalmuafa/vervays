@@ -20,7 +20,7 @@ function getCart() {
     url : "/get/get_user_cart/",
     method : "get"
   }).done(function(books) {
-    console.log(books);
+    // console.log(books);
     if (books.length === 0) { //Jika keranjang belanja masih kosong
       displayExceptionSection();
       $('#btnSearchBook').click(function() {
@@ -42,9 +42,15 @@ function getCart() {
         clone.querySelector('div').setAttribute("data-book-id", books[i].bookId);
         clone.querySelector('div').setAttribute("data-price", books[i].price);
         clone.querySelector('img').setAttribute("src", ebookCoverURL);
+        clone.querySelector('img').setAttribute("data-book-id", books[i].bookId);
+        clone.querySelector('img').setAttribute("data-book-title", books[i].title);
+        clone.querySelector('.book-title').setAttribute("data-book-id", books[i].bookId);
+        clone.querySelector('.book-title').setAttribute("data-book-title", books[i].title);
+        clone.querySelector('.ic-trash').setAttribute("data-book-id", books[i].bookId);
         totalPrice = totalPrice + books[i].price;
         container.appendChild(clone);
       }
+      setBookOnClickListener();
       $('#total-amount span').html(convertToRupiah(totalPrice));
     }
   });
@@ -55,4 +61,35 @@ function convertToRupiah(angka){
 	var angkarev = angka.toString().split('').reverse().join('');
 	for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
 	return rupiah.split('',rupiah.length-1).reverse().join('');
+}
+
+function setBookOnClickListener() {
+  $(".book-title").click(function() {
+    var id = $(this).attr("data-book-id");
+    var title = $(this).attr("data-book-title");
+    window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+  });
+  $(".book-cover").click(function() {
+    var id = $(this).attr("data-book-id");
+    var title = $(this).attr("data-book-title");
+    window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+  });
+}
+
+function string_to_slug (str) {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to   = "aaaaeeeeiiiioooouuuunc------";
+  for (var i=0, l=from.length ; i<l ; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str;
 }

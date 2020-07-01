@@ -28,10 +28,11 @@
                 <img 
                   src="{{ url('image/book_placeholder.png') }}" 
                   alt=""
-                  class="book-cover">
+                  class="book-cover"
+                  data-book-id="">
               </div>
               <div class="col-10">
-                <h4 class="font-weight-bold">Judul Buku</h4>
+                <h4 class="font-weight-bold book-title" data-book-id="">Judul Buku</h4>
                 <p class="authorInfo mb-0">Ditulis oleh <span>Nama penulis</span></p>
                 <p class="publisherDetail mt-1 mb-0">Nama penerbit</p>
                 <div class="row justify-content-between mt-4">
@@ -40,9 +41,10 @@
                   </div>
                   <div class="col-4">
                     <img 
-                    src="{{ url('/image/ic_trash.png') }}" 
-                    alt="Trash Icon"
-                    class="ic-trash d-inline mr-3">
+                      src="{{ url('/image/ic_trash.png') }}" 
+                      alt="Trash Icon"
+                      class="ic-trash d-inline mr-3"
+                      data-book-id="">
                   </div>
                 </div>
               </div>
