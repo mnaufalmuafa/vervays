@@ -18,11 +18,11 @@
       <button class="btn btn-danger" id="btnSearchBook">Cari buku</button>
     </div>
   </div>
-  <div class="container-fluid main-container">
+  <div class="container-fluid main-container d-none">
     <div class="row">
-      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-        {{-- <template> --}}
-          <div class="book-item mt-2">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12" id="bookContainer">
+        <template id = "bookTemplate">
+          <div class="book-item mt-2" data-book-id="" data-price="">
             <div class="row">
               <div class="col-2">
                 <img 
@@ -49,67 +49,13 @@
             </div> {{-- end row --}}
             <hr>
           </div>
-          <div class="book-item mt-2">
-            <div class="row">
-              <div class="col-2">
-                <img 
-                  src="{{ url('image/book_placeholder.png') }}" 
-                  alt=""
-                  class="book-cover">
-              </div>
-              <div class="col-10">
-                <h4 class="font-weight-bold">Judul Buku</h4>
-                <p class="authorInfo mb-0">Ditulis oleh <span>Nama penulis</span></p>
-                <p class="publisherDetail mt-1 mb-0">Nama penerbit</p>
-                <div class="row justify-content-between mt-4">
-                  <div class="col-4">
-                    <p class="price d-inline">Rp. <span>34.000</span></p>
-                  </div>
-                  <div class="col-4">
-                    <img 
-                    src="{{ url('/image/ic_trash.png') }}" 
-                    alt="Trash Icon"
-                    class="ic-trash d-inline mr-3">
-                  </div>
-                </div>
-              </div>
-            </div> {{-- end row --}}
-            <hr>
-          </div>
-          <div class="book-item mt-2">
-            <div class="row">
-              <div class="col-2">
-                <img 
-                  src="{{ url('image/book_placeholder.png') }}" 
-                  alt=""
-                  class="book-cover">
-              </div>
-              <div class="col-10">
-                <h4 class="font-weight-bold">Judul Buku</h4>
-                <p class="authorInfo mb-0">Ditulis oleh <span>Nama penulis</span></p>
-                <p class="publisherDetail mt-1 mb-0">Nama penerbit</p>
-                <div class="row justify-content-between mt-4">
-                  <div class="col-4">
-                    <p class="price d-inline">Rp. <span>34.000</span></p>
-                  </div>
-                  <div class="col-4">
-                    <img 
-                    src="{{ url('/image/ic_trash.png') }}" 
-                    alt="Trash Icon"
-                    class="ic-trash d-inline mr-3">
-                  </div>
-                </div>
-              </div>
-            </div> {{-- end row --}}
-            <hr>
-          </div>
-        {{-- </template> --}}
+        </template>
       </div>
       <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
         <div class="card px-2 py-2">
           <div class="card-first-section row pr-3">
             <p class="d-inline col">Total harga</p>
-            <p id="total-amount d-inline text-right col">Rp <span>156.000</span></p>
+            <p class="d-inline text-right col" id="total-amount">Rp <span>156.000</span></p>
           </div>
           <hr>
           <div class="card-second-section">

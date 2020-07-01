@@ -5,6 +5,7 @@ namespace App\Http\Controllers\buyer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Order;
 
 class OrderController extends Controller
 {
@@ -14,5 +15,11 @@ class OrderController extends Controller
             "firstName" => User::getFirstName(session('id'))
         ];
         return view('pages.buyer.cart', $data);
+    }
+
+    public function getUserCart(Request $request)
+    {
+        // $userId = session('id');
+        return Order::getUserCart($request->userId);
     }
 }
