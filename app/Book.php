@@ -507,7 +507,7 @@ class Book extends Model
 
     public static  function removeBookFromWishList($bookId)
     {
-        if (Book::whetherTheUserHasAddedBookToCartForModel($bookId)) {
+        if (Book::whetherTheUserHasAddedBookToWishListForModel($bookId)) {
             $userId = session('id');
             DB::table('wishes')
                 ->where('bookId', $bookId)

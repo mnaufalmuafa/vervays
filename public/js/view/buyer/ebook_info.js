@@ -321,9 +321,14 @@ function setUpBtnBuy() {
         $.ajax({ // Memasukkan buku ke keranjang
           url : "/post/add_book_to_cart/"+bookId,
           method : "POST"
+        }).done(function(response) {
+          console.log(response);
+          window.location.href = "/cart";
         });
       }
-      window.location.href = "/cart";
+      else {
+        window.location.href = "/cart";
+      }
     });
   });
 }
@@ -388,7 +393,7 @@ function setUpBtnAddToWishList() {
     if (isUserHasAddedBookToWishList) { // Jika user sudah memasukkan buku ke keranjang
       $('#btnAddToWishlist').html("Hapus dari Wishlist");
       $('#btnAddToWishlist').attr("onclick", "removeBookFromWishList()");
-      $('#btnAddToWishlist').attr("id", "btnDeleteFromCart");
+      $('#btnAddToWishlist').attr("id", "btnDeleteFromWishList");
     }
     else { // Jika user belum memasukkan buku ke keranjang
       $('#btnAddToWishlist').attr("onclick", "addBookToWishList()");
@@ -397,21 +402,22 @@ function setUpBtnAddToWishList() {
 }
 
 function addBookToWishList() {
-  $('#btnAddToWishlist').attr("onclick", "");
-  $('#btnAddToWishlist').html("....");
+  $('#btnAddToWishList').attr("onclick", "");
+  $('#btnAddToWishList').html("....");
   var bookId = $('meta[name=book-id]').attr("content");
   $.ajax({
     url : "/post/add_book_to_wish_list/"+bookId,
     method : "POST"
   }).done(function() {
-    $('#btnAddToWishlist').html("Hapus dari Wishlist");
-    $('#btnAddToWishlist').attr("onclick", "removeBookFromWishList()");
-    $('#btnAddToWishlist').attr("id", "btnDeleteFromWishList");
+    $('#btnAddToWishList').html("Hapus dari Wishlist");
+    $('#btnAddToWishList').attr("onclick", "removeBookFromWishList()");
+    $('#btnAddToWishList').attr("id", "btnDeleteFromWishList");
     showAlert("Berhasil menambah ebook ke wishlist", 2);
   });
 }
 
 function removeBookFromWishList() {
+  console.log("test");
   $('#btnDeleteFromWishList').html("....");
   $('#btnDeleteFromWishList').attr("onclick", "");
   var bookId = $('meta[name=book-id]').attr("content");
