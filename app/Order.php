@@ -115,7 +115,7 @@ class Order extends Model
     {
         $orderId = Order::getNewOrderId();
         $arrBookId = Order::getUserCartBookId();
-        $paymentCode = Order::getPaymentCode($paymentMethod);
+        $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
         $totalPrice = Book::getTotalPrice($arrBookId);
         Order::emptyUserCart();
         Order::postTransaction($orderId, $totalPrice, $paymentMethod, $paymentCode);
@@ -183,17 +183,16 @@ class Order extends Model
         unset($response);
     }
 
-    private static function getPaymentCode($paymentId)
+    private static function getPaymentCode($paymentId, $orderId)
     {
-        $userId = session('id');
         if ($paymentId == 1) {
-            return "21".$userId;
+            return "21".$orderId;
         }
         else if ($paymentId == 2) {
-            return "22".$userId;
+            return "22".$orderId;
         }
         else {
-            return "23".$userId;
+            return "23".$orderId;
         }
     }
 
