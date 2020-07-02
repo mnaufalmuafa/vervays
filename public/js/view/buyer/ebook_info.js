@@ -283,8 +283,19 @@ function setAsideButtonDisplay() {
       });
     }
     else if (role == 3) {
-      $('#btnRead').show();
-      $('#btnGiveRating').show();
+      $.ajax({
+        url : "/get/whether_the_transaction_is_pending_or_success/"+bookId,
+        method : "GET"
+      }).done(function(response){
+        if (response == "pending") {
+          $('#btnReadSample').show();
+        }
+        else { // Jika transaksi telah sukses
+          $('#btnRead').show();
+          //TODO : Cek apakah user sudah memberi rating
+          $('#btnGiveRating').show();
+        }
+      });
     }
     else if (role == 2) {
       $('#btnReadSample').show();

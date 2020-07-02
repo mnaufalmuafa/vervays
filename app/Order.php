@@ -194,4 +194,13 @@ class Order extends Model
                         ->select('carts.bookId')
                         ->get();
     }
+
+    public static function whetherTheTransactionIsPendingOrSuccess($bookId)
+    {
+        $userId = session('id');
+        if (Order::whetherTheBuyerHasAlreadyPurchasedBook($userId, $bookId)) {
+            return "success";
+        }
+        return "pending";
+    }
 }

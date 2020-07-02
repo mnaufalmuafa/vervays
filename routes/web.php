@@ -45,14 +45,6 @@ Route::get('/account/verificate', 'SignUpController@verificateEmail');
 
 Route::get('/search/book', 'buyer\SearchController@search');
 
-Route::prefix('/get')->group(function() {
-    Route::get('/get_people_gave_stars_count_all_rating/{id}', 'buyer\BookController@getPeopleGaveStarsCountAllRating');
-    Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'buyer\BookController@getPeopleGaveStarsCountByRating');
-    Route::get('/get_reviews_by_book_id/{bookId}', 'buyer\BookController@getReviewsByBookId');
-    Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToCart');
-    Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToWishList');
-});
-
 Route::middleware(['IsLogin'])->group(function() {
     Route::get('/email/verification', 'SignUpController@emailVerification')
         ->middleware('IsTheEmailNotVerified')
@@ -75,6 +67,13 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::prefix('/get')->group(function() {
             Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'buyer\BookController@getUserRoleForEbookInfoPage');
             Route::get('/get_user_cart', 'buyer\OrderController@getUserCart');
+            Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'buyer\OrderController@whetherTheTransactionIsPendingOrSuccess');
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            Route::get('/get_people_gave_stars_count_all_rating/{id}', 'buyer\BookController@getPeopleGaveStarsCountAllRating');
+            Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'buyer\BookController@getPeopleGaveStarsCountByRating');
+            Route::get('/get_reviews_by_book_id/{bookId}', 'buyer\BookController@getReviewsByBookId');
+            Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToCart');
+            Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToWishList');
         });
 
         Route::prefix('/post')->group(function() {

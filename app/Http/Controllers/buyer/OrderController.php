@@ -27,4 +27,9 @@ class OrderController extends Controller
     {
         return Order::createOrder($request->paymentMethod);
     }
+
+    public function whetherTheTransactionIsPendingOrSuccess(Request $request)
+    {
+        return Order::whetherTheTransactionIsPendingOrSuccess($request->bookId);
+    }
 }
