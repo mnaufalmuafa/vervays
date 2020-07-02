@@ -513,4 +513,18 @@ class Book extends Model
                 ->delete();
         }
     }
+
+    public static function getTotalPrice($arrBookId)
+    {
+        $totalPrice = 0;
+        foreach ($arrBookId as $book) {
+            $totalPrice = $totalPrice + DB::table('books')->where('id', $book->bookId)->pluck('price')[0];
+        }
+        return $totalPrice;
+    }
+
+    public static function getPrice($bookId)
+    {
+        return DB::table('books')->where('id', $bookId)->pluck('price')[0];
+    }
 }

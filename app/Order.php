@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -103,5 +104,105 @@ class Order extends Model
             ->where('bookId', $bookId)
             ->where('userId', $userId)
             ->delete();
+    }
+
+    private static function getNewOrderId()
+    {
+        return DB::table('orders')->count() + 1;
+    }
+
+    public static function createOrder($paymentMethod)
+    {
+        $orderId = Order::getNewOrderId();
+        $arrBookId = Order::getUserCartBookId();
+        $paymentCode = Order::getPaymentCode($paymentMethod);
+        $totalPrice = Book::getTotalPrice($arrBookId);
+        Order::emptyUserCart();
+        Order::postTransaction($orderId, $totalPrice, $paymentMethod, $paymentCode);
+        Order::store($orderId, $paymentMethod, $paymentCode);
+        Order::storeBookSnaphshots($arrBookId, $orderId);
+        return $orderId;
+    }
+
+    private static function storeBookSnaphshots($arrBookId, $orderId)
+    {
+        foreach ($arrBookId as $book) {
+            $now = Carbon::now();
+            DB::table('book_snapshots')->insert([
+                "bookId" => $book->bookId,
+                "orderId" => $orderId,
+                "price" => Book::getPrice($book->bookId),
+                "created_at" => $now,
+                "updated_at" => $now,
+            ]);
+        }
+    }
+
+    private static function store($id, $paymentId, $paymentCode)
+    {
+        $now = Carbon::now();
+        $userId = session('id');
+        DB::table('orders')->insert([
+            "id" => $id,
+            "paymentId" => $paymentId,
+            "userId" => $userId,
+            "paymentCode" => $paymentCode,
+            "created_at" => $now,
+            "updated_at" => $now,
+        ]);
+    }
+
+    private static function emptyUserCart()
+    {
+        $userId = session('id');
+        DB::table('carts')->where('userId', $userId)->delete();
+    }
+
+    private static function postTransaction($id, $totalPrice, $paymentId, $paymentCode)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://localhost:8000/transaction",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS =>"{\n\t\"id\" : $id,\n\t\"totalPrice\" : $totalPrice,\n\t\"paymentCode\": \"$paymentCode\",\n\t\"paymentId\" : $paymentId\n}",
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        unset($response);
+    }
+
+    private static function getPaymentCode($paymentId)
+    {
+        $userId = session('id');
+        if ($paymentId == 1) {
+            return "21".$userId;
+        }
+        else if ($paymentId == 2) {
+            return "22".$userId;
+        }
+        else {
+            return "23".$userId;
+        }
+    }
+
+    private static function getUserCartBookId()
+    {
+        $userId = session('id');
+        return DB::table('carts')
+                        ->where('carts.userId', $userId)
+                        ->select('carts.bookId')
+                        ->get();
     }
 }

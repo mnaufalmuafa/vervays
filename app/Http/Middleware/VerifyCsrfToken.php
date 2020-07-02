@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/logout',
         '/bepublisher',
+        '/post/create_order',
     ];
 }

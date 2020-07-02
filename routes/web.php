@@ -53,6 +53,10 @@ Route::prefix('/get')->group(function() {
     Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToWishList');
 });
 
+Route::prefix('/post')->group(function() {
+    Route::get('/create_order', 'buyer\OrderController@create');
+});
+
 Route::middleware(['IsLogin'])->group(function() {
     Route::get('/email/verification', 'SignUpController@emailVerification')
         ->middleware('IsTheEmailNotVerified')

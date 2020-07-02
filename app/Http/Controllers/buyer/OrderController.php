@@ -22,4 +22,9 @@ class OrderController extends Controller
         // $userId = session('id');
         return Order::getUserCart($request->userId);
     }
+
+    public function create(Request $request)
+    {
+        return Order::createOrder($request->paymentMethod);
+    }
 }

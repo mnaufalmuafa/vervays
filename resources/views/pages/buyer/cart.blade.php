@@ -63,6 +63,7 @@
           <div class="card-second-section">
             <p>Pilih metode pembayaran</p>
             <form 
+              id="orderForm"
               action=""
               class="pl-2 pb-2">
               <input type="radio" name="paymentMethod" id="BNIOption" value="1" required>
@@ -71,7 +72,7 @@
               <label for="IndomaretOption">Indomaret</label><br>
               <input type="radio" name="paymentMethod" id="AlfamartOption" value="3">
               <label for="AlfamartOption">Alfamart</label><br>
-              <button class="btn btn-danger w-100 mt-2" type="submit">Buat Pesanan</button>
+              <button class="btn btn-danger w-100 mt-2" type="submit" id="btnMakeOrder">Buat Pesanan</button>
             </form>
           </div>
         </div>

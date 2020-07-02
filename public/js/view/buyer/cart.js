@@ -1,6 +1,7 @@
 $(document).ready(function() {
   // displayExceptionSection();
   getCart();
+  setFormOnSubmitListener();
 });
 
 function displayExceptionSection() {
@@ -110,4 +111,48 @@ function string_to_slug (str) {
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;
+}
+
+function setFormOnSubmitListener() {
+  $('#orderForm').submit(function(e) {
+    e.preventDefault();
+    $(':input[type="submit"]').prop('disabled', true);
+    $(':input[type="submit"]').html('....');
+    var bookCount = 0;
+    $(".book-item").each(function() {
+      bookCount++;
+    });
+    if (bookCount > 0) {
+      var arrBookId = [];
+      $(".book-item").each(function() {
+        arrBookId.push($(this).attr("data-book-id"));
+      });
+      paymentMethod = getPaymentMethodValue();
+      var bookData = {arrBookId, paymentMethod};
+      console.log(bookData);
+      
+      var settings = {
+        "url": "http://127.0.0.1:8000/post/create_order",
+        "method": "GET",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/json",
+        },
+        "data": {"paymentMethod":paymentMethod},
+      };
+      
+      $.ajax(settings).done(function (orderId) {
+        console.log({orderId});
+      });
+    }
+  });
+}
+
+function getPaymentMethodValue() {
+  var radios = document.getElementsByName('paymentMethod');
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+      return radios[i].value;
+    }
+  }
 }
