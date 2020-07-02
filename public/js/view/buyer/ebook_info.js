@@ -282,11 +282,11 @@ function setAsideButtonDisplay() {
         }
       });
     }
-    else if (role == 2) {
+    else if (role == 3) {
       $('#btnRead').show();
       $('#btnGiveRating').show();
     }
-    else if (role == 3) {
+    else if (role == 2) {
       $('#btnReadSample').show();
       $('#btnAddToCart').show();
       $('#btnAddToWishlist').show();

@@ -30,17 +30,7 @@ class Order extends Model
         if (Order::whetherTheBuyerHasAlreadyPurchasedBook($buyerId, $bookId) || Order::whetherTheBuyerIsBuyingBook($buyerId, $bookId)) {
             return false;
         }
-        $count = DB::table('orders')
-                        ->join('users', 'users.id', '=', 'orders.userId')
-                        ->join('book_snapshots', 'book_snapshots.orderId', '=', 'orders.id')
-                        ->where('users.id', $buyerId)
-                        ->where('book_snapshots.bookId', $bookId)
-                        ->where('status', 'failed')
-                        ->count();
-        if ($count != 0) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     private static function whetherTheBuyerHasAlreadyPurchasedBook($buyerId, $bookId)
