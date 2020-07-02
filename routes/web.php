@@ -53,10 +53,6 @@ Route::prefix('/get')->group(function() {
     Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToWishList');
 });
 
-Route::prefix('/post')->group(function() {
-    Route::get('/create_order', 'buyer\OrderController@create');
-});
-
 Route::middleware(['IsLogin'])->group(function() {
     Route::get('/email/verification', 'SignUpController@emailVerification')
         ->middleware('IsTheEmailNotVerified')
@@ -86,6 +82,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/remove_book_from_cart/{bookId}', 'buyer\BookController@removeBookFromCart');
             Route::post('/add_book_to_wish_list/{bookId}', 'buyer\BookController@addBookToWishList');
             Route::post('/remove_book_from_wish_list/{bookId}', 'buyer\BookController@removeBookFromWishList');
+            Route::post('/create_order', 'buyer\OrderController@create');
         });
 
         // UNTUK PUBLISHER

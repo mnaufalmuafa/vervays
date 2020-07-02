@@ -133,12 +133,13 @@ function setFormOnSubmitListener() {
       
       var settings = {
         "url": "http://127.0.0.1:8000/post/create_order",
-        "method": "GET",
+        "method": "POST",
         "timeout": 0,
         "headers": {
           "Content-Type": "application/json",
         },
-        "data": {"paymentMethod":paymentMethod},
+        "data": JSON.stringify({"paymentMethod":paymentMethod}),
+        dataType : "JSON"
       };
       
       $.ajax(settings).done(function (orderId) {
