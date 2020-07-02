@@ -214,6 +214,8 @@ class Book extends Model
         $book = Book::find($id);
         $book->isDeleted = 1;
         $book->save();
+        DB::table('carts')->where("bookId", $id)->delete();
+        DB::table('wishes')->where("bookId", $id)->delete();
     }
 
     public static function getSixNewestBookForBuyerDashboard()
