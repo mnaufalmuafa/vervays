@@ -234,7 +234,7 @@
           <button
             class="mb-5 ml-2 button" id="btnLoadMore">Muat Lebih</button>
         </section>
-      </>
+      </div>
     </div>
   </div>
 @endsection
