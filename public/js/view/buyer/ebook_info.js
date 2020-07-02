@@ -293,7 +293,27 @@ function setAsideButtonDisplay() {
       $('#btnBuy').show();
       setUpBtnAddToCart();
       setUpBtnAddToWishList();
+      setUpBtnBuy();
     }
+  });
+}
+
+function setUpBtnBuy() {
+  var bookId = $('meta[name=book-id]').attr("content");
+  $("#btnBuy").click(function() {
+    $.ajax({
+      type : "GET",
+      url : "/get/whether_the_user_has_added_book_to_cart/"+bookId
+    }).done(function(isUserHasAddedBookToCart) {
+      isUserHasAddedBookToCart = (isUserHasAddedBookToCart == "true");
+      if (!isUserHasAddedBookToCart) { // Jika user belum memasukkan buku ke keranjang
+        $.ajax({ // Memasukkan buku ke keranjang
+          url : "/post/add_book_to_cart/"+bookId,
+          method : "POST"
+        });
+      }
+      window.location.href = "/cart";
+    });
   });
 }
 
