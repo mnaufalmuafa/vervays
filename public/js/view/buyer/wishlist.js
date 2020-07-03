@@ -38,11 +38,13 @@ function showWishlist() {
 				clone.querySelector("span.price").innerHTML = convertToRupiah(data[i].price);
 				clone.querySelector(".ic-trash").setAttribute("data-book-id", data[i].id);
 				clone.querySelector(".ic-trash").setAttribute("data-book-title", data[i].title);
+				clone.querySelector(".btn-buy").setAttribute("data-book-id", data[i].id);
 				container.appendChild(clone);
 			}
 			setAllRating();
 			setBookOnClickListener();
 			setTrashIconOnClickListener();
+			setUpBtnBuy();
 		}
 	});
 }
@@ -113,7 +115,7 @@ function setTrashIconOnClickListener() {
 	$(".ic-trash").click(function() {
 		var id = $(this).attr("data-book-id");
 		var title = $(this).attr("data-book-title");
-		var removeBook = confirm("Apakah anda yakin ingin menghapus buku \""+title+"\" dari keranjang?");
+		var removeBook = confirm("Apakah anda yakin ingin menghapus buku \""+title+"\" dari wishlist?");
 		if (removeBook) {
 			$.ajax({
 				url : "/post/remove_book_from_wish_list/"+id,
@@ -130,4 +132,27 @@ function showExceptionContainer() {
 	var kelas = $('.exception-container').attr("class");
 	kelas = kelas.replace("none", "block");
 	$('.exception-container').attr("class", kelas);
+}
+
+function setUpBtnBuy() {
+  $(".btn-buy").click(function() {
+		var bookId = $(this).attr("data-book-id");
+    $.ajax({
+      type : "GET",
+      url : "/get/whether_the_user_has_added_book_to_cart/"+bookId
+    }).done(function(isUserHasAddedBookToCart) {
+      isUserHasAddedBookToCart = (isUserHasAddedBookToCart == "true");
+      if (!isUserHasAddedBookToCart) { // Jika user belum memasukkan buku ke keranjang
+        $.ajax({ // Memasukkan buku ke keranjang
+          url : "/post/add_book_to_cart/"+bookId,
+          method : "POST"
+        }).done(function() {
+          window.location.href = "/cart";
+        });
+      }
+      else {
+        window.location.href = "/cart";
+      }
+    });
+  });
 }
