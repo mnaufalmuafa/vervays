@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-  <div class="container-fluid">
+  <div class="main-section container-fluid">
     <h2 class="font-weight-bold mt-2">Wishlist</h2>
     <template id="bookTemplate">
       <div 

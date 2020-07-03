@@ -66,6 +66,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/cart', 'buyer\OrderController@index')->name('cart');
 
         Route::prefix('/get')->group(function() {
+            Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
             Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'buyer\BookController@getUserRoleForEbookInfoPage');
             Route::get('/get_user_cart', 'buyer\OrderController@getUserCart');
             Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'buyer\OrderController@whetherTheTransactionIsPendingOrSuccess');

@@ -64,3 +64,12 @@ p.price {
   display: inline-block;
   font-size: 16px;
 }
+
+.book-title:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.ebook-image:hover {
+  cursor: pointer;
+}

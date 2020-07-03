@@ -96,7 +96,7 @@ class Book extends Model
         return url("ebook/ebook_cover/".$ebookCoverId."/".$fileName);
     }
 
-    private static function getBookRating($id)
+    public static function getBookRating($id)
     {
         $rating = DB::table('reviews')
             ->join('have', 'reviews.haveId', '=', 'have.id')
@@ -105,7 +105,7 @@ class Book extends Model
         return $rating ?? 0;
     }
 
-    private static function getBookRatingCount($id)
+    public static function getBookRatingCount($id)
     {
         $ratingCount = DB::table('reviews')
             ->join('have', 'reviews.haveId', '=', 'have.id')
@@ -114,7 +114,7 @@ class Book extends Model
         return $ratingCount ?? 0;
     }
 
-    private static function getBookSoldCount($id)
+    public static function getBookSoldCount($id)
     {
         $soldCount = DB::table('book_snapshots')
             ->join('orders', 'book_snapshots.orderId', '=', 'orders.id')
