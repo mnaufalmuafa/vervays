@@ -397,6 +397,7 @@ function setUpBtnAddToWishList() {
     }
     else { // Jika user belum memasukkan buku ke keranjang
       $('#btnAddToWishlist').attr("onclick", "addBookToWishList()");
+      $('#btnAddToWishlist').attr("id", "btnAddToWishList");
     }
   });
 }
