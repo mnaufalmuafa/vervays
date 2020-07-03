@@ -33,10 +33,13 @@ function showWishlist() {
 				clone.querySelector("span.ratingCount").innerHTML = data[i].ratingCount;
 				clone.querySelector("span.soldCount").innerHTML = data[i].soldCount;
 				clone.querySelector("span.price").innerHTML = convertToRupiah(data[i].price);
+				clone.querySelector(".ic-trash").setAttribute("data-book-id", data[i].id);
+				clone.querySelector(".ic-trash").setAttribute("data-book-title", data[i].title);
 				container.appendChild(clone);
 			}
 			setAllRating();
 			setBookOnClickListener();
+			setTrashIconOnClickListener();
 		}
 	});
 }
@@ -101,4 +104,20 @@ function string_to_slug (str) {
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;
+}
+
+function setTrashIconOnClickListener() {
+	$(".ic-trash").click(function() {
+		var id = $(this).attr("data-book-id");
+		var title = $(this).attr("data-book-title");
+		var removeBook = confirm("Apakah anda yakin ingin menghapus buku \""+title+"\" dari keranjang?");
+		if (removeBook) {
+			$.ajax({
+				url : "/post/remove_book_from_wish_list/"+id,
+				method : "POST"
+			}).done(function() {
+				location.reload();
+			});
+		}
+	});
 }

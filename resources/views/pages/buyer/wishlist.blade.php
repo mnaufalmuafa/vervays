@@ -64,7 +64,9 @@
           <img 
             src="{{ url('/image/ic_trash.png') }}" 
             alt="ic_trash"
-            class="d-inline float-right ic-trash mt-1">
+            class="d-inline float-right ic-trash mt-1"
+            data-book-id=""
+            data-book-title="">
           <button class="float-right btn-buy mr-3">Beli</button>
         </div>
       </div>
