@@ -23,12 +23,14 @@
             src="{{ url('image/book_placeholder.png') }}" 
             alt=""
             class="ebook-image"
-            book-id="id">
+            data-book-id=""
+            data-book-title="">
         </div>
         <div class="col-10">
           <h4
             class="book-title"
-            book-id="">Judul Buku</h4>
+            data-book-id=""
+            data-book-title="">Judul Buku</h4>
           <p
             class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">Nama penulis</span></p>
           <p

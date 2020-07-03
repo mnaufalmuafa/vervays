@@ -22,7 +22,11 @@ function showWishlist() {
 				data[i].rating = rating;
 				clone.querySelector('.card-book').setAttribute("id", "book-"+data[i].id);
 				clone.querySelector(".ebook-image").setAttribute("src", ebookCoverURL);
+				clone.querySelector(".ebook-image").setAttribute("data-book-id", data[i].id);
+				clone.querySelector(".ebook-image").setAttribute("data-book-title", data[i].title);
 				clone.querySelector(".book-title").innerHTML = data[i].title;
+				clone.querySelector(".book-title").setAttribute("data-book-id", data[i].id);
+				clone.querySelector(".book-title").setAttribute("data-book-title", data[i].title);
 				clone.querySelector(".author-text").innerHTML = data[i].author;
 				clone.querySelector(".synopsis").innerHTML = data[i].synopsis;
 				clone.querySelector("span.rating").innerHTML = data[i].rating;
@@ -32,6 +36,7 @@ function showWishlist() {
 				container.appendChild(clone);
 			}
 			setAllRating();
+			setBookOnClickListener();
 		}
 	});
 }
@@ -65,4 +70,35 @@ function convertToRupiah(angka)
 	var angkarev = angka.toString().split('').reverse().join('');
 	for(var i = 0; i < angkarev.length; i++) if(i%3 == 0) rupiah += angkarev.substr(i,3)+'.';
 	return rupiah.split('',rupiah.length-1).reverse().join('');
+}
+
+function setBookOnClickListener() {
+	$(".book-title").click(function() {
+    var id = $(this).attr("data-book-id");
+    var title = $(this).attr("data-book-title");
+    window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+  });
+  $(".ebook-image").click(function() {
+    var id = $(this).attr("data-book-id");
+    var title = $(this).attr("data-book-title");
+    window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+  });
+}
+
+function string_to_slug (str) {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to   = "aaaaeeeeiiiioooouuuunc------";
+  for (var i=0, l=from.length ; i<l ; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str;
 }
