@@ -11,6 +11,13 @@
 @endsection
 
 @section('content')
+  <div class="container-fluid exception-container d-none">
+    <h2 class="text-center mt-5">Wah, wishlistmu masih kosong</h2>
+    <h4 class="text-center">Yuk, cari buku kesukaanmu</h4>
+    <div class="button-container w-100 d-flex justify-content-center pt-2">
+      <button class="btn btn-danger" id="btnSearchBook">Cari buku</button>
+    </div>
+  </div>
   <div class="main-section container-fluid">
     <h2 class="font-weight-bold mt-2">Wishlist</h2>
     <template id="bookTemplate">

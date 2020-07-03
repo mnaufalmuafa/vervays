@@ -9,7 +9,10 @@ function showWishlist() {
 	}).done(function(data) {
 		console.log({data});
 		if (data.length == 0) {
-			// TODO : show exception section
+			showExceptionContainer();
+			$("#btnSearchBook").click(function() {
+				window.location.href = "/";
+			});
 		}
 		else {
 			var template = document.querySelector("#bookTemplate");
@@ -120,4 +123,11 @@ function setTrashIconOnClickListener() {
 			});
 		}
 	});
+}
+
+function showExceptionContainer() {
+	$(".main-section").hide();
+	var kelas = $('.exception-container').attr("class");
+	kelas = kelas.replace("none", "block");
+	$('.exception-container').attr("class", kelas);
 }
