@@ -203,4 +203,41 @@ class Order extends Model
         }
         return "pending";
     }
+
+    public static function getRealStatus($orderId)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://localhost:8000/transaction/$orderId",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS =>"{\r\n    \"paymentId\" : 1,\r\n    \"paymentCode\" : 213\r\n}",
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return json_decode($response, true)["status"];
+    }
+
+    public static function updateStatus()
+    {
+        $orders = DB::table('orders')->where('status', 'pending')->get();
+        foreach ($orders as $order) {
+            if (Order::getRealStatus($order->id) != "pending") {
+                DB::table('orders')->where('id', $order->id)->update([
+                    "status" => Order::getRealStatus($order->id)
+                ]);
+            }
+        }
+    }
 }

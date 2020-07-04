@@ -50,7 +50,7 @@ Route::middleware(['IsLogin'])->group(function() {
         ->middleware('IsTheEmailNotVerified')
         ->name('email-verification');
 
-    Route::middleware(['HasTheEmailBeenVerified'])->group(function(){
+    Route::middleware(['HasTheEmailBeenVerified', 'CheckOrderStatus'])->group(function(){
         // UNTUK BUYER
         Route::get('/dashboard', 'buyer\DashboardController@index')
             ->name('dashboard');

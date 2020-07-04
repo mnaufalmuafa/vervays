@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'DoesPublishers' =>  \App\Http\Middleware\DoesPublishers::class,
         'IsTheEmailNotVerified' => \App\Http\Middleware\IsTheEmailNotVerified::class,
         'HasTheEmailBeenVerified' => \App\Http\Middleware\HasTheEmailBeenVerified::class,
+        'CheckOrderStatus' => \App\Http\Middleware\CheckOrderStatus::class,
     ];
 }
