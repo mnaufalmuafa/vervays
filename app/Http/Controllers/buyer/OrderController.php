@@ -32,4 +32,12 @@ class OrderController extends Controller
     {
         return Order::whetherTheTransactionIsPendingOrSuccess($request->bookId);
     }
+
+    public function showList()
+    {
+        $data = [
+            "firstName" => User::getFirstName(session('id'))
+        ];
+        return view('pages.buyer.orders', $data);
+    }
 }

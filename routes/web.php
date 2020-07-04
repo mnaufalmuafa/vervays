@@ -64,6 +64,7 @@ Route::middleware(['IsLogin'])->group(function() {
 
         Route::get('/wishes', 'buyer\WishesController@index')->name('wishlist');
         Route::get('/cart', 'buyer\OrderController@index')->name('cart');
+        Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');

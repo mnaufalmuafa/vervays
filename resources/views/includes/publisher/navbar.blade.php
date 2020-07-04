@@ -48,7 +48,7 @@
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ route('dashboard') }}">Buku Saya</a>
             <a class="dropdown-item" href="{{ route('dashboard') }}">Menu Buyer</a>
-            <a class="dropdown-item" href="{{ route('dashboard') }}">Hapus Akun</a>
+            <a class="dropdown-item" href="{{ route('orders') }}">Pesanan Saya</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="" id="linkLogout">Logout</a>
           </div>
