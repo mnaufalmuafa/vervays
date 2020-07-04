@@ -140,4 +140,13 @@ class Publisher
                 ->select('userId')
                 ->pluck('userId')[0];
     }
+
+    public static function addBalance($publisherId, $balance)
+    {
+        $currentBalance = DB::table('publishers')->where('id', $publisherId)->pluck('balance')[0];
+        $balance = $balance + $currentBalance;
+        DB::table('publishers')->where('id', $publisherId)->update([
+            "balance" => $balance,
+        ]);
+    }
 }

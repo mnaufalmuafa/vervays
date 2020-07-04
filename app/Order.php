@@ -243,6 +243,9 @@ class Order extends Model
                                         ->where('orders.id', $order->id)
                                         ->pluck('book_snapshots.bookId');
                     foreach ($arrBookId as $bookId) {
+                        $publisherId = Book::getPublisherIdByBookId($bookId);
+                        $price = BookSnapshot::getPrice($bookId, $order->id);
+                        Publisher::addBalance($publisherId, $price);
                         Have::store(session('id'), $bookId);
                     }
                 }
