@@ -231,12 +231,21 @@ class Order extends Model
 
     public static function updateStatus()
     {
-        $orders = DB::table('orders')->where('status', 'pending')->get();
+        $orders = DB::table('orders')->where('status', 'pending')->where('userId', session('id'))->get();
         foreach ($orders as $order) {
             if (Order::getRealStatus($order->id) != "pending") {
                 DB::table('orders')->where('id', $order->id)->update([
                     "status" => Order::getRealStatus($order->id)
                 ]);
+                if (Order::getRealStatus($order->id) == "success") {
+                    $arrBookId = DB::table('orders')
+                                        ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
+                                        ->where('orders.id', $order->id)
+                                        ->pluck('book_snapshots.bookId');
+                    foreach ($arrBookId as $bookId) {
+                        Have::store(session('id'), $bookId);
+                    }
+                }
             }
         }
     }
