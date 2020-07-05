@@ -78,6 +78,6 @@
 @endsection
 
 @push('add-on-script')
-  {{-- <script
-    src="{{ url('js/view/publisher/dashboard.js') }}"></script> --}}
+  <script
+    src="{{ url('js/view/publisher/cashout.js') }}"></script>
 @endpush
