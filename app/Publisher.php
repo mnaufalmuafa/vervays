@@ -81,7 +81,7 @@ class Publisher
             ->select('name')
             ->where('id', $publisher->profilePhotoId)
             ->first();
-        $balance = number_format($publisher->balance,2,',','.');
+        $balanceForHuman = number_format($publisher->balance,2,',','.');
         $photoURL = '/image/profile_photos/'.$publisher->profilePhotoId;
         $photoURL = $photoURL.'/'.$photo->name;
         $photoURL = url($photoURL);
@@ -90,7 +90,8 @@ class Publisher
             "photoURL" => $photoURL,
             "name" => $publisher->name,
             "description" => $publisher->description,
-            "balance" => $balance,
+            "balance" => $publisher->balance,
+            "balanceForHuman" => $balanceForHuman,
             "month" => Publisher::convert_month_int_to_string_word($parsedDate->month),
             "year" => $parsedDate->year,
         ];

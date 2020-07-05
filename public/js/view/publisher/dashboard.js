@@ -1,5 +1,6 @@
 $(document).ready(function() {
   setBtnUbahDataOnClickListener();
+  setUpBtnCashout();
   setBtnTambahBukuOnClickListener();
   setTrashIconOnClickListener();
   setRating();
@@ -95,4 +96,15 @@ function setBtnViewBukuOnClickListener() {
     var id = $(this).attr("book-id");
     window.location.href = "/book/detail/"+id+"/"+string_to_slug($(this).attr("book-title"));
   });
+}
+
+function setUpBtnCashout() {
+  var balance = $('meta[name=balance]').attr("content");
+  balance = parseInt(balance);
+  if (balance >= 30000) {
+    var kelas = $("#btnCashout").attr("class");
+    kelas = kelas.replace("none", "inline");
+    $("#btnCashout").attr("class", kelas);
+    $("#btnCashout").attr("onclick", "window.location.href = \"/publisher/cashout\"");
+  }
 }

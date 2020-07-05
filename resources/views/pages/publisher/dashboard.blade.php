@@ -1,5 +1,9 @@
 @extends('layouts.publishers')
 
+@push('add-on-meta')
+  <meta name="balance" content="{{ $publisher["balance"] }}">
+@endpush
+
 @push('add-on-style')
   <link 
     rel="stylesheet" 
@@ -49,8 +53,8 @@
   </div>
   <div class="container-fluid conteiner-saldo">
     <h4 class="ml-2 d-inline">Saldo</h4>
-    <h5 class="d-inline ml-5">Rp. {{ $publisher["balance"] }}</h5>
-    <button class="button d-inline ml-5">Cairkan Saldo</button>
+    <h5 class="d-inline ml-5">Rp. {{ $publisher["balanceForHuman"] }}</h5>
+    <button class="button d-none ml-5" id="btnCashout">Cairkan Saldo</button>
     <hr>
   </div>
   <div class="container-fluid mt-3">
