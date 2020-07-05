@@ -105,6 +105,8 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/input/book', 'publisher\BookController@store')
                 ->name('input-book-POST');
 
+            Route::get('/cashout', 'publisher\BalanceController@cashout');
+
             Route::middleware(['DoesPublisherHaveThatBook'])->group(function() {
                 Route::get('/edit/book', 'publisher\BookController@edit')
                     ->name('edit-book');

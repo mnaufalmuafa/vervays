@@ -149,4 +149,20 @@ class Publisher
             "balance" => $balance,
         ]);
     }
+
+    public static function getBalance($publisherId)
+    {
+        return DB::table('publishers')->where('id', $publisherId)->pluck('balance')[0];
+    }
+
+    public static function withdrawBalance($publisherId, $amount)
+    {
+        $currentBalance = Publisher::getBalance($publisherId);
+        $currentBalance = $currentBalance - $amount;
+        if ($currentBalance >= 0 && $amount >= 30000) {
+            DB::table('publishers')->where('id', $publisherId)->update([
+                "balance" => $currentBalance,
+            ]);
+        }
+    }
 }
