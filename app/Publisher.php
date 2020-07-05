@@ -156,7 +156,7 @@ class Publisher
         return DB::table('publishers')->where('id', $publisherId)->pluck('balance')[0];
     }
 
-    public static function withdrawBalance($publisherId, $amount)
+    public static function withdrawBalance($publisherId, $amount, $bankId, $accountOwner)
     {
         $currentBalance = Publisher::getBalance($publisherId);
         $currentBalance = $currentBalance - $amount;
@@ -164,6 +164,7 @@ class Publisher
             DB::table('publishers')->where('id', $publisherId)->update([
                 "balance" => $currentBalance,
             ]);
+            Cashout::store($publisherId, $bankId, $amount, $accountOwner);
         }
     }
 }

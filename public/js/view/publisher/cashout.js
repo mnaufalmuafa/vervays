@@ -15,7 +15,9 @@ function setFormOnSubmitListener() {
       url : "/publisher/post/cashout",
       method : "POST",
       data : {
-        amount : $("#inputAmount").val()
+        amount : $("#inputAmount").val(),
+        bankId : $('#inputBank').val(),
+        accountOwner : $("#inputAccountOwner").val()
       },
       success : function(text) {
         console.log(text);

@@ -26,6 +26,6 @@ class BalanceController extends Controller
     public function withdrawBalance(Request $request)
     {
         $publisherId = Publisher::getPublisherIdWithUserId(session('id'));
-        Publisher::withdrawBalance($publisherId, $request->amount);
+        Publisher::withdrawBalance($publisherId, $request->amount, $request->bankId, $request->accountOwner);
     }
 }
