@@ -17,7 +17,7 @@
     <div class="form-group row"> 
       <label for="totalBalance" class="col-sm-2 col-form-label">Total Saldo</label>
       <div class="col-sm-10">
-        <p id="totalBalance" class="col-sm-2 col-form-label pl-0">Rp. 53.000</p>
+        <p id="totalBalance" class="col-sm-2 col-form-label pl-0">Rp. <span class="info-balance">{{ $balance }}</span></p>
       </div>
     </div>
     <div class="form-group row">
@@ -29,6 +29,7 @@
           id="inputAmount"
           name="amount"
           min="30000"
+          max="{{ $balance }}"
           value=""
           required>
         <small>Minimal Rp. 30.000</small>
@@ -38,10 +39,13 @@
       <label for="inputBank" class="col-sm-2 col-form-label">Bank Tujuan</label>
       <div class="col-sm-10">
         <select name="bank" id="inputBank" class="form-control" required>
-          <option value="1" selected>Mandiri</option>
-          <option value="2">BNI</option>
-          <option value="3">BRI</option>
-          <option value="4">BCA</option>
+          @for ($i = 0; $i < count($banks); $i++)
+            <option value="{{ $banks[$i]->id }}"
+              @if ($i == 0)
+                selected
+              @endif
+              >{{ $banks[$i]->name }}</option>
+          @endfor
         </select>
       </div>
     </div>
