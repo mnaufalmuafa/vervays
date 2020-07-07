@@ -529,4 +529,20 @@ class Book extends Model
     {
         return DB::table('books')->where('id', $bookId)->pluck('price')[0];
     }
+
+    public static function getBooksByArrBookId($arrBookId)
+    {
+        return DB::table('books')->whereIn('id', $arrBookId)->get();
+    }
+
+    public static function getPublisherName($bookId)
+    {
+        $publisherId = DB::table('books')->where('id', $bookId)->pluck('publisherId')[0];
+        return Publisher::getPublisherName($publisherId);
+    }
+
+    public static function getEbookCoverId($bookId)
+    {
+        return DB::table('books')->where('id', $bookId)->pluck('ebookCoverId')[0];
+    }
 }

@@ -22,18 +22,18 @@
     <div class="main-container d-none">
       <h3 class="mt-2">Daftar Transaksi</h3>
       <template id="orderCardTemplate">
-        <div class="order-card mb-3">
+        <div class="order-card mb-3" data-order-id="" id="">
           <div class="order-status-container">
             <p class="order-status text-center">Menunggu Pembayaran</p>
           </div>
           <div class="main-info">
             <section class="first-section row">
               <div class="col">
-                <p class="ml-2">2 Mei 2020</p>
-                <p class="ml-2">1241</p>
+                <p class="ml-2 date">2 Mei 2020</p>
+                <p class="ml-2 order-id">1241</p>
               </div>
               <div class="col second-col">
-                <button class="btnLihatDetail  button mr-2">Lihat Detail</button>
+                <button class="btnLihatDetail  button mr-2" data-order-id>Lihat Detail</button>
               </div>
             </section>
             <hr>
@@ -47,7 +47,7 @@
         </div>
       </template>
       <template id="bookItemTemplate">
-        <div class="book-item-container">
+        <div class="book-item book-item-container">
           <div class="row mt-3 justify-content-between">
             <div class="col-2">
               <img 
@@ -57,7 +57,7 @@
             </div>
             <div class="col-10">
               <p class="title">Judul Buku</p>
-              <p class="author-info">Ditulis oleh : <span>Nama Penulis</span></p>
+              <p class="author-info">Ditulis oleh <span>Nama Penulis</span></p>
               <p class="publisher">Penerbit</p>
               <p class="float-right mt-5 price">Rp. <span>34.000</span></p>
             </div>
@@ -70,8 +70,8 @@
 @endsection
 
 @push('add-on-script')
-  {{-- <script 
+  <script 
     type="text/javascript"
-    src= "{{ url('js/view/buyer/search.js') }}">
-  </script> --}}
+    src= "{{ url('js/view/buyer/orders.js') }}">
+  </script>
 @endpush

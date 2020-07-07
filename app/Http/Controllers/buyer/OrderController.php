@@ -40,4 +40,14 @@ class OrderController extends Controller
         ];
         return view('pages.buyer.orders', $data);
     }
+
+    public function getUserOrdersForOrdersPage()
+    {
+        return Order::getUserOrders(session('id'));
+    }
+
+    public function getBooksByOrderId(Request $request)
+    {
+        return Order::getBooksByOrderId($request->orderId);
+    }
 }

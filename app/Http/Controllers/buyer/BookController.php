@@ -69,4 +69,9 @@ class BookController extends Controller
     {
         Book::removeBookFromWishList($request->bookId);
     }
+
+    public function getPublisherName(Request $request)
+    {
+        return Book::getPublisherName($request->bookId);
+    }
 }

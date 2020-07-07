@@ -252,4 +252,29 @@ class Order extends Model
             }
         }
     }
+
+    public static function getUserOrders($userId)
+    {
+        $orders = DB::table('orders')
+                        ->select('id', 'created_at', 'status')
+                        ->where('userId', $userId)
+                        ->orderBy('created_at', 'desc')
+                        ->get(); // berupa array of object
+        foreach ($orders as $order) {
+            $order->created_at = Carbon::parse($order->created_at)->toDateString();
+            $order->totalPrice = Order::getTotalPrice($order->id);
+        }
+        return $orders;
+    }
+
+    public static function getTotalPrice($orderId)
+    {
+        return BookSnapshot::getTotalOrderPrice($orderId);
+    }
+
+    public static function getBooksByOrderId($orderId)
+    {
+        $arrBookId = BookSnapshot::getArrBookIdByOrderId($orderId);
+        return Book::getBooksByArrBookId($arrBookId);
+    }
 }

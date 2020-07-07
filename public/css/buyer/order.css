@@ -9,7 +9,7 @@ p.order-status {
 }
 
 .order-status-container {
-	background-color: yellow;
+	background: yellow;
 	border: 1px solid yellow;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
@@ -72,6 +72,10 @@ p.price {
 p.title {
 	font-size: 1.1em;
 	font-weight: bold;
+}
+
+p.title:hover, img.book-cover:hover {
+	cursor: pointer;
 }
 
 p.author-info span {
