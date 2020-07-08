@@ -17,6 +17,8 @@ Route::get('/', function() {
     return redirect()->route('dashboard');
 });
 
+Route::get('/read/sample', 'buyer\ReadController@readSample');
+
 Route::prefix('/get')->group(function() {
     Route::get('/get_book_s_publisher_name/{bookId}', 'buyer\BookController@getPublisherName');
     Route::get('/get_ebook_cover_by_book_id/{bookId}', 'api\EbookCoverController@getEbookCoverByBookId');
