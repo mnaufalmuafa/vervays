@@ -32,4 +32,12 @@ class Have
                 "lastRead" => $lastRead,
             ]);
     }
+
+    public static function getLastRead($bookId)
+    {
+        return DB::table('have')
+                    ->where('userId', session('id'))
+                    ->where('bookId', $bookId)
+                    ->pluck('lastRead')[0];
+    }
 }

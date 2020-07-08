@@ -12,4 +12,9 @@ class HaveController extends Controller
     {
         Have::updateLastRead($request->bookId, $request->lastRead);
     }
+
+    public function getLastRead(Request $request)
+    {
+        return Have::getLastRead($request->bookId);
+    }
 }

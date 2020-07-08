@@ -85,10 +85,18 @@ function updateLastRead(num) {
 pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
   pdfDoc = pdfDoc_;
   //console.log(pdfDoc);
-
   document.querySelector('#page-count').textContent = pdfDoc.numPages;
-
-  renderPage(pageNum);
+  $.ajax({
+    url : "/get/get_last_read/"+getBookId(),
+    method : "GET"
+  }).done(function(lastRead) {
+    var intLastRead = parseInt(lastRead);
+    console.log({intLastRead});
+    if (intLastRead === 0) {
+      intLastRead = 1;
+    }
+    renderPage(intLastRead);
+  });
 }).catch(err => {
   // Display error
   const div = document.createElement('div');
