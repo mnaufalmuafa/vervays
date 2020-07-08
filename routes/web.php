@@ -85,6 +85,7 @@ Route::middleware(['IsLogin'])->group(function() {
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Route::get('/get_user_orders_for_orders_page', 'buyer\OrderController@getUserOrdersForOrdersPage');
             Route::get('/get_books_by_order_id/{orderId}', 'buyer\OrderController@getBooksByOrderId');
+            Route::get('/update_last_read/{bookId}/{lastRead}', 'api\HaveController@updateLastRead');
         });
 
         Route::prefix('/post')->group(function() {

@@ -57,6 +57,7 @@ const showPrevPage = () => {
     return;
   }
   pageNum--;
+  updateLastRead(pageNum);
   queueRenderPage(pageNum);
 };
 
@@ -66,8 +67,19 @@ const showNextPage = () => {
     return;
   }
   pageNum++;
+  updateLastRead(pageNum);
   queueRenderPage(pageNum);
 };
+
+function updateLastRead(num) {
+  var bookId = getBookId();
+  var link = "/get/update_last_read/"+bookId+"/"+num;
+  console.log({link});
+  $.ajax({
+    url : link,
+    method : "GET"
+  });
+}
 
 // Get Document
 pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
@@ -96,6 +108,18 @@ function getEbookURL() {
 
   for (let i = 0; i < metas.length; i++) {
     if (metas[i].getAttribute('name') === "ebookURL") {
+      return metas[i].getAttribute('content');
+    }
+  }
+
+  return '';
+}
+
+function getBookId() {
+  const metas = document.getElementsByTagName('meta');
+
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === "bookId") {
       return metas[i].getAttribute('content');
     }
   }

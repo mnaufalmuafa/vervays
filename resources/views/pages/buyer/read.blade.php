@@ -33,7 +33,14 @@
     <canvas id="pdf-render"></canvas>
   </div>
 
-  <script src="{{ url('js/library/pdf.js') }}"></script>
+  
+  <script
+    src="{{ url('js/library/jquery-3.4.1.min.js') }}">
+  </script>
+  <script
+    src="{{ url('js/csrf_token.js') }}">
+  </script>
+  <script src="{{ url('/js/library/pdf.js') }}"></script>
   <script src="{{ url('/js/view/buyer/read.js') }}"></script>
 </body>
 </html>

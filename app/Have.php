@@ -22,4 +22,14 @@ class Have
     {
         return DB::table('have')->get()->count() + 1;
     }
+
+    public static function updateLastRead($bookId, $lastRead)
+    {
+        DB::table('have')
+            ->where('userId', 1)
+            ->where('bookId', $bookId)
+            ->update([
+                "lastRead" => $lastRead,
+            ]);
+    }
 }
