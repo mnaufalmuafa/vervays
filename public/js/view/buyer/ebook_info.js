@@ -289,6 +289,7 @@ function setAsideButtonDisplay() {
       }).done(function(response){
         if (response == "pending") {
           $('#btnReadSample').show();
+          setUpBtnReadSample();
         }
         else { // Jika transaksi telah sukses
           $('#btnRead').show();
@@ -302,6 +303,7 @@ function setAsideButtonDisplay() {
       $('#btnAddToCart').show();
       $('#btnAddToWishlist').show();
       $('#btnBuy').show();
+      setBtnReadSampleOnClickListener();
       setUpBtnAddToCart();
       setUpBtnAddToWishList();
       setUpBtnBuy();
@@ -443,4 +445,9 @@ function showAlert(message, alertForType) {
   clone.querySelector(".alert span.message").innerHTML = message;
   clone.querySelector("div").setAttribute("data-alert-for", alertForType);
   templateContainer.appendChild(clone);
+}
+
+function redirectToReadSamplePage() {
+  var bookId = $('meta[name=book-id]').attr("content");
+  window.location.href = "/read/sample/"+bookId;
 }

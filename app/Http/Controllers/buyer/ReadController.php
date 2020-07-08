@@ -4,11 +4,16 @@ namespace App\Http\Controllers\buyer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Book;
 
 class ReadController extends Controller
 {
-    public function readSample()
+    public function readSample(Request $request)
     {
-        return view('pages.buyer.read');
+        $data = [
+            "bookId" => $request->bookId,
+            "ebookURL" => Book::getSampleBookFileURL($request->bookId),
+        ];
+        return view('pages.buyer.read', $data);
     }
 }

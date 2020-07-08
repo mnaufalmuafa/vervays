@@ -17,8 +17,6 @@ Route::get('/', function() {
     return redirect()->route('dashboard');
 });
 
-Route::get('/read/sample', 'buyer\ReadController@readSample');
-
 Route::prefix('/get')->group(function() {
     Route::get('/get_book_s_publisher_name/{bookId}', 'buyer\BookController@getPublisherName');
     Route::get('/get_ebook_cover_by_book_id/{bookId}', 'api\EbookCoverController@getEbookCoverByBookId');
@@ -70,6 +68,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/wishes', 'buyer\WishesController@index')->name('wishlist');
         Route::get('/cart', 'buyer\OrderController@index')->name('cart');
         Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
+        Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');

@@ -30,7 +30,7 @@
           <button class="button-aside" id="btnRead">Baca Buku</button>
           <button class="button-aside" id="btnGiveRating">Beri Rating</button>
           {{-- //////////////////////////////////////// --}}
-          <button class="button-aside" id="btnReadSample">Baca Sample</button>
+          <button class="button-aside" id="btnReadSample" onclick="redirectToReadSamplePage()">Baca Sample</button>
           <button class="button-aside" id="btnAddToCart">Tambah ke Keranjang</button>
           <button class="button-aside" id="btnAddToWishlist">Tambah ke Wishlist</button>
           <button class="button-aside" id="btnBuy">Beli</button>
