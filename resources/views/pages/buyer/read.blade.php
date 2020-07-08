@@ -33,7 +33,7 @@
     <canvas id="pdf-render"></canvas>
   </div>
 
-  <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+  <script src="{{ url('js/library/pdf.js') }}"></script>
   <script src="{{ url('/js/view/buyer/read.js') }}"></script>
 </body>
 </html>
