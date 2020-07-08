@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="bookId" content="{{ $bookId }}">
-  {{-- <meta name="ebookURL" content="http://127.0.0.1:8000/ebook/ebook_files/1/1.%20Nightmares-of-Caitlin-Lockyer.pdf"> --}}
   <meta name="ebookURL" content="{{ $ebookURL }}">
   <title>PDF Viewer</title>
   <link

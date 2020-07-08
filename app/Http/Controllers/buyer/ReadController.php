@@ -16,4 +16,13 @@ class ReadController extends Controller
         ];
         return view('pages.buyer.read', $data);
     }
+
+    public function readBook(Request $request)
+    {
+        $data = [
+            "bookId" => $request->bookId,
+            "ebookURL" => Book::getBookFileURL($request->bookId),
+        ];
+        return view('pages.buyer.read', $data);
+    }
 }
