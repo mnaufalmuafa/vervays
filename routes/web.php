@@ -20,7 +20,7 @@ Route::get('/', function() {
 Route::prefix('/get')->group(function() {
     Route::get('/get_book_s_publisher_name/{bookId}', 'buyer\BookController@getPublisherName');
     Route::get('/get_ebook_cover_by_book_id/{bookId}', 'api\EbookCoverController@getEbookCoverByBookId');
-    Route::get('/get_user_books', 'api\BookController@getUserBooks');
+    Route::get('/have_user_given_book_rating/{bookId}', 'api\ReviewController@haveUserGivenBookRating');
 });
 
 Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
@@ -73,6 +73,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
         Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
         Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook');
+        Route::get('/give_rating/{bookId}', 'buyer\BookController@giveRating');
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
@@ -90,6 +91,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::get('/get_books_by_order_id/{orderId}', 'buyer\OrderController@getBooksByOrderId');
             Route::get('/update_last_read/{bookId}/{lastRead}', 'api\HaveController@updateLastRead');
             Route::get('/get_last_read/{bookId}', 'api\HaveController@getLastRead');
+            Route::get('/get_user_books', 'api\BookController@getUserBooks');
         });
 
         Route::prefix('/post')->group(function() {

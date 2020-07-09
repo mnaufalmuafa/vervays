@@ -292,8 +292,15 @@ function setAsideButtonDisplay() {
         }
         else { // Jika transaksi telah sukses
           $('#btnRead').show();
-          //TODO : Cek apakah user sudah memberi rating
-          $('#btnGiveRating').show();
+          $.ajax({ // Cek apakah user sudah memberi rating
+            url : "/get/have_user_given_book_rating/"+bookId,
+            method : "GET"
+          }).done(function(haveUserGivenBookRating) {
+            if (!haveUserGivenBookRating) {
+              $('#btnGiveRating').show();
+              $('#btnGiveRating').attr("onclick", "window.location.href = \"/give_rating/"+bookId+"\"");
+            }
+          });
         }
       });
     }

@@ -43,6 +43,7 @@ function setUpClone(clone, book) {
 	}
 	else {
 		clone.querySelector(".btnGiveRating").setAttribute("data-emptied", 0);
+		clone.querySelector(".btnGiveRating").setAttribute("onclick", "window.location.href = \"/give_rating/"+book.id+"\"");
 	}
 	return clone;
 }
