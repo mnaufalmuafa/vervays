@@ -569,4 +569,21 @@ class Book extends Model
         $ebookFile = EbookFile::getEbookFile($ebookFileId);
         return "/ebook/ebook_files/".$ebookFile->id."/".$ebookFile->name;
     }
+
+    public static function getBookDataForMyBookPage()
+    {
+        $books = DB::table('books')
+                        ->join('have', 'have.bookId', '=', 'books.id')
+                        ->join('ebook_covers', 'books.ebookCoverId', '=', 'ebook_covers.id')
+                        ->where('have.userId', '=', session('id'))
+                        ->select('title', 'author')
+                        ->addSelect(DB::raw('`books`.`id` as id'))
+                        ->addSelect(DB::raw('`ebook_covers`.`id` as ebookCoverId'))
+                        ->addSelect(DB::raw('`ebook_covers`.`name` as ebookCoverFileName'))
+                        ->get();
+        foreach ($books as $book) {
+            $book->didTheUserGiveAReview = Reviews::didTheUserGiveAReview($book->id);
+        }
+        return $books;
+    }
 }

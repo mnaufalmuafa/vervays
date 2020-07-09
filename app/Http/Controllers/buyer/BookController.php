@@ -74,4 +74,12 @@ class BookController extends Controller
     {
         return Book::getPublisherName($request->bookId);
     }
+
+    public function mybook()
+    {
+        $data = [
+            "firstName" => User::getFirstName(session('id')),
+        ];
+        return view('pages.buyer.mybook', $data);
+    }
 }

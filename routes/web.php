@@ -20,6 +20,7 @@ Route::get('/', function() {
 Route::prefix('/get')->group(function() {
     Route::get('/get_book_s_publisher_name/{bookId}', 'buyer\BookController@getPublisherName');
     Route::get('/get_ebook_cover_by_book_id/{bookId}', 'api\EbookCoverController@getEbookCoverByBookId');
+    Route::get('/get_user_books', 'api\BookController@getUserBooks');
 });
 
 Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
@@ -64,6 +65,8 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::post('/bepublisher', 'publisher\DashboardController@bePublisher');
 
         Route::get('/book/detail/{id}/{slug}', 'buyer\BookController@index');
+
+        Route::get('/mybook', 'buyer\BookController@mybook')->name('mybook');
 
         Route::get('/wishes', 'buyer\WishesController@index')->name('wishlist');
         Route::get('/cart', 'buyer\OrderController@index')->name('cart');

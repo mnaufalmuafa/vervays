@@ -46,7 +46,7 @@
             class="icon">
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{{ route('dashboard') }}">Buku Saya</a>
+          <a class="dropdown-item" href="{{ route('mybook') }}">Buku Saya</a>
           <a class="dropdown-item" href="" id="linkMenjadiPublisher">Menu Publisher</a>
           <a class="dropdown-item" href="{{ route('orders') }}">Pesanan Saya</a>
           <div class="dropdown-divider"></div>
