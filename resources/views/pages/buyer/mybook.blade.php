@@ -21,24 +21,26 @@
   <div class="container-fluid main-container d-none">
     <h2 class="mt-2 font-weight-bold">Buku Saya</h2>
     <div class="row">
-      <div class="card-book col-2 mb-3" id="book-">
-        <div class="card">
-          <a href="#">
-            <img 
-              src="{{ url('image/book_placeholder.png') }}" 
-              alt=""
-              class="book-cover">
-          </a>
-          <div class="info-container">
-            <a href="#">
-              <p class="title mx-1">Judul Buku</p>
+      <template id="bookTemplate">
+        <div class="card-book col-2 mb-3" id="book-">
+          <div class="card">
+            <a href="" class="imageLink">
+              <img 
+                src="{{ url('image/book_placeholder.png') }}" 
+                alt=""
+                class="book-cover">
             </a>
-            <p class="author mx-1">Author</p>
+            <div class="info-container">
+              <a href="" class="titleLink">
+                <p class="title mx-1">Judul Buku</p>
+              </a>
+              <p class="author mx-1">Author</p>
+            </div>
+            <button class="button mb-1 mx-auto btnRead">Baca Buku</button>
+            <button class="button mx-auto btnGiveRating" data-emptied="0">Beri Ulasan</button>
           </div>
-          <button class="button mb-1 mx-auto">Baca Buku</button>
-          <button class="button mx-auto">Beri Ulasan</button>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 @endsection
