@@ -287,13 +287,13 @@ function setOrderOptionListener(arrBook) {
 
 function sortArrBook(arrBook) {
   var orderOption = $( "#orderOption option:selected" ).val();
-  if (orderOption == 1) {
-    arrBook.sort(function(a, b){return a.soldCount - b.soldCount});
+  if (orderOption == 1) { // Berdasarkan Bestseller
+    arrBook.sort(function(a, b){return b.soldCount - a.soldCount});
   }
-  else if (orderOption == 2) {
+  else if (orderOption == 2) { // Berdasarkan Harga - Termahal ke termurah
     arrBook.sort(function(a, b){return b.price - a.price});
   }
-  else if (orderOption == 3) {
+  else if (orderOption == 3) { // Berdasarkan Harga - Termurah ke termahal
     arrBook.sort(function(a, b){return a.price - b.price});
   }
   return arrBook;
