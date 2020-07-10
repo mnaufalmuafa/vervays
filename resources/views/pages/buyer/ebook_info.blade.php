@@ -28,7 +28,7 @@
           <button class="button-aside" id="btnDelete" data-title="{{ $book["title"] }}">Hapus Buku</button>
           {{-- //////////////////////////////////////// --}}
           <button class="button-aside" id="btnRead" onclick="redirectToReadPage()">Baca Buku</button>
-          <button class="button-aside" id="btnGiveRating">Beri Rating</button>
+          <button class="button-aside" id="btnGiveRating">Beri Ulasan</button>
           {{-- //////////////////////////////////////// --}}
           <button class="button-aside" id="btnReadSample" onclick="redirectToReadSamplePage()">Baca Sample</button>
           <button class="button-aside" id="btnAddToCart">Tambah ke Keranjang</button>

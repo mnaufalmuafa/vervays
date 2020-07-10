@@ -59,6 +59,22 @@ function setStarImage(rating) {
 function setFormOnSubmitListener() {
 	$("#form").on("submit", function(event) {
 		event.preventDefault();
+		var bookId = parseInt($("#inputBookId").val());
+		var rating = parseInt($("#inputRating").val());
+		var isAnonymous = parseInt($("#inputIsAnonymous").val());
+		var review = $("#reviewTextArea").val();
+		$.ajax({
+			url : "/post/review",
+			method : "POST",
+			data : {
+				bookId : bookId,
+				rating : rating,
+				isAnonymous : isAnonymous,
+				review : review,
+			}
+		}).done(function() {
+			window.history.back();
+		});
 	});
 }
 

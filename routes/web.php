@@ -100,6 +100,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/add_book_to_wish_list/{bookId}', 'buyer\BookController@addBookToWishList');
             Route::post('/remove_book_from_wish_list/{bookId}', 'buyer\BookController@removeBookFromWishList');
             Route::post('/create_order', 'buyer\OrderController@create');
+            Route::post('/review', 'api\ReviewController@store');
         });
 
         // UNTUK PUBLISHER

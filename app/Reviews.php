@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Reviews
@@ -15,5 +16,24 @@ class Reviews
                         ->get()
                         ->count();
         return $count == 1;
+    }
+
+    public static function store($rating, $review, $isAnonymous, $haveId)
+    {
+        $now = Carbon::now();
+        DB::table('reviews')->insert([
+            "id" => Reviews::getNewId(),
+            "rating" => $rating,
+            "review" => $review,
+            "isAnonymous" => $isAnonymous,
+            "haveId" => $haveId,
+            "created_at" => $now,
+            "updated_at" => $now,
+        ]);
+    }
+
+    private static function getNewId()
+    {
+        return DB::table('reviews')->get()->count() + 1;
     }
 }

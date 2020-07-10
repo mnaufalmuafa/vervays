@@ -35,6 +35,7 @@
       </div>
     </div>
     <form id="form">
+      @csrf
       <h5 class="heading-rating">Beri Rating</h5>
       <div class="form-row mt-0 mb-1">
         <div class="col-12 star-container mb-3">
@@ -69,7 +70,7 @@
         <input type="checkbox" class="custom-control-input" id="anonymousToggle">
         <label class="custom-control-label" for="anonymousToggle" id="toggleLabel">Ulas sebagai anonim (Nama akan ditampilkan sebagai <span>***</span>)</label>
       </div>
-      <input type="hidden" name="bookId" value="{{ $book->id }}" required>
+      <input type="hidden" name="bookId" value="{{ $book->id }}" id="inputBookId" required>
       <input type="hidden" name="rating" value="5" id="inputRating" required>
       <input type="hidden" name="isAnonymous" value="0" id="inputIsAnonymous" required>
       <button type="submit" class="btn btn-danger float-right mb-3">Simpan</button>

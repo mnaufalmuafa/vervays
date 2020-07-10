@@ -40,4 +40,12 @@ class Have
                     ->where('bookId', $bookId)
                     ->pluck('lastRead')[0];
     }
+
+    public static function getIdByUserIdAndBookId($userId, $bookId)
+    {
+        return DB::table('have')
+                    ->where('userId', $userId)
+                    ->where('bookId', $bookId)
+                    ->pluck('id')[0];
+    }
 }
