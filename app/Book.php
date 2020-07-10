@@ -601,4 +601,14 @@ class Book extends Model
         unset($book->getEbookCoverId);
         return $book;
     }
+
+    public static function isBookNotDeleted($bookId)
+    {
+        $count = DB::table('books')
+                        ->where('id', $bookId)
+                        ->where('isDeleted', 0)
+                        ->get()
+                        ->count();
+        return $count == 1;
+    }
 }

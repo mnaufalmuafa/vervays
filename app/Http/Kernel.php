@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
         'HasTheEmailBeenVerified' => \App\Http\Middleware\HasTheEmailBeenVerified::class,
         'CheckOrderStatus' => \App\Http\Middleware\CheckOrderStatus::class,
         'HaveUserNotReviewedTheBook' => \App\Http\Middleware\HaveUserNotReviewedTheBook::class,
+        'IsBookNotDeleted' => \App\Http\Middleware\IsBookNotDeleted::class,
     ];
 }

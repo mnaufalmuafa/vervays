@@ -73,7 +73,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
         Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
         Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook');
-        Route::get('/give_rating/{bookId}', 'buyer\ReviewController@giveRating')->middleware(['HaveUserNotReviewedTheBook']);
+        Route::get('/give_rating/{bookId}', 'buyer\ReviewController@giveRating')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
@@ -100,7 +100,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/add_book_to_wish_list/{bookId}', 'buyer\BookController@addBookToWishList');
             Route::post('/remove_book_from_wish_list/{bookId}', 'buyer\BookController@removeBookFromWishList');
             Route::post('/create_order', 'buyer\OrderController@create');
-            Route::post('/review', 'api\ReviewController@store');
+            Route::post('/review', 'api\ReviewController@store')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
         });
 
         // UNTUK PUBLISHER
