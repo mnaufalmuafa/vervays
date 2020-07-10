@@ -82,12 +82,4 @@ class BookController extends Controller
         ];
         return view('pages.buyer.mybook', $data);
     }
-
-    public function giveRating()
-    {
-        $data = [
-            "firstName" => User::getFirstName(session('id')),
-        ];
-        return view('pages.buyer.give_review', $data);
-    }
 }
