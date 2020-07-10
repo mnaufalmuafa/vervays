@@ -72,7 +72,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/cart', 'buyer\OrderController@index')->name('cart');
         Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
         Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
-        Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook');
+        Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook')->middleware(['DoUserHaveTheBook']);
         Route::get('/give_rating/{bookId}', 'buyer\ReviewController@giveRating')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
 
         Route::prefix('/get')->group(function() {

@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'CheckOrderStatus' => \App\Http\Middleware\CheckOrderStatus::class,
         'HaveUserNotReviewedTheBook' => \App\Http\Middleware\HaveUserNotReviewedTheBook::class,
         'IsBookNotDeleted' => \App\Http\Middleware\IsBookNotDeleted::class,
+        'DoUserHaveTheBook' => \App\Http\Middleware\DoUserHaveTheBook::class,
     ];
 }

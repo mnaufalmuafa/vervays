@@ -48,4 +48,14 @@ class Have
                     ->where('bookId', $bookId)
                     ->pluck('id')[0];
     }
+
+    public static function doUserHaveTheBook($userId, $bookId)
+    {
+        $count = DB::table('have')
+                        ->where('userId', $userId)
+                        ->where('bookId', $bookId)
+                        ->get()
+                        ->count();
+        return $count == 1;
+    }
 }
