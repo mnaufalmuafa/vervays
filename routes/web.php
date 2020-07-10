@@ -73,7 +73,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
         Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
         Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook');
-        Route::get('/give_rating/{bookId}', 'buyer\BookController@giveRating');
+        Route::get('/give_rating/{bookId}', 'buyer\BookController@giveRating')->middleware(['HaveUserNotReviewedTheBook']);
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
