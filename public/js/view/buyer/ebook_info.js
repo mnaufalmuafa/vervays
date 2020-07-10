@@ -33,7 +33,7 @@ function setPublisherTextOnClickListener() {
     var id = $(this).attr("data-id");
     var publisherName = $('#publisherText span').html();
     var publisherSlug = string_to_slug(publisherName);
-    window.location.href = "/publisher/info/"+id+"/"+publisherSlug;
+    window.location.href = "/info/publisher/"+id+"/"+publisherSlug;
   });
 }
 

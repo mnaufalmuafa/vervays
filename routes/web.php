@@ -74,6 +74,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
         Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook')->middleware(['DoUserHaveTheBook']);
         Route::get('/give_rating/{bookId}', 'buyer\ReviewController@giveRating')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
+        Route::get('/info/publisher/{publisherId}/{slug}', 'buyer\PublisherController@index');
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
