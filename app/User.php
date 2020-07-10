@@ -61,7 +61,7 @@ class User
         return $result[0]->firstName;
     }
 
-    private static function getLastName($id)
+    public static function getLastName($id)
     {
         $result = DB::table('users')
             ->where('id', $id)

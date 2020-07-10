@@ -586,4 +586,19 @@ class Book extends Model
         }
         return $books;
     }
+
+    public static function getBookDataForReviewPage($bookId)
+    {
+        $book = DB::table('books')
+                    ->join('publishers', 'publishers.id', '=', 'books.publisherId')
+                    ->join('ebook_covers', 'books.ebookCoverId', '=', 'ebook_covers.id')
+                    ->where('books.id', $bookId)
+                    ->select('books.id', 'title', 'author')
+                    ->addSelect(DB::raw('`publishers`.`name` as publisherName'))
+                    ->addSelect(DB::raw('`ebook_covers`.`id` as ebookCoverId'))
+                    ->first();
+        $book->ebookCoverURL = EbookCover::getEbookCoverURL($book->ebookCoverId);
+        unset($book->getEbookCoverId);
+        return $book;
+    }
 }

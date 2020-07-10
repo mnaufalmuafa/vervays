@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @push('add-on-meta')
-  {{-- <meta name="book-id" content="{{ $book["id"] }}"> --}}
+  <meta name="book-id" content="{{ $book->id }}">
+  <meta name="userFullNameWithoutSpace" content="{{ $userFullNameWithoutSpace }}">
 @endpush
 
 @push('add-on-style')
@@ -23,14 +24,14 @@
     <div class="row mb-4">
       <div class="col-1">
         <img 
-          src="{{ url('/image/book_placeholder.png') }}" 
+          src="{{ $book->ebookCoverURL }}" 
           alt=""
           class="book-cover w-100">
       </div>
       <div class="col-11">
-        <p class="mt-1 mb-1 font-weight-bold">Judul Buku</p>
-        <p class="author-info">Ditulis oleh <span>Nama Penulis</span></p>
-        <p class="publisher-info">Nama Penerbit</p>
+        <p class="mt-1 mb-1 font-weight-bold">{{ $book->title }}</p>
+        <p class="author-info">Ditulis oleh <span>{{ $book->author }}</span></p>
+        <p class="publisher-info">{{ $book->publisherName }}</p>
       </div>
     </div>
     <form id="form">
@@ -66,8 +67,9 @@
       </div>
       <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="anonymousToggle">
-        <label class="custom-control-label" for="anonymousToggle">Ulas sebagai anonim (Nama akan ditampilkan sebagai <span>K***i</span>)</label>
+        <label class="custom-control-label" for="anonymousToggle" id="toggleLabel">Ulas sebagai anonim (Nama akan ditampilkan sebagai <span>***</span>)</label>
       </div>
+      <input type="hidden" name="bookId" value="{{ $book->id }}" required>
       <input type="hidden" name="rating" value="5" id="inputRating" required>
       <input type="hidden" name="isAnonymous" value="0" id="inputIsAnonymous" required>
       <button type="submit" class="btn btn-danger float-right mb-3">Simpan</button>

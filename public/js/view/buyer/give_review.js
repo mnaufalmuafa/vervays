@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	setStarImageOnClickListener();
 	setToggleIsAnonymousOnChangeListener();
+	setAnonymousName();
 	setFormOnSubmitListener();
 });
 
@@ -71,3 +72,22 @@ function setToggleIsAnonymousOnChangeListener() {
 		}
 	});
 }
+
+function setAnonymousName() {
+	var UserName = getUserName();
+	UserName = UserName.replace(" ", "");
+	$("#toggleLabel span").html(UserName[0]+"***"+UserName[UserName.length - 1]);
+}
+
+function getUserName() {
+  const metas = document.getElementsByTagName('meta');
+
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === "userFullNameWithoutSpace") {
+      return metas[i].getAttribute('content');
+    }
+  }
+
+  return '';
+}
+

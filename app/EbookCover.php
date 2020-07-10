@@ -14,4 +14,13 @@ class EbookCover
                     ->where('id', $ebookCoverId)
                     ->get()[0];
     }
+
+    public static function getEbookCoverURL($ebookCoverId)
+    {
+        $fileName = DB::table('ebook_covers')
+                        ->where('id', $ebookCoverId)
+                        ->first()
+                        ->name;
+        return url("ebook/ebook_cover/".$ebookCoverId."/".$fileName);
+    }
 }
