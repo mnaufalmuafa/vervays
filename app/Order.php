@@ -104,28 +104,14 @@ class Order extends Model
     public static function createOrder($paymentMethod)
     {
         $orderId = Order::getNewOrderId();
-        $arrBookId = Order::getUserCartBookId();
+        $arrBookId = Cart::getUserCartBookId();
         $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
         $totalPrice = Book::getTotalPrice($arrBookId);
-        Order::emptyUserCart();
+        Cart::emptyUserCart();
         Order::postTransaction($orderId, $totalPrice, $paymentMethod, $paymentCode);
         Order::store($orderId, $paymentMethod, $paymentCode);
-        Order::storeBookSnaphshots($arrBookId, $orderId);
+        BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId);
         return $orderId;
-    }
-
-    private static function storeBookSnaphshots($arrBookId, $orderId)
-    {
-        foreach ($arrBookId as $book) {
-            $now = Carbon::now();
-            DB::table('book_snapshots')->insert([
-                "bookId" => $book->bookId,
-                "orderId" => $orderId,
-                "price" => Book::getPrice($book->bookId),
-                "created_at" => $now,
-                "updated_at" => $now,
-            ]);
-        }
     }
 
     private static function store($id, $paymentId, $paymentCode)
@@ -140,12 +126,6 @@ class Order extends Model
             "created_at" => $now,
             "updated_at" => $now,
         ]);
-    }
-
-    private static function emptyUserCart()
-    {
-        $userId = session('id');
-        DB::table('carts')->where('userId', $userId)->delete();
     }
 
     private static function postTransaction($id, $totalPrice, $paymentId, $paymentCode)
@@ -184,15 +164,6 @@ class Order extends Model
         else {
             return "23".$orderId;
         }
-    }
-
-    private static function getUserCartBookId()
-    {
-        $userId = session('id');
-        return DB::table('carts')
-                        ->where('carts.userId', $userId)
-                        ->select('carts.bookId')
-                        ->get();
     }
 
     public static function whetherTheTransactionIsPendingOrSuccess($bookId)

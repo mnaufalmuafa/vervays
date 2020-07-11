@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class BookSnapshot
 {
@@ -25,5 +26,19 @@ class BookSnapshot
     public static function getArrBookIdByOrderId($orderId)
     {
         return DB::table('book_snapshots')->where('orderId', $orderId)->pluck('bookId');
+    }
+
+    public static function storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId)
+    {
+        foreach ($arrBookId as $book) {
+            $now = Carbon::now();
+            DB::table('book_snapshots')->insert([
+                "bookId" => $book->bookId,
+                "orderId" => $orderId,
+                "price" => Book::getPrice($book->bookId),
+                "created_at" => $now,
+                "updated_at" => $now,
+            ]);
+        }
     }
 }
