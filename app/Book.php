@@ -611,4 +611,29 @@ class Book extends Model
                         ->count();
         return $count == 1;
     }
+
+    public static function getBookDataForPublisherInfoPage($publisherId)
+    {
+        $books = DB::table('books')
+                        ->where('publisherId', $publisherId)
+                        ->where('isDeleted', '0')
+                        ->get();
+        $data = [];
+        foreach ($books as $book) {
+            $rating = Book::getBookRating($book->id);
+            $rating = number_format((float) $rating, 1, '.', '');
+            array_push($data,[
+                "id" => $book->id,
+                "title" => $book->title,
+                "author" => $book->author,
+                "imageURL" => Book::getEbookCoverURL($book->ebookCoverId),
+                "synopsis" => $book->synopsis,
+                "rating" => $rating,
+                "ratingCount" => Book::getBookRatingCount($book->id),
+                "soldCount" => Book::getBookSoldCount($book->id),
+                "price" => Book::convertPriceToCurrencyFormat($book->price),
+            ]);
+        }
+        return $data;
+    }
 }

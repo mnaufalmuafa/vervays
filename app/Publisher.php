@@ -167,4 +167,27 @@ class Publisher
             Cashout::store($publisherId, $bankId, $amount, $accountOwner);
         }
     }
+
+    public static function getPublisherDataForPublisherInfoPage($publisherId)
+    {
+        $publisher = DB::table('publishers')
+                            ->where('id', $publisherId)
+                            ->select('id', 'profilePhotoId', 'name', 'description', 'created_at')
+                            ->first();
+        $photo = DB::table('profile_photos')
+                        ->select('name')
+                        ->where('id', $publisher->profilePhotoId)
+                        ->first();
+        $photoURL = '/image/profile_photos/'.$publisher->profilePhotoId;
+        $photoURL = $photoURL.'/'.$photo->name;
+        $photoURL = url($photoURL);
+        $parsedDate = Carbon::parse($publisher->created_at);
+        return [
+            "photoURL" => $photoURL,
+            "name" => $publisher->name,
+            "description" => $publisher->description,
+            "month" => Publisher::convert_month_int_to_string_word($parsedDate->month),
+            "year" => $parsedDate->year,
+        ];
+    }
 }
