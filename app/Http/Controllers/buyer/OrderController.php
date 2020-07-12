@@ -50,4 +50,12 @@ class OrderController extends Controller
     {
         return Order::getBooksByOrderId($request->orderId);
     }
+
+    public function showOrderDetail()
+    {
+        $data = [
+            "firstName" => User::getFirstName(session('id'))
+        ];
+        return view('pages.buyer.info_order', $data);
+    }
 }
