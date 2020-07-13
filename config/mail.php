@@ -114,8 +114,8 @@ return [
         "address" => "heav@ebookstore.com",
         "name" => "Heav"
     ),
-    "username" => "9896465f496c1a",
-    "password" => "8ca6e7d8749da9",
+    "username" => env("MAIL_USERNAME"), // get username from .env files
+    "password" => env("MAIL_PASSWORD"), // get password from .env files
     "sendmail" => "/usr/sbin/sendmail -bs"
 
 ];
