@@ -17,3 +17,7 @@ p.author-info {
 hr {
 	border-top: 1px solid #000;
 }
+
+.book-item:hover {
+	cursor: pointer;
+}

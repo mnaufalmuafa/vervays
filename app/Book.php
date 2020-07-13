@@ -636,4 +636,22 @@ class Book extends Model
         }
         return $data;
     }
+
+    public static function getBookDataForOrderInfoPage($orderId)
+    {
+        $arrBookId = BookSnapshot::getArrBookIdByOrderId($orderId);
+        $books = DB::table('books')
+                        ->whereIn('id', $arrBookId)
+                        ->select('id', 'title' ,'author', 'publisherId', 'ebookCoverId')
+                        ->get();
+        foreach ($books as $book) {
+            $price = BookSnapshot::getPrice($book->id, $orderId);
+            $book->price = Book::convertPriceToCurrencyFormat($price);
+            $book->publisherName = Publisher::getPublisherName($book->publisherId);
+            $book->coverURL = EbookCover::getEbookCoverURL($book->ebookCoverId);
+            unset($book->publisherId);
+            unset($book->ebookCoverId);
+        }
+        return $books;
+    }
 }

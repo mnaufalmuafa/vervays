@@ -248,4 +248,23 @@ class Order extends Model
         $arrBookId = BookSnapshot::getArrBookIdByOrderId($orderId);
         return Book::getBooksByArrBookId($arrBookId);
     }
+
+    public static function getOrderForOrderInfoPage($orderId)
+    {
+        $order = DB::table('orders')
+                    ->where('id', $orderId)
+                    ->select('id', 'created_at', 'status', 'paymentId', 'paymentCode')
+                    ->first();
+        $order->created_at = Carbon::parse($order->created_at)->toDateString();
+        $order->totalPrice = BookSnapshot::getTotalOrderPrice($order->id);
+        $order->totalPrice = Order::convertPriceToCurrencyFormat($order->totalPrice);
+        $order->codeName = Payment::getCodeName($order->paymentId);
+        $order->paymentMethod = Payment::getName($order->paymentId);
+        return $order;
+    }
+
+    public static function getPaymentId($orderId)
+    {
+        return DB::table('orders')->where('id', $orderId)->pluck('paymentId')[0];
+    }
 }

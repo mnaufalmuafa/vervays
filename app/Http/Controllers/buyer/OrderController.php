@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Order;
+use App\Book;
+use App\PaymentMethod;
+use App\Step;
 
 class OrderController extends Controller
 {
@@ -51,11 +54,19 @@ class OrderController extends Controller
         return Order::getBooksByOrderId($request->orderId);
     }
 
-    public function showOrderDetail()
+    public function showOrderDetail(Request $request)
     {
+        $orderId = $request->orderId;
+        $paymentId = Order::getPaymentId($orderId);
+        $arrPaymentMethod = PaymentMethod::getArrPaymentMethodByPaymentIdForOrderInfoPage($paymentId);
         $data = [
-            "firstName" => User::getFirstName(session('id'))
+            "firstName" => User::getFirstName(session('id')),
+            "order" => Order::getOrderForOrderInfoPage($orderId),
+            "books" => Book::getBookDataForOrderInfoPage($orderId),
+            "arrPaymentMethod" => $arrPaymentMethod,
+            "arrStep" => Step::getPaymentMethodStepsForOrderInfoPage($arrPaymentMethod),
         ];
+        // dd($data["paymentMethod"]);
         return view('pages.buyer.info_order', $data);
     }
 }
