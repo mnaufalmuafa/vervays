@@ -127,7 +127,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::get('/cashout', 'publisher\BalanceController@cashout');
 
             Route::prefix('/post')->group(function (){
-                Route::post('/cashout', 'publisher\BalanceController@withdrawBalance');
+                Route::post('/cashout', 'api\BalanceController@withdrawBalance');
             });
 
             Route::middleware(['DoesPublisherHaveThatBook'])->group(function() {

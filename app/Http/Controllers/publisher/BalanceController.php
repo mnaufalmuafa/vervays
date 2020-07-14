@@ -22,10 +22,4 @@ class BalanceController extends Controller
         // dd($data["banks"]);
         return view('pages.publisher.cashout', $data);
     }
-
-    public function withdrawBalance(Request $request)
-    {
-        $publisherId = Publisher::getPublisherIdWithUserId(session('id'));
-        Publisher::withdrawBalance($publisherId, $request->amount, $request->bankId, $request->accountOwner);
-    }
 }
