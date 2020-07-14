@@ -18,7 +18,7 @@ Route::get('/', function() {
 });
 
 Route::prefix('/get')->group(function() {
-    Route::get('/get_book_s_publisher_name/{bookId}', 'buyer\BookController@getPublisherName');
+    Route::get('/get_book_s_publisher_name/{bookId}', 'api\BookController@getPublisherName');
     Route::get('/get_ebook_cover_by_book_id/{bookId}', 'api\EbookCoverController@getEbookCoverByBookId');
     Route::get('/have_user_given_book_rating/{bookId}', 'api\ReviewController@haveUserGivenBookRating');
 });
@@ -80,15 +80,15 @@ Route::middleware(['IsLogin'])->group(function() {
 
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
-            Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'buyer\BookController@getUserRoleForEbookInfoPage');
+            Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'api\BookController@getUserRoleForEbookInfoPage');
             Route::get('/get_user_cart', 'buyer\OrderController@getUserCart');
             Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'buyer\OrderController@whetherTheTransactionIsPendingOrSuccess');
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            Route::get('/get_people_gave_stars_count_all_rating/{id}', 'buyer\BookController@getPeopleGaveStarsCountAllRating');
-            Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'buyer\BookController@getPeopleGaveStarsCountByRating');
-            Route::get('/get_reviews_by_book_id/{bookId}', 'buyer\BookController@getReviewsByBookId');
-            Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToCart');
-            Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'buyer\BookController@whetherTheUserHasAddedBookToWishList');
+            Route::get('/get_people_gave_stars_count_all_rating/{id}', 'api\BookController@getPeopleGaveStarsCountAllRating');
+            Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'api\BookController@getPeopleGaveStarsCountByRating');
+            Route::get('/get_reviews_by_book_id/{bookId}', 'api\BookController@getReviewsByBookId');
+            Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'api\BookController@whetherTheUserHasAddedBookToCart');
+            Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'api\BookController@whetherTheUserHasAddedBookToWishList');
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Route::get('/get_user_orders_for_orders_page', 'buyer\OrderController@getUserOrdersForOrdersPage');
             Route::get('/get_books_by_order_id/{orderId}', 'buyer\OrderController@getBooksByOrderId');
@@ -98,10 +98,10 @@ Route::middleware(['IsLogin'])->group(function() {
         });
 
         Route::prefix('/post')->group(function() {
-            Route::post('/add_book_to_cart/{bookId}', 'buyer\BookController@addBookToCart');
-            Route::post('/remove_book_from_cart/{bookId}', 'buyer\BookController@removeBookFromCart');
-            Route::post('/add_book_to_wish_list/{bookId}', 'buyer\BookController@addBookToWishList');
-            Route::post('/remove_book_from_wish_list/{bookId}', 'buyer\BookController@removeBookFromWishList');
+            Route::post('/add_book_to_cart/{bookId}', 'api\BookController@addBookToCart');
+            Route::post('/remove_book_from_cart/{bookId}', 'api\BookController@removeBookFromCart');
+            Route::post('/add_book_to_wish_list/{bookId}', 'api\BookController@addBookToWishList');
+            Route::post('/remove_book_from_wish_list/{bookId}', 'api\BookController@removeBookFromWishList');
             Route::post('/create_order', 'buyer\OrderController@create');
             Route::post('/review', 'api\ReviewController@store')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
         });
