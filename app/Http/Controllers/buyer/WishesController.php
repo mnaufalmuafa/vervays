@@ -16,9 +16,4 @@ class WishesController extends Controller
         ];
         return view('pages.buyer.wishlist', $data);
     }
-
-    public function getUserWishlist()
-    {
-        return Wishes::getUsersWishlist();
-    }
 }

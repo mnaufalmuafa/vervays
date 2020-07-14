@@ -79,7 +79,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/account/setting', 'buyer\UserController@setting')->name('account-setting');
 
         Route::prefix('/get')->group(function() {
-            Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
+            Route::get('/user_wishlist', 'api\WishesController@getUserWishlist');
             Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'api\BookController@getUserRoleForEbookInfoPage');
             Route::get('/get_user_cart', 'api\OrderController@getUserCart');
             Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'api\OrderController@whetherTheTransactionIsPendingOrSuccess');
