@@ -49,6 +49,7 @@
           <a class="dropdown-item" href="{{ route('mybook') }}">Buku Saya</a>
           <a class="dropdown-item" href="" id="linkMenjadiPublisher">Menu Publisher</a>
           <a class="dropdown-item" href="{{ route('orders') }}">Pesanan Saya</a>
+          <a class="dropdown-item" href="{{ route('account-setting') }}">Pengaturan akun</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="" id="linkLogout">Logout</a>
         </div>
