@@ -255,4 +255,24 @@ class User
         $user->name = User::getFirstName($userId)." ".(User::getLastName($userId) ?? "");
         return $user;
     }
+
+    public static function updateProfile($firstName, $lastName, $birthDay, $phoneNum, $gender)
+    {
+        $userId = session('id');
+        if ($firstName != "") {
+            DB::table('users')->where('id', $userId)->update(["firstName" => $firstName]);
+        }
+        if ($lastName != "") {
+            DB::table('users')->where('id', $userId)->update(["lastName" => $lastName]);
+        }
+        if ($birthDay != "") {
+            DB::table('users')->where('id', $userId)->update(["birthDay" => $birthDay]);
+        }
+        if ($phoneNum != "") {
+            DB::table('users')->where('id', $userId)->update(["phoneNumber" => $phoneNum]);
+        }
+        if ($gender != "") {
+            DB::table('users')->where('id', $userId)->update(["gender" => $gender]);
+        }
+    }
 }

@@ -48,7 +48,7 @@
 						<small id="errorFirstName" class="d-none">error nama depan</small>
 					</div>
 					<div class="form-group col-md-6">
-						<label for="inputLastName">Nama belakang (opsional)</label>
+						<label for="inputLastName">Nama belakang</label>
 						<input 
 							type="text" 
 							name="lastName" 

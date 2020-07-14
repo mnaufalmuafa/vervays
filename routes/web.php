@@ -104,6 +104,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/remove_book_from_wish_list/{bookId}', 'api\BookController@removeBookFromWishList');
             Route::post('/create_order', 'api\OrderController@create');
             Route::post('/review', 'api\ReviewController@store')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
+            Route::post('/update_profile', 'api\UserController@updateProfile');
         });
 
         // UNTUK PUBLISHER
