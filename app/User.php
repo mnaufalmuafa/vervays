@@ -245,4 +245,14 @@ class User
         }
         return false; // Tanda jika gagal update password
     }
+
+    public static function getUserDataForAccountSettingPage($userId)
+    {
+        $user = DB::table('users')
+                    ->where('id', $userId)
+                    ->select('id', 'email', 'firstName', 'lastName', 'birthDay', 'phoneNumber', 'gender')
+                    ->first();
+        $user->name = User::getFirstName($userId)." ".(User::getLastName($userId) ?? "");
+        return $user;
+    }
 }

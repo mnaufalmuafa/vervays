@@ -12,7 +12,10 @@ class UserController extends Controller
     {
         $data = [
             "firstName" => User::getFirstName(session('id')),
+            "user" => User::getUserDataForAccountSettingPage(session('id')),
+            "currentDate" => date("Y-m-d"),
         ];
+        // dd($data["user"]);
         return view('pages.buyer.account_setting', $data);
     }
 }

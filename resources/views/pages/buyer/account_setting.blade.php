@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@push('add-on-meta')
+	<meta name="userId" content="{{ $user->id }}">
+	<meta name="userGender" content="{{ $user->gender ?? "null" }}">
+@endpush
+
 @push('add-on-style')
   <link 
     rel="stylesheet" 
@@ -11,8 +16,8 @@
 @endsection
 
 @section('content')
-  <div class="container-fluid">
-    <section class="first-section">
+	<div class="container-fluid">
+		<section class="first-section">
 			<div class="row mt-3">
 				<div class="col-2 d-flex justify-content-center">
 					<img 
@@ -21,8 +26,8 @@
 						id="profile-photos">
 				</div>
 				<div class="col-10">
-					<p class="user-name font-weight-bold">Nama User</p>
-					<p class="user-email">email@user.com</p>
+					<p class="user-name font-weight-bold">{{ $user->name }}</p>
+					<p class="user-email">{{ $user->email }}</p>
 				</div>
 			</div> {{-- end row --}}
 			<hr>
@@ -33,32 +38,58 @@
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="inputFirstName">Nama depan</label>
-						<input type="text" name="firstName" id="inputFirstName" class="form-control" required>
+						<input 
+							type="text" 
+							name="firstName" 
+							id="inputFirstName" 
+							class="form-control" 
+							required 
+							value="{{ $user->firstName }}">
 						<small id="errorFirstName" class="d-none">error nama depan</small>
 					</div>
 					<div class="form-group col-md-6">
 						<label for="inputLastName">Nama belakang (opsional)</label>
-						<input type="text" name="lastName" id="inputLastName" class="form-control">
+						<input 
+							type="text" 
+							name="lastName" 
+							id="inputLastName"
+							value="{{ $user->lastName }}"
+							class="form-control">
 						<small id="errorLastName" class="d-none">error nama belakang</small>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputBirtDay">Tanggal Lahir (opsional)</label>
-					<input type="date" class="form-control" id="inputBirtDay" name="birthDay">
+					<label for="inputBirthDay">Tanggal Lahir (opsional)</label>
+					<input 
+						type="date" 
+						class="form-control" 
+						max="{{ $currentDate }}" 
+						id="inputBirthDay" 
+						name="birthDay"
+						value="{{ $user->birthDay }}">
 					<small id="errorBirthDay" class="d-none">error tanggal lahir</small>
 				</div>
 				<div class="form-group">
 					<label for="inputPhoneNumber">No HP (opsional)</label>
-					<input type="number" class="form-control" id="inputPhoneNumber" name="phoneNumber">
+					<input 
+						type="tel" 
+						class="form-control" 
+						id="inputPhoneNumber" 
+						name="phoneNumber"
+						maxlength="12"
+						minlength="10"
+						pattern="[0]{1}[8]{1}[0-9]{8,10}"
+						value="{{ $user->phoneNumber ?? "" }}"
+						placeholder="08xxxxxxxxxx">
 					<small id="errorPhoneNumber" class="d-none">error NoHP</small>
 				</div>
 				<label for="">Jenis Kelamin (opsional)</label> <br>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="gender" id="inputRadioLK" value="1">
+					<input class="form-check-input" type="radio" name="gender" id="inputRadioLK" value="male">
 					<label class="form-check-label" for="inputRadioLK">Laki-laki</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="gender" id="inputRadioPR" value="2">
+					<input class="form-check-input" type="radio" name="gender" id="inputRadioPR" value="female">
 					<label class="form-check-label" for="inputRadioPR">Perempuan</label>
 				</div>
 				<div class="form-check form-check-inline">
@@ -107,9 +138,9 @@
 				<p id="deleteAccount">Hapus Akun</p>
 			</div>
 		</section>
-  </div>
+	</div>
 @endsection
 
 @push('add-on-script')
-  {{-- <script src="{{ url('js/view/buyer/cart.js') }}"></script> --}}
+  <script src="{{ url('js/view/buyer/account_setting.js') }}" type="text/javascript"></script>
 @endpush
