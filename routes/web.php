@@ -47,7 +47,7 @@ Route::post('/logout', 'LogoutController@index');
 
 Route::get('/account/verificate', 'SignUpController@verificateEmail');
 
-Route::get('/search/book', 'buyer\SearchController@search');
+Route::get('/search/book', 'api\SearchController@search');
 
 Route::middleware(['IsLogin'])->group(function() {
     Route::get('/email/verification', 'SignUpController@emailVerification')

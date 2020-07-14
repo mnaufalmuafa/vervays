@@ -22,9 +22,4 @@ class SearchController extends Controller
             return view('pages.buyer.search', $data);
         }
     }
-
-    public function search(Request $request)
-    {
-        return Book::getBookForSearch($request->get('keyword'));
-    }
 }
