@@ -81,8 +81,8 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'buyer\WishesController@getUserWishlist');
             Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'api\BookController@getUserRoleForEbookInfoPage');
-            Route::get('/get_user_cart', 'buyer\OrderController@getUserCart');
-            Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'buyer\OrderController@whetherTheTransactionIsPendingOrSuccess');
+            Route::get('/get_user_cart', 'api\OrderController@getUserCart');
+            Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'api\OrderController@whetherTheTransactionIsPendingOrSuccess');
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Route::get('/get_people_gave_stars_count_all_rating/{id}', 'api\BookController@getPeopleGaveStarsCountAllRating');
             Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'api\BookController@getPeopleGaveStarsCountByRating');
@@ -90,8 +90,8 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'api\BookController@whetherTheUserHasAddedBookToCart');
             Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'api\BookController@whetherTheUserHasAddedBookToWishList');
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            Route::get('/get_user_orders_for_orders_page', 'buyer\OrderController@getUserOrdersForOrdersPage');
-            Route::get('/get_books_by_order_id/{orderId}', 'buyer\OrderController@getBooksByOrderId');
+            Route::get('/get_user_orders_for_orders_page', 'api\OrderController@getUserOrdersForOrdersPage');
+            Route::get('/get_books_by_order_id/{orderId}', 'api\OrderController@getBooksByOrderId');
             Route::get('/update_last_read/{bookId}/{lastRead}', 'api\HaveController@updateLastRead');
             Route::get('/get_last_read/{bookId}', 'api\HaveController@getLastRead');
             Route::get('/get_user_books', 'api\BookController@getUserBooks');
@@ -102,7 +102,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/remove_book_from_cart/{bookId}', 'api\BookController@removeBookFromCart');
             Route::post('/add_book_to_wish_list/{bookId}', 'api\BookController@addBookToWishList');
             Route::post('/remove_book_from_wish_list/{bookId}', 'api\BookController@removeBookFromWishList');
-            Route::post('/create_order', 'buyer\OrderController@create');
+            Route::post('/create_order', 'api\OrderController@create');
             Route::post('/review', 'api\ReviewController@store')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
         });
 
