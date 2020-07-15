@@ -260,19 +260,24 @@ class User
     {
         $userId = session('id');
         if ($firstName != "") {
-            DB::table('users')->where('id', $userId)->update(["firstName" => $firstName]);
+            DB::table('users')->where('id', $userId)->update(["firstName" => $firstName, "updated_at" => Carbon::now()]);
         }
         if ($lastName != "") {
-            DB::table('users')->where('id', $userId)->update(["lastName" => $lastName]);
+            DB::table('users')->where('id', $userId)->update(["lastName" => $lastName, "updated_at" => Carbon::now()]);
         }
         if ($birthDay != "") {
-            DB::table('users')->where('id', $userId)->update(["birthDay" => $birthDay]);
+            DB::table('users')->where('id', $userId)->update(["birthDay" => $birthDay, "updated_at" => Carbon::now()]);
         }
         if ($phoneNum != "") {
-            DB::table('users')->where('id', $userId)->update(["phoneNumber" => $phoneNum]);
+            DB::table('users')->where('id', $userId)->update(["phoneNumber" => $phoneNum, "updated_at" => Carbon::now()]);
         }
         if ($gender != "") {
-            DB::table('users')->where('id', $userId)->update(["gender" => $gender]);
+            DB::table('users')->where('id', $userId)->update(["gender" => $gender, "updated_at" => Carbon::now()]);
         }
+    }
+
+    public static function isPasswordTrue($userId, $password)
+    {
+        return DB::table('users')->where('id', $userId)->pluck('password')[0] == $password;
     }
 }

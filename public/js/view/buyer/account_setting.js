@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	setUpGenderRadioButton();
 	setChangeProfileFormOnSubmitListener();
+	setUpChangePasswordForm();
 });
 
 function setUpGenderRadioButton() {
@@ -38,6 +39,70 @@ function setChangeProfileFormOnSubmitListener() {
 				phoneNum : phoneNum,
 				gender : gender
 			}
+		}).done(function() {
+			location.reload();
 		});
+	});
+}
+
+function setUpChangePasswordForm() {
+	setUpInputNewPassword();
+	setUpInputRetypeNewPassword();
+	$("#changePasswordForm").on("submit", function(event) {
+		event.preventDefault();
+		$("#btnSubmitChangePassword").prop('disabled', true);
+		$.ajax({
+			url : "/post/is_password_true",
+			method : "POST",
+			data : {
+				password : $("#inputOldPassword").val()
+			}
+		}).done(function(isPasswordTrue) {
+			if (!isPasswordTrue) { // Jika password lamanya tidak benar
+				$("#errorOldPassword").html("Password tidak sesuai");
+				$("#errorOldPassword").attr("class", "");
+				$("#btnSubmitChangePassword").prop('disabled', false);
+			}
+			else if ($("#inputNewPassword").val() == $("#inputRetypeNewPassword").val() && $("#inputRetypeNewPassword").val().length > 7) { // jika benar
+				$.ajax({
+					url : "/post/update_password",
+					method : "POST",
+					data : {
+						password : $("#inputNewPassword").val()
+					}
+				}).done(function() {
+					location.reload();
+				});
+			}
+			else {
+				var newPassword = $("#inputNewPassword").val();
+				console.log({newPassword});
+				$("#btnSubmitChangePassword").prop('disabled', false);
+			}
+		});
+	});
+}
+
+function setUpInputNewPassword() {
+	$("#inputNewPassword").keyup(function() {
+		if ($("#inputNewPassword").val().length < 8) {
+			$("#errorNewPassword").html("Password minimal terdiri dari 8 karaker");
+			$("#errorNewPassword").attr("class", "");
+		}
+		else {
+			$("#errorNewPassword").attr("class", "d-none");
+		}
+	});
+}
+
+function setUpInputRetypeNewPassword() {
+	$("#inputRetypeNewPassword").keyup(function() {
+		if ($("#inputNewPassword").val() != $("#inputRetypeNewPassword").val()) {
+			$("#errorRetypeNewPassword").html("Password tidak sama");
+			$("#errorRetypeNewPassword").attr("class", "");
+		}
+		else {
+			$("#errorRetypeNewPassword").attr("class", "d-none");
+		}
 	});
 }

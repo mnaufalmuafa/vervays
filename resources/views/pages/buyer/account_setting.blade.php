@@ -107,26 +107,26 @@
 				<div class="form-group row">
 					<label for="inputOldPassword" class="col-sm-2 col-form-label">Password Lama</label>
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="inputOldPassword" required>
+						<input type="password" class="form-control" id="inputOldPassword" minlength="8" required>
 						<small id="errorOldPassword" class="d-none">error Old Password</small>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="inputNewPassword" class="col-sm-2 col-form-label">Password Baru</label>
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="inputNewPassword" required>
+						<input type="password" class="form-control" id="inputNewPassword" minlength="8" required>
 						<small id="errorNewPassword" class="d-none">error New Password</small>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label for="inputRetypeNewPassword" class="col-sm-2 col-form-label">Ulangi Password Baru</label>
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="inputRetypeNewPassword" required>
+						<input type="password" class="form-control" id="inputRetypeNewPassword" minlength="8" required>
 						<small id="errorRetypeNewPassword" class="d-none">error Retype New Password</small>
 					</div>
 				</div>
 				<div class="btn-container d-flex flex-row-reverse">
-					<button type="submit" class="btn btn-danger">Ubah Password</button>
+					<button type="submit" class="btn btn-danger" id="btnSubmitChangePassword">Ubah Password</button>
 				</div>
 			</form>
 			<hr>

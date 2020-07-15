@@ -18,4 +18,14 @@ class UserController extends Controller
             $request->post('gender')
         );
     }
+
+    public function isPasswordTrue(Request $request)
+    {
+        return response()->json(User::isPasswordTrue(session('id'), $request->post('password')));
+    }
+
+    public function updatePassword(Request $request)
+    {
+        return User::updatePassword(session('id'), $request->post('password'));
+    }
 }

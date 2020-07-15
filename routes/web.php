@@ -105,6 +105,8 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/create_order', 'api\OrderController@create');
             Route::post('/review', 'api\ReviewController@store')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
             Route::post('/update_profile', 'api\UserController@updateProfile');
+            Route::post('/is_password_true', 'api\UserController@isPasswordTrue');
+            Route::post('/update_password', 'api\UserController@updatePassword');
         });
 
         // UNTUK PUBLISHER
