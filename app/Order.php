@@ -267,4 +267,12 @@ class Order extends Model
     {
         return DB::table('orders')->where('id', $orderId)->pluck('paymentId')[0];
     }
+
+    public static function cancelAllOrderByUserId($userId)
+    {
+        DB::table('orders')->where('userId', $userId)->update([
+            "status" => "failed",
+            "updated_at" => Carbon::now(),
+        ]);
+    }
 }

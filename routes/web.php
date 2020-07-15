@@ -107,6 +107,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/update_profile', 'api\UserController@updateProfile');
             Route::post('/is_password_true', 'api\UserController@isPasswordTrue');
             Route::post('/update_password', 'api\UserController@updatePassword');
+            Route::post('/destroy_account', 'api\UserController@destroy');
         });
 
         // UNTUK PUBLISHER

@@ -190,4 +190,9 @@ class Publisher
             "year" => $parsedDate->year,
         ];
     }
+
+    public static function isUserAPublisher($userId)
+    {
+        return DB::table('publishers')->where('userId', $userId)->get()->count() == 1;
+    }
 }

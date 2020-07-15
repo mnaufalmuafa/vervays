@@ -280,4 +280,27 @@ class User
     {
         return DB::table('users')->where('id', $userId)->pluck('password')[0] == $password;
     }
+
+    public static function getPublisherId($userId)
+    {
+        return DB::table('users')->where('id', $userId)->pluck('publisherId')[0];
+    }
+
+    public static function destroy()
+    {
+        $userId = session('id');
+        if (Publisher::isUserAPublisher($userId)) { //Jika pengguna termasuk penerbit
+            $publisherId = Publisher::getPublisherIdWithUserId($userId);
+            if (Publisher::getBalance($publisherId) > 0) { // Jika pengguna masih memiliki saldo penerbit
+                return "Maaf, akun tidak dapat dihapus karena anda masih memiliki saldo (cairkan semua saldo agar dapat menghapus akun)";
+            }
+        }
+        DB::table('users')->where('id', $userId)->update([
+            "isDeleted" => 1,
+            "updated_at" => Carbon::now(),
+        ]);
+        Order::cancelAllOrderByUserId($userId);
+        session(['id' => 0]);
+        return "success";
+    }
 }

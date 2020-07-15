@@ -2,6 +2,7 @@ $(document).ready(function(){
 	setUpGenderRadioButton();
 	setChangeProfileFormOnSubmitListener();
 	setUpChangePasswordForm();
+	setUpDeleteAccount();
 });
 
 function setUpGenderRadioButton() {
@@ -103,6 +104,25 @@ function setUpInputRetypeNewPassword() {
 		}
 		else {
 			$("#errorRetypeNewPassword").attr("class", "d-none");
+		}
+	});
+}
+
+function setUpDeleteAccount() {
+	$("#deleteAccount").click(function() {
+		var con = confirm("Apakah anda yakin ingin menghapus akun ?");
+		if(con) {
+			$.ajax({
+				url : "/post/destroy_account",
+				method : "POST"
+			}).done(function(res) {
+				if (res != "success") {
+					alert(res);
+				}
+				else {
+					window.location.href = "/";
+				}
+			});
 		}
 	});
 }

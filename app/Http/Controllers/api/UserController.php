@@ -28,4 +28,9 @@ class UserController extends Controller
     {
         return User::updatePassword(session('id'), $request->post('password'));
     }
+
+    public function destroy()
+    {
+        return User::destroy();
+    }
 }
