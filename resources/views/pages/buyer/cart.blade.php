@@ -70,8 +70,6 @@
               <label for="BNIOption">BNI Virtual Account (Bisa ditansfer dari semua bank)</label><br>
               <input type="radio" name="paymentMethod" id="IndomaretOption" value="2">
               <label for="IndomaretOption">Indomaret</label><br>
-              <input type="radio" name="paymentMethod" id="AlfamartOption" value="3">
-              <label for="AlfamartOption">Alfamart</label><br>
               <button class="btn btn-danger w-100 mt-2" type="submit" id="btnMakeOrder">Buat Pesanan</button>
             </form>
           </div>

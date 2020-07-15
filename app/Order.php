@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class Order extends Model
 {
@@ -103,30 +104,147 @@ class Order extends Model
 
     public static function createOrder($paymentMethod)
     {
+        $createdAt = Carbon::now();
+        $dt = $createdAt->copy()->addHours(24);
+        $dt->second = 0;
+        $faker = Faker::create('id_ID');
+        $backCode = $faker->swiftBicNumber;
         $orderId = Order::getNewOrderId();
         $arrBookId = Cart::getUserCartBookId();
         $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
         $totalPrice = Book::getTotalPrice($arrBookId);
         Cart::emptyUserCart();
         Order::postTransaction($orderId, $totalPrice, $paymentMethod, $paymentCode);
-        Order::store($orderId, $paymentMethod, $paymentCode);
+        Order::store($orderId, $backCode, $paymentMethod, $paymentCode, $dt, $createdAt);
         BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId);
         return $orderId;
     }
 
-    private static function store($id, $paymentId, $paymentCode)
+    private static function store($id, $backCode , $paymentId, $paymentCode, $expiredTime, $createdAt)
     {
-        $now = Carbon::now();
         $userId = session('id');
         DB::table('orders')->insert([
             "id" => $id,
             "paymentId" => $paymentId,
             "userId" => $userId,
+            "backIdCode" => $backCode,
             "paymentCode" => $paymentCode,
-            "created_at" => $now,
-            "updated_at" => $now,
+            "expiredTime" => $expiredTime,
+            "created_at" => $createdAt,
+            "updated_at" => $createdAt,
         ]);
     }
+
+    // public static function postTransactionToMidtransWithBNIVAPayment($midtransOrderId)
+    // {
+    //     $curl = curl_init();
+
+    //     curl_setopt_array($curl, array(
+    //     CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
+    //     CURLOPT_RETURNTRANSFER => true,
+    //     CURLOPT_ENCODING => "",
+    //     CURLOPT_MAXREDIRS => 10,
+    //     CURLOPT_TIMEOUT => 0,
+    //     CURLOPT_FOLLOWLOCATION => true,
+    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //     CURLOPT_CUSTOMREQUEST => "POST",
+    //     CURLOPT_POSTFIELDS =>"
+    //         {  
+    //             \"payment_type\": \"bank_transfer\",
+    //             \"transaction_details\": 
+    //                 {
+    //                     \"gross_amount\": 44000,
+    //                     \"order_id\": \"".$midtransOrderId."\"
+    //                 },
+    //             \"customer_details\": 
+    //                 {
+    //                     \"email\": \"noreply@example.com\",
+    //                     \"first_name\": \"budi\",
+    //                     \"last_name\": \"utomo\",
+    //                      \"phone\": \"+6281 1234 1234\"
+    //                 },
+    //             \"item_details\": 
+    //                 \
+    //                     {
+    //                         \"id\": \"item01\",    
+    //                         \"price\": 21000,
+    //                         \"quantity\": 1,
+    //                         \"name\": \"Ayam Zozozo\"
+    //                     },
+    //                 ],
+    //              \"bank_transfer\":
+    //                 {
+    //                     \"bank\": \"bni\",
+    //                     \"va_number\": \"12345678\"
+    //                 }
+    //         }",
+    //     CURLOPT_HTTPHEADER => array(
+    //         "Accept: application/json",
+    //         "Content-Type: application/json",
+    //         "Authorization: Basic"
+    //     ),
+    //     ));
+
+    //     $response = curl_exec($curl);
+
+    //     curl_close($curl);
+    //     echo $response;
+    // }
+
+    // public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId)
+    // {
+    //     $curl = curl_init();
+
+    //     curl_setopt_array($curl, array(
+    //     CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
+    //     CURLOPT_RETURNTRANSFER => true,
+    //     CURLOPT_ENCODING => "",
+    //     CURLOPT_MAXREDIRS => 10,
+    //     CURLOPT_TIMEOUT => 0,
+    //     CURLOPT_FOLLOWLOCATION => true,
+    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //     CURLOPT_CUSTOMREQUEST => "POST",
+    //     CURLOPT_POSTFIELDS =>"
+    //         {    
+    //             \"payment_type\": \"cstore\",   
+    //             \"transaction_details\": 
+    //                 {       
+    //                     \"gross_amount\": 44000,       
+    //                     \"order_id\": \"".$midtransOrderId."\"    
+    //                 },    
+    //             \"customer_details\": 
+    //                 {        
+    //                     \"email\": \"noreply@example.com\",        
+    //                     \"first_name\": \"budi\",        
+    //                     \"last_name\": \"utomo\",        
+    //                     \"phone\": \"+6281 1234 1234\"    
+    //                 },
+    //             \"item_details\": 
+    //                 [   
+    //                     {      
+    //                         \"id\": \"item01\",       
+    //                         \"price\": 21000,       
+    //                         \"quantity\": 1,       
+    //                         \"name\": \"Ebook\"   
+    //                     },  
+    //                 ],  
+    //             \"cstore\": {    
+    //                 \"store\": \"Indomaret\",   
+    //                 \"message\": \"Message to display\" 
+    //             }
+    //         }",
+    //     CURLOPT_HTTPHEADER => array(
+    //         "Accept: application/json",
+    //         "Content-Type: application/json",
+    //         "Authorization: Basic"
+    //     ),
+    //     ));
+
+    //     $response = curl_exec($curl);
+
+    //     curl_close($curl);
+    //     echo $response;
+    // }
 
     private static function postTransaction($id, $totalPrice, $paymentId, $paymentCode)
     {
