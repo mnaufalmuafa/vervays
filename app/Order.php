@@ -110,10 +110,17 @@ class Order extends Model
         $faker = Faker::create('id_ID');
         $backCode = $faker->swiftBicNumber;
         $orderId = Order::getNewOrderId();
+        $midtransOrderId = $orderId."-".$backCode;
         $arrBookId = Cart::getUserCartBookId();
         $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
         $totalPrice = Book::getTotalPrice($arrBookId);
         Cart::emptyUserCart();
+        if ($paymentMethod == "1") {
+            Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId);
+        }
+        else if ($paymentMethod == "2") {
+            Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId);
+        }
         Order::postTransaction($orderId, $totalPrice, $paymentMethod, $paymentCode);
         Order::store($orderId, $backCode, $paymentMethod, $paymentCode, $dt, $createdAt);
         BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId);
@@ -135,116 +142,59 @@ class Order extends Model
         ]);
     }
 
-    // public static function postTransactionToMidtransWithBNIVAPayment($midtransOrderId)
-    // {
-    //     $curl = curl_init();
+    public static function postTransactionToMidtransWithBNIVAPayment($midtransOrderId)
+    {
+        $curl = curl_init();
 
-    //     curl_setopt_array($curl, array(
-    //     CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
-    //     CURLOPT_RETURNTRANSFER => true,
-    //     CURLOPT_ENCODING => "",
-    //     CURLOPT_MAXREDIRS => 10,
-    //     CURLOPT_TIMEOUT => 0,
-    //     CURLOPT_FOLLOWLOCATION => true,
-    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //     CURLOPT_CUSTOMREQUEST => "POST",
-    //     CURLOPT_POSTFIELDS =>"
-    //         {  
-    //             \"payment_type\": \"bank_transfer\",
-    //             \"transaction_details\": 
-    //                 {
-    //                     \"gross_amount\": 44000,
-    //                     \"order_id\": \"".$midtransOrderId."\"
-    //                 },
-    //             \"customer_details\": 
-    //                 {
-    //                     \"email\": \"noreply@example.com\",
-    //                     \"first_name\": \"budi\",
-    //                     \"last_name\": \"utomo\",
-    //                      \"phone\": \"+6281 1234 1234\"
-    //                 },
-    //             \"item_details\": 
-    //                 \
-    //                     {
-    //                         \"id\": \"item01\",    
-    //                         \"price\": 21000,
-    //                         \"quantity\": 1,
-    //                         \"name\": \"Ayam Zozozo\"
-    //                     },
-    //                 ],
-    //              \"bank_transfer\":
-    //                 {
-    //                     \"bank\": \"bni\",
-    //                     \"va_number\": \"12345678\"
-    //                 }
-    //         }",
-    //     CURLOPT_HTTPHEADER => array(
-    //         "Accept: application/json",
-    //         "Content-Type: application/json",
-    //         "Authorization: Basic"
-    //     ),
-    //     ));
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS =>"{\n    \"payment_type\": \"bank_transfer\",\n    \"transaction_details\": {\n        \"gross_amount\": 44000,\n        \"order_id\": \"$midtransOrderId\"\n    },\n    \"customer_details\": {\n        \"email\": \"noreply@example.com\",\n        \"first_name\": \"budi\",\n        \"last_name\": \"utomo\",\n        \"phone\": \"+6281 1234 1234\"\n    },\n    \"item_details\": [\n    {\n       \"id\": \"item01\",\n       \"price\": 21000,\n       \"quantity\": 1,\n       \"name\": \"Ayam Zozozo\"\n    },\n    {\n       \"id\": \"item02\",\n       \"price\": 23000,\n       \"quantity\": 1,\n       \"name\": \"Ayam Xoxoxo\"\n    }\n   ],\n   \"bank_transfer\":{\n     \"bank\": \"bni\",\n     \"va_number\": \"12345678\"\n  }\n}",
+        CURLOPT_HTTPHEADER => array(
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: Basic U0ItTWlkLXNlcnZlci1RMkhTRE5pX1pfcUxGNjRQdEplLUo3RWw6"
+        ),
+        ));
 
-    //     $response = curl_exec($curl);
+        $response = curl_exec($curl);
 
-    //     curl_close($curl);
-    //     echo $response;
-    // }
+        curl_close($curl);
+        echo $response;
+    }
 
-    // public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId)
-    // {
-    //     $curl = curl_init();
+    public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId)
+    {
+        $curl = curl_init();
 
-    //     curl_setopt_array($curl, array(
-    //     CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
-    //     CURLOPT_RETURNTRANSFER => true,
-    //     CURLOPT_ENCODING => "",
-    //     CURLOPT_MAXREDIRS => 10,
-    //     CURLOPT_TIMEOUT => 0,
-    //     CURLOPT_FOLLOWLOCATION => true,
-    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //     CURLOPT_CUSTOMREQUEST => "POST",
-    //     CURLOPT_POSTFIELDS =>"
-    //         {    
-    //             \"payment_type\": \"cstore\",   
-    //             \"transaction_details\": 
-    //                 {       
-    //                     \"gross_amount\": 44000,       
-    //                     \"order_id\": \"".$midtransOrderId."\"    
-    //                 },    
-    //             \"customer_details\": 
-    //                 {        
-    //                     \"email\": \"noreply@example.com\",        
-    //                     \"first_name\": \"budi\",        
-    //                     \"last_name\": \"utomo\",        
-    //                     \"phone\": \"+6281 1234 1234\"    
-    //                 },
-    //             \"item_details\": 
-    //                 [   
-    //                     {      
-    //                         \"id\": \"item01\",       
-    //                         \"price\": 21000,       
-    //                         \"quantity\": 1,       
-    //                         \"name\": \"Ebook\"   
-    //                     },  
-    //                 ],  
-    //             \"cstore\": {    
-    //                 \"store\": \"Indomaret\",   
-    //                 \"message\": \"Message to display\" 
-    //             }
-    //         }",
-    //     CURLOPT_HTTPHEADER => array(
-    //         "Accept: application/json",
-    //         "Content-Type: application/json",
-    //         "Authorization: Basic"
-    //     ),
-    //     ));
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS =>"{\n    \"payment_type\": \"cstore\",\n    \"transaction_details\": {\n        \"gross_amount\": 44000,\n        \"order_id\": \"$midtransOrderId\"\n    },\n    \"customer_details\": {\n        \"email\": \"noreply@example.com\",\n        \"first_name\": \"budi\",\n        \"last_name\": \"utomo\",\n        \"phone\": \"+6281 1234 1234\"\n    },\n    \"item_details\": [\n    {\n       \"id\": \"item01\",\n       \"price\": 21000,\n       \"quantity\": 1,\n       \"name\": \"Ayam Zozozo\"\n    },\n    {\n       \"id\": \"item02\",\n       \"price\": 23000,\n       \"quantity\": 1,\n       \"name\": \"Ayam Xoxoxo\"\n    }\n   ],\n  \"cstore\": {\n    \"store\": \"Indomaret\",\n    \"message\": \"Message to display\"\n  }\n}",
+        CURLOPT_HTTPHEADER => array(
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: Basic U0ItTWlkLXNlcnZlci1RMkhTRE5pX1pfcUxGNjRQdEplLUo3RWw6"
+        ),
+        ));
 
-    //     $response = curl_exec($curl);
+        $response = curl_exec($curl);
 
-    //     curl_close($curl);
-    //     echo $response;
-    // }
+        curl_close($curl);
+        echo $response;
+    }
 
     private static function postTransaction($id, $totalPrice, $paymentId, $paymentCode)
     {
