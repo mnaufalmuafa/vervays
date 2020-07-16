@@ -113,7 +113,6 @@ class Order extends Model
         $midtransOrderId = $orderId."-".$backCode;
         $arrBookId = Cart::getUserCartBookId();
         $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
-        $totalPrice = Book::getTotalPrice($arrBookId);
         Cart::emptyUserCart();
         if ($paymentMethod == "1") {
             Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId);
@@ -121,7 +120,6 @@ class Order extends Model
         else if ($paymentMethod == "2") {
             Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId);
         }
-        Order::postTransaction($orderId, $totalPrice, $paymentMethod, $paymentCode);
         Order::store($orderId, $backCode, $paymentMethod, $paymentCode, $dt, $createdAt);
         BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId);
         return $orderId;
@@ -208,31 +206,6 @@ class Order extends Model
         echo $response;
     }
 
-    private static function postTransaction($id, $totalPrice, $paymentId, $paymentCode)
-    {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://localhost:8000/transaction",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\n\t\"id\" : $id,\n\t\"totalPrice\" : $totalPrice,\n\t\"paymentCode\": \"$paymentCode\",\n\t\"paymentId\" : $paymentId\n}",
-        CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json"
-        ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        unset($response);
-    }
-
     private static function getPaymentCode($paymentId, $orderId)
     {
         if ($paymentId == 1) {
@@ -284,47 +257,29 @@ class Order extends Model
     {
         $orders = DB::table('orders')->where('status', 'pending')->where('userId', session('id'))->get();
         foreach ($orders as $order) {
-            if (Order::getRealStatus($order->id) != "pending") {
+            $midtransOrderId = $order->id."-".$order->backIdCode;
+            $transactionStatus = Order::getTransactionStatusFromMidtrans($midtransOrderId);
+            if($transactionStatus == "settlement") {
                 DB::table('orders')->where('id', $order->id)->update([
-                    "status" => Order::getRealStatus($order->id)
+                    "status" => "success",
                 ]);
-                if (Order::getRealStatus($order->id) == "success") {
-                    $arrBookId = DB::table('orders')
+                $arrBookId = DB::table('orders')
                                         ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
                                         ->where('orders.id', $order->id)
                                         ->pluck('book_snapshots.bookId');
-                    foreach ($arrBookId as $bookId) {
-                        $publisherId = Book::getPublisherIdByBookId($bookId);
-                        $price = BookSnapshot::getPrice($bookId, $order->id);
-                        Publisher::addBalance($publisherId, $price);
-                        Have::store(session('id'), $bookId);
-                    }
+                foreach ($arrBookId as $bookId) {
+                    $publisherId = Book::getPublisherIdByBookId($bookId);
+                    $price = BookSnapshot::getPrice($bookId, $order->id);
+                    Publisher::addBalance($publisherId, $price);
+                    Have::store(session('id'), $bookId);
                 }
             }
+            else if($transactionStatus == "cancel" || $transactionStatus == "expire") {
+                DB::table('orders')->where('id', $order->id)->update([
+                    "status" => "failed",
+                ]);
+            }
         }
-        // foreach ($orders as $order) {
-        //     $midtransOrderId = $order->id."-".$order->backIdCode;
-        //     if(Order::getTransactionStatusFromMidtrans($midtransOrderId) == "settlement") {
-        //         DB::table('orders')->where('id', $order->id)->update([
-        //             "status" => "finish"
-        //         ]);
-        //         $arrBookId = DB::table('orders')
-        //                                 ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
-        //                                 ->where('orders.id', $order->id)
-        //                                 ->pluck('book_snapshots.bookId');
-        //         foreach ($arrBookId as $bookId) {
-        //             $publisherId = Book::getPublisherIdByBookId($bookId);
-        //             $price = BookSnapshot::getPrice($bookId, $order->id);
-        //             Publisher::addBalance($publisherId, $price);
-        //             Have::store(session('id'), $bookId);
-        //         }
-        //     }
-        //     else if(Order::getTransactionStatusFromMidtrans($midtransOrderId) == "cancel") {
-        //         DB::table('orders')->where('id', $order->id)->update([
-        //             "status" => "failed"
-        //         ]);
-        //     }
-        // }
     }
 
     public static function getUserOrders($userId)
