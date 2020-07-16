@@ -290,6 +290,29 @@ class Order extends Model
                 }
             }
         }
+        // foreach ($orders as $order) {
+        //     $midtransOrderId = $order->id."-".$order->backIdCode;
+        //     if(Order::getTransactionStatusFromMidtrans($midtransOrderId) == "settlement") {
+        //         DB::table('orders')->where('id', $order->id)->update([
+        //             "status" => "finish"
+        //         ]);
+        //         $arrBookId = DB::table('orders')
+        //                                 ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
+        //                                 ->where('orders.id', $order->id)
+        //                                 ->pluck('book_snapshots.bookId');
+        //         foreach ($arrBookId as $bookId) {
+        //             $publisherId = Book::getPublisherIdByBookId($bookId);
+        //             $price = BookSnapshot::getPrice($bookId, $order->id);
+        //             Publisher::addBalance($publisherId, $price);
+        //             Have::store(session('id'), $bookId);
+        //         }
+        //     }
+        //     else if(Order::getTransactionStatusFromMidtrans($midtransOrderId) == "cancel") {
+        //         DB::table('orders')->where('id', $order->id)->update([
+        //             "status" => "failed"
+        //         ]);
+        //     }
+        // }
     }
 
     public static function getUserOrders($userId)
@@ -385,5 +408,63 @@ class Order extends Model
             $temp = $temp.$response[$i];
         }
         return $temp;
+    }
+
+    public static function getPaymentCodeFromMidtrans($orderId, $paymentMethod)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/$orderId/status",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: Basic U0ItTWlkLXNlcnZlci1RMkhTRE5pX1pfcUxGNjRQdEplLUo3RWw6"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return Order::getPaymentCodeFromMidtransResponse($response, $paymentMethod);
+    }
+
+    private static function getPaymentCodeFromMidtransResponse($response, $paymentMethod)
+    {
+        if ($paymentMethod == 1) {
+            $start = strpos($response, "va_number\"") + 12;
+            $temp = "";
+            for ($i=$start; $i < strlen($response) - 1; $i++) { 
+                $temp = $temp.$response[$i];
+            }
+            $response = $temp;
+            $temp = "";
+            $end = strpos($response, "\"");
+            for ($i=0; $i < $end; $i++) { 
+                $temp = $temp.$response[$i];
+            }
+            return $temp;
+        }
+        else {
+            $start = strpos($response, "payment_code\"") + 15;
+            $temp = "";
+            for ($i=$start; $i < strlen($response) - 1; $i++) { 
+                $temp = $temp.$response[$i];
+            }
+            $response = $temp;
+            $temp = "";
+            $end = strpos($response, "\"");
+            for ($i=0; $i < $end; $i++) { 
+                $temp = $temp.$response[$i];
+            }
+            return $temp;
+        }
     }
 }

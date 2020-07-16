@@ -32,4 +32,9 @@ class OrderController extends Controller
     {
         return Order::getBooksByOrderId($request->orderId);
     }
+
+    public function getPaymentCodeFromMidtrans(Request $request)
+    {
+        return Order::getPaymentCodeFromMidtrans($request->get('orderId'), $request->get('paymentMethod'));
+    }
 }

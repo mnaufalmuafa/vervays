@@ -21,6 +21,7 @@ Route::prefix('/get')->group(function() {
     Route::get('/get_book_s_publisher_name/{bookId}', 'api\BookController@getPublisherName');
     Route::get('/get_ebook_cover_by_book_id/{bookId}', 'api\EbookCoverController@getEbookCoverByBookId');
     Route::get('/have_user_given_book_rating/{bookId}', 'api\ReviewController@haveUserGivenBookRating');
+    Route::get('/payment_code', 'api\OrderController@getPaymentCodeFromMidtrans');
 });
 
 Route::middleware(['LoginAndSignUpMiddleware'])->group(function() {
