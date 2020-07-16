@@ -343,4 +343,47 @@ class Order extends Model
             "updated_at" => Carbon::now(),
         ]);
     }
+
+    public static function getTransactionStatusFromMidtrans($midtransOrderId)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/$midtransOrderId/status",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: Basic U0ItTWlkLXNlcnZlci1RMkhTRE5pX1pfcUxGNjRQdEplLUo3RWw6"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        return Order::getTransacrtionStatusFromResponseMidtrans($response);
+    }
+
+    private static function getTransacrtionStatusFromResponseMidtrans($response)
+    {
+        $start = strpos($response, "transaction_status") + 21;
+        $temp = "";
+        for ($i=$start; $i < strlen($response) - 1; $i++) { 
+            $temp = $temp.$response[$i];
+        }
+        $response = $temp;
+        $temp = "";
+        $end = strpos($response, ",") - 1;
+        for ($i=0; $i < $end; $i++) { 
+            $temp = $temp.$response[$i];
+        }
+        return $temp;
+    }
 }
