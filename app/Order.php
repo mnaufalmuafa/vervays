@@ -127,6 +127,18 @@ class Order extends Model
         return $orderId;
     }
 
+    public static function updatePaymentCodeFromMidtrans($orderId)
+    {
+        $backCode = DB::table('orders')->where('id', $orderId)->pluck('backIdCode')[0];
+        $midtransOrderId = $orderId."-".$backCode;
+        $paymentMethodId = DB::table('orders')->where('id', $orderId)->pluck('paymentId')[0];
+        $paymentCode = Order::getPaymentCodeFromMidtrans($midtransOrderId, $paymentMethodId);
+        DB::table('orders')->where('id', $orderId)->update([
+            "paymentCode" => $paymentCode,
+            "updated_at" => Carbon::now(),
+        ]);
+    }
+
     private static function store($id, $backCode , $paymentId, $paymentCode, $expiredTime, $createdAt)
     {
         $userId = session('id');

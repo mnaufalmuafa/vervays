@@ -15,7 +15,9 @@ class OrderController extends Controller
 
     public function create(Request $request)
     {
-        return Order::createOrder($request->paymentMethod);
+        $orderId = Order::createOrder($request->paymentMethod);
+        Order::updatePaymentCodeFromMidtrans($orderId);
+        return $orderId;
     }
 
     public function whetherTheTransactionIsPendingOrSuccess(Request $request)
