@@ -130,20 +130,19 @@ function setFormOnSubmitListener() {
       paymentMethod = getPaymentMethodValue();
       var bookData = {arrBookId, paymentMethod};
       console.log(bookData);
-      
-      var settings = {
-        "url": "http://127.0.0.1:8000/post/create_order",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
+
+      $.ajax({
+        url : "http://127.0.0.1:8000/post/create_order",
+        method : "POST",
+        // timeout : 0,
+        headers : {
           "Content-Type": "application/json",
         },
-        "data": JSON.stringify({"paymentMethod":paymentMethod}),
-        dataType : "JSON"
-      };
-      
-      $.ajax(settings).done(function (orderId) {
-        console.log({orderId});
+        data : JSON.stringify({"paymentMethod":paymentMethod}),
+        dataType : "JSON", 
+      }).always(function(orderId) {
+        console.log(orderId);
+        window.location.href = "/info/order/"+orderId;
       });
     }
   });

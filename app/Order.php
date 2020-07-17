@@ -176,7 +176,7 @@ class Order extends Model
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        // echo $response;
     }
 
     public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId)
@@ -203,7 +203,7 @@ class Order extends Model
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        // echo $response;
     }
 
     private static function getPaymentCode($paymentId, $orderId)
