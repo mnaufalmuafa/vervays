@@ -112,7 +112,7 @@ Route::middleware(['IsLogin'])->group(function() {
         });
 
         // UNTUK PUBLISHER
-        Route::prefix('/publisher')->middleware('DoesPublishers')->group(function() {
+        Route::prefix('/publisher')->middleware(['DoesPublishers', 'CheckOrderStatusForPublishers'])->group(function() {
 
             Route::get('/dashboard', 'publisher\DashboardController@index')
                 ->name('dashboard-publisher');

@@ -284,6 +284,47 @@ class Order extends Model
         }
     }
 
+    public static function updateStatusForPublisher()
+    {
+        $publisherId = Publisher::getPublisherIdWithUserId(session('id'));
+        $orders = DB::table('orders')
+                        ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
+                        ->join('books', 'book_snapshots.bookId', '=', 'books.id')
+                        ->join('publishers', 'books.publisherId', '=', 'publishers.id')
+                        ->where('publishers.id', $publisherId)
+                        ->where('status', 'pending')
+                        ->select(DB::raw('`orders`.`id` as id'))
+                        ->addSelect(DB::raw('`orders`.`backIdCode` as backIdCode'))
+                        ->addSelect(DB::raw('`orders`.`userId` as userOwnerId'))
+                        ->get();
+        foreach ($orders as $order) {
+            $midtransOrderId = $order->id."-".$order->backIdCode;
+            $transactionStatus = Order::getTransactionStatusFromMidtrans($midtransOrderId);
+            if($transactionStatus == "settlement") {
+                DB::table('orders')->where('id', $order->id)->update([
+                    "status" => "success",
+                    "updated_at" => Carbon::now(),
+                ]);
+                $arrBookId = DB::table('orders')
+                                        ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
+                                        ->where('orders.id', $order->id)
+                                        ->pluck('book_snapshots.bookId');
+                foreach ($arrBookId as $bookId) {
+                    $publisherId = Book::getPublisherIdByBookId($bookId);
+                    $price = BookSnapshot::getPrice($bookId, $order->id);
+                    Publisher::addBalance($publisherId, $price);
+                    Have::store($order->userOwnerId, $bookId);
+                }
+            }
+            else if($transactionStatus == "cancel" || $transactionStatus == "expire") {
+                DB::table('orders')->where('id', $order->id)->update([
+                    "status" => "failed",
+                    "updated_at" => Carbon::now(),
+                ]);
+            }
+        }
+    }
+
     public static function getUserOrders($userId)
     {
         $orders = DB::table('orders')
