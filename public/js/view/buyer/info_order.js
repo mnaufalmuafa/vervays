@@ -6,12 +6,12 @@ $(document).ready(function(){
 });
 
 function setCreatedAtFormat() {
-	var relaseDate = new Date($('#created-at-info').html());
+	var relaseDate = new Date($('#createdDateInfo').html());
 	var date = relaseDate.getDate();
 	var month = relaseDate.getMonth()+1;
   month = getMonthInBahasa(month);
   var year = relaseDate.getFullYear();
-  $('#created-at-info').html(date+" "+month+" "+year);
+  $('#createdDateInfo').html(date+" "+month+" "+year);
 }
 
 function setExpiredTimeFormat() {

@@ -273,6 +273,7 @@ class Order extends Model
             if($transactionStatus == "settlement") {
                 DB::table('orders')->where('id', $order->id)->update([
                     "status" => "success",
+                    "updated_at" => Carbon::now(),
                 ]);
                 $arrBookId = DB::table('orders')
                                         ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
@@ -288,6 +289,7 @@ class Order extends Model
             else if($transactionStatus == "cancel" || $transactionStatus == "expire") {
                 DB::table('orders')->where('id', $order->id)->update([
                     "status" => "failed",
+                    "updated_at" => Carbon::now(),
                 ]);
             }
         }
@@ -324,7 +326,9 @@ class Order extends Model
                     ->where('id', $orderId)
                     ->select('id', 'created_at', 'status', 'paymentId', 'paymentCode', 'expiredTime')
                     ->first();
-        $order->created_at = Carbon::parse($order->created_at)->toDateString();
+        $dt = Carbon::parse($order->created_at);
+        $order->createdDate = $dt->toDateString();
+        $order->createdTime = $dt->toTimeString();
         $dt = Carbon::parse($order->expiredTime);
         $order->expiredDate = $dt->toDateString();
         $order->expiredTime = $dt->toTimeString();

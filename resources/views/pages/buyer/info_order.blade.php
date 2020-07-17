@@ -16,7 +16,7 @@
 			<div class="d-flex">
 				<div class="left-row">
 					<p>Nomor Transaksi&emsp;</p>
-					<p>Tanggal Pemesanan&emsp;</p>
+					<p>Waktu Pemesanan&emsp;</p>
 					<p>Status&emsp;</p>
 					<p>Total Harga&emsp;</p>
 					<p>Metode Pembayaran&emsp;</p>
@@ -34,7 +34,7 @@
 				</div>
 				<div class="right-row pl-3">
 					<p id="id-info">{{ $order->id }}</p>
-					<p id="created-at-info">{{ $order->created_at }}</p>
+					<p id="created-at-info"><span id="createdDateInfo">{{ $order->createdDate }}</span> <span id="createdTimeInfo">{{ $order->createdTime }}</span></p>
 					<p id="order-status-info">{{ $order->status }}</p>
 					<p>Rp. {{ $order->totalPrice }}</p>
 					<p>{{ $order->paymentMethod }}</p>
