@@ -319,6 +319,8 @@ function setAsideButtonDisplay() {
 function setUpBtnBuy() {
   var bookId = $('meta[name=book-id]').attr("content");
   $("#btnBuy").click(function() {
+    $(':input[type="submit"]').prop('disabled', true);
+    $(':input[type="submit"]').html('....');
     $.ajax({
       type : "GET",
       url : "/get/whether_the_user_has_added_book_to_cart/"+bookId
