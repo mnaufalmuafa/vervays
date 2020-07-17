@@ -17,7 +17,6 @@ class OrderController extends Controller
     {
         $orderId = Order::createOrder($request->paymentMethod);
         Order::updatePaymentCodeFromMidtrans($orderId);
-        Order::fixExpiredTime($orderId);
         return $orderId;
     }
 

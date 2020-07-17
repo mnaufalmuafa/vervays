@@ -137,17 +137,6 @@ class Order extends Model
         ]);
     }
 
-    public static function fixExpiredTime($orderId)
-    {
-        $expiredTime = DB::table('orders')->where('id', $orderId)->pluck('created_at')[0];
-        $expiredTime = Carbon::parse($expiredTime)->addHours(24);
-        $expiredTime->second = 0;
-        DB::table('orders')->where('id', $orderId)->update([
-            "expiredTime" => $expiredTime,
-            "updated_at" => Carbon::now(),
-        ]);
-    }
-
     private static function store($id, $backCode , $paymentId, $paymentCode, $expiredTime, $createdAt)
     {
         $userId = session('id');
