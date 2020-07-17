@@ -141,7 +141,6 @@ class Order extends Model
     {
         $expiredTime = DB::table('orders')->where('id', $orderId)->pluck('created_at')[0];
         $expiredTime = Carbon::parse($expiredTime)->addHours(24);
-        $expiredTime = $expiredTime->addMinute();
         $expiredTime->second = 0;
         DB::table('orders')->where('id', $orderId)->update([
             "expiredTime" => $expiredTime,
@@ -323,9 +322,12 @@ class Order extends Model
     {
         $order = DB::table('orders')
                     ->where('id', $orderId)
-                    ->select('id', 'created_at', 'status', 'paymentId', 'paymentCode')
+                    ->select('id', 'created_at', 'status', 'paymentId', 'paymentCode', 'expiredTime')
                     ->first();
         $order->created_at = Carbon::parse($order->created_at)->toDateString();
+        $dt = Carbon::parse($order->expiredTime);
+        $order->expiredDate = $dt->toDateString();
+        $order->expiredTime = $dt->toTimeString();
         $order->totalPrice = BookSnapshot::getTotalOrderPrice($order->id);
         $order->totalPrice = Order::convertPriceToCurrencyFormat($order->totalPrice);
         $order->codeName = Payment::getCodeName($order->paymentId);

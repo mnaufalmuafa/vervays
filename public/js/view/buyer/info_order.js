@@ -1,5 +1,6 @@
 $(document).ready(function(){
-	setCreatedAtFormat();
+  setCreatedAtFormat();
+  setExpiredTimeFormat();
 	setOrderStatus();
 	setBookItemOnClickListener();
 });
@@ -11,6 +12,17 @@ function setCreatedAtFormat() {
   month = getMonthInBahasa(month);
   var year = relaseDate.getFullYear();
   $('#created-at-info').html(date+" "+month+" "+year);
+}
+
+function setExpiredTimeFormat() {
+	var relaseDate = new Date($('#expiredDateInfo').html());
+	var date = relaseDate.getDate();
+	var month = relaseDate.getMonth()+1;
+  month = getMonthInBahasa(month);
+  var year = relaseDate.getFullYear();
+  $('#expiredDateInfo').html(date+" "+month+" "+year);
+  var expiredTime = $("#expiredTimeInfo").html().substring(0, 5);
+  $("#expiredTimeInfo").html(expiredTime);
 }
 
 function getMonthInBahasa(intMonth) {
@@ -36,10 +48,12 @@ function setOrderStatus() {
 		$("#order-status-info").html("Menunggu pembayaran");
 	}
 	else if (status === "success") {
-		$("#order-status-info").html("Selesai");
+    $("#order-status-info").html("Selesai");
+    $(".expiredTimeInfo").hide();
 	}
 	else {
-		$("#order-status-info").html("Gagal");
+    $("#order-status-info").html("Gagal");
+    $(".expiredTimeInfo").hide();
 	}
 }
 

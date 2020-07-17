@@ -21,6 +21,7 @@
 					<p>Total Harga&emsp;</p>
 					<p>Metode Pembayaran&emsp;</p>
 					<p>{{ $order->codeName }}&emsp;</p>
+					<p class="expiredTimeInfo">Tenggat pembayaran&emsp;</p>
 				</div>
 				<div class="middle-row">
 					<p>:</p>
@@ -29,6 +30,7 @@
 					<p>:</p>
 					<p>:</p>
 					<p>:</p>
+					<p class="expiredTimeInfo">:</p>
 				</div>
 				<div class="right-row pl-3">
 					<p id="id-info">{{ $order->id }}</p>
@@ -37,6 +39,7 @@
 					<p>Rp. {{ $order->totalPrice }}</p>
 					<p>{{ $order->paymentMethod }}</p>
 					<p>{{ $order->paymentCode }}</p>
+					<p class="expiredTimeInfo"><span id="expiredDateInfo">{{ $order->expiredDate }}</span> <span id="expiredTimeInfo">{{ $order->expiredTime }}</span></p>
 				</div>
 			</div>
 		</section>
