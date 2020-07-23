@@ -19,12 +19,4 @@ class BookController extends Controller
         // dd($data["book"]);
         return view('pages.buyer.ebook_info', $data);
     }
-
-    public function mybook()
-    {
-        $data = [
-            "firstName" => User::getFirstName(session('id')),
-        ];
-        return view('pages.buyer.mybook', $data);
-    }
 }
