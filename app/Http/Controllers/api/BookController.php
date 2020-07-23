@@ -49,21 +49,6 @@ class BookController extends Controller
         Book::removeBookFromCart($request->bookId);
     }
 
-    public function whetherTheUserHasAddedBookToWishList(Request $request)
-    {
-        return Book::whetherTheUserHasAddedBookToWishList($request->bookId);
-    }
-
-    public function addBookToWishList(Request $request)
-    {
-        Book::addBookToWishList($request->bookId);
-    }
-
-    public function removeBookFromWishList(Request $request)
-    {
-        Book::removeBookFromWishList($request->bookId);
-    }
-
     public function getPublisherName(Request $request)
     {
         return Book::getPublisherName($request->bookId);

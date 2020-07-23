@@ -89,7 +89,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::get('/get_people_gave_stars_count_by_rating/{id}/{rating}', 'api\BookController@getPeopleGaveStarsCountByRating');
             Route::get('/get_reviews_by_book_id/{bookId}', 'api\BookController@getReviewsByBookId');
             Route::get('/whether_the_user_has_added_book_to_cart/{bookId}', 'api\BookController@whetherTheUserHasAddedBookToCart');
-            Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'api\BookController@whetherTheUserHasAddedBookToWishList');
+            Route::get('/whether_the_user_has_added_book_to_wish_list/{bookId}', 'api\WishesController@whetherTheUserHasAddedBookToWishList');
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Route::get('/get_user_orders_for_orders_page', 'api\OrderController@getUserOrdersForOrdersPage');
             Route::get('/get_books_by_order_id/{orderId}', 'api\OrderController@getBooksByOrderId');
@@ -101,8 +101,8 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::prefix('/post')->group(function() {
             Route::post('/add_book_to_cart/{bookId}', 'api\BookController@addBookToCart');
             Route::post('/remove_book_from_cart/{bookId}', 'api\BookController@removeBookFromCart');
-            Route::post('/add_book_to_wish_list/{bookId}', 'api\BookController@addBookToWishList');
-            Route::post('/remove_book_from_wish_list/{bookId}', 'api\BookController@removeBookFromWishList');
+            Route::post('/add_book_to_wish_list/{bookId}', 'api\WishesController@addBookToWishList');
+            Route::post('/remove_book_from_wish_list/{bookId}', 'api\WishesController@removeBookFromWishList');
             Route::post('/create_order', 'api\OrderController@create');
             Route::post('/review', 'api\ReviewController@store')->middleware(['HaveUserNotReviewedTheBook', 'IsBookNotDeleted']);
             Route::post('/update_profile', 'api\UserController@updateProfile');

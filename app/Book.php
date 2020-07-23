@@ -466,56 +466,6 @@ class Book extends Model
         }
     }
 
-    public static function whetherTheUserHasAddedBookToWishList($bookId)
-    {
-        $userId = session('id');
-        $count = DB::table('wishes')
-                        ->where('userId', $userId)
-                        ->where('bookId', $bookId)
-                        ->count();
-        if ($count == 1) {
-            return json_encode(true);
-        }
-        return json_encode(false);
-    }
-
-    public static function whetherTheUserHasAddedBookToWishListForModel($bookId)
-    {
-        $userId = session('id');
-        $count = DB::table('wishes')
-                        ->where('userId', $userId)
-                        ->where('bookId', $bookId)
-                        ->count();
-        if ($count == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function addBookToWishList($bookId)
-    {
-        if (!Book::whetherTheUserHasAddedBookToWishListForModel($bookId)) {
-            $userId = session('id');
-            DB::table('wishes')->insert([
-                'bookId' => $bookId,
-                'userId' => $userId,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        }
-    }
-
-    public static  function removeBookFromWishList($bookId)
-    {
-        if (Book::whetherTheUserHasAddedBookToWishListForModel($bookId)) {
-            $userId = session('id');
-            DB::table('wishes')
-                ->where('bookId', $bookId)
-                ->where('userId', $userId)
-                ->delete();
-        }
-    }
-
     public static function getTotalPrice($arrBookId)
     {
         $totalPrice = 0;
