@@ -34,21 +34,6 @@ class BookController extends Controller
         return Order::getUserRoleForEbookInfoPage($request->bookId);
     }
 
-    public function whetherTheUserHasAddedBookToCart(Request $request)
-    {
-        return Book::whetherTheUserHasAddedBookToCart($request->bookId);
-    }
-
-    public function addBookToCart(Request $request)
-    {
-        Book::addBookToCart($request->bookId);
-    }
-
-    public function removeBookFromCart(Request $request)
-    {
-        Book::removeBookFromCart($request->bookId);
-    }
-
     public function getPublisherName(Request $request)
     {
         return Book::getPublisherName($request->bookId);
