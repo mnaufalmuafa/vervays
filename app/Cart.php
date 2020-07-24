@@ -71,4 +71,27 @@ class Cart
                 ->delete();
         }
     }
+
+    public static function getUserCart()
+    {
+        $userId = session('id');
+        $cart = DB::table('carts')
+                        ->join('books', 'carts.bookId', '=', 'books.id')
+                        ->join('publishers', 'books.publisherId', '=', 'publishers.id')
+                        ->join('ebook_covers', 'books.ebookCoverId', '=', 'ebook_covers.id')
+                        ->where('carts.userId', $userId)
+                        ->select('carts.bookId', 'books.title', 'books.author', 'books.price', 'ebookCoverId')
+                        ->addSelect(DB::raw('`publishers`.`name` as publisherName'))
+                        ->addSelect(DB::raw('`ebook_covers`.`name` as ebookCoverName'))
+                        ->get();
+        foreach ($cart as $book) {
+            $book->priceForHuman = Cart::convertPriceToCurrencyFormat($book->price);
+        }
+        return response()->json($cart);
+    }
+
+    private static function convertPriceToCurrencyFormat($price)
+    {
+        return number_format($price,0,',','.');
+    }
 }

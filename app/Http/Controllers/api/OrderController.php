@@ -8,10 +8,6 @@ use App\Order;
 
 class OrderController extends Controller
 {
-    public function getUserCart(Request $request)
-    {
-        return Order::getUserCart($request->userId);
-    }
 
     public function create(Request $request)
     {

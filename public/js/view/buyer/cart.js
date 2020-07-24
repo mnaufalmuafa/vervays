@@ -30,33 +30,37 @@ function getCart() {
     }
     else { // Jika keranjang belanja sudah terisi (minimal 1 buku)
       displayMainSection();
-      var template = document.querySelector('#bookTemplate');
-      var container = document.querySelector('#bookContainer');
-      var totalPrice = 0;
-      for (let i = 0; i < books.length; i++) {
-        var clone = template.content.cloneNode(true);
-        var ebookCoverURL = "/ebook/ebook_cover/"+books[i].ebookCoverId+"/"+books[i].ebookCoverName;
-        clone.querySelector('h4').innerHTML = books[i].title;
-        clone.querySelector('p.authorInfo span').innerHTML = books[i].author;
-        clone.querySelector('p.publisherDetail').innerHTML = books[i].publisherName;
-        clone.querySelector('p.price span').innerHTML = books[i].priceForHuman;
-        clone.querySelector('div').setAttribute("data-book-id", books[i].bookId);
-        clone.querySelector('div').setAttribute("data-price", books[i].price);
-        clone.querySelector('img').setAttribute("src", ebookCoverURL);
-        clone.querySelector('img').setAttribute("data-book-id", books[i].bookId);
-        clone.querySelector('img').setAttribute("data-book-title", books[i].title);
-        clone.querySelector('.book-title').setAttribute("data-book-id", books[i].bookId);
-        clone.querySelector('.book-title').setAttribute("data-book-title", books[i].title);
-        clone.querySelector('.ic-trash').setAttribute("data-book-id", books[i].bookId);
-        clone.querySelector('.ic-trash').setAttribute("data-book-title", books[i].title);
-        totalPrice = totalPrice + books[i].price;
-        container.appendChild(clone);
-      }
-      setBookOnClickListener();
-      setTrashIconOnClickListener();
-      $('#total-amount span').html(convertToRupiah(totalPrice));
+      showCart(books);
     }
   });
+}
+
+function showCart(books) {
+  var template = document.querySelector('#bookTemplate');
+  var container = document.querySelector('#bookContainer');
+  var totalPrice = 0;
+  for (let i = 0; i < books.length; i++) {
+    var clone = template.content.cloneNode(true);
+    var ebookCoverURL = "/ebook/ebook_cover/"+books[i].ebookCoverId+"/"+books[i].ebookCoverName;
+    clone.querySelector('h4').innerHTML = books[i].title;
+    clone.querySelector('p.authorInfo span').innerHTML = books[i].author;
+    clone.querySelector('p.publisherDetail').innerHTML = books[i].publisherName;
+    clone.querySelector('p.price span').innerHTML = books[i].priceForHuman;
+    clone.querySelector('div').setAttribute("data-book-id", books[i].bookId);
+    clone.querySelector('div').setAttribute("data-price", books[i].price);
+    clone.querySelector('img').setAttribute("src", ebookCoverURL);
+    clone.querySelector('img').setAttribute("data-book-id", books[i].bookId);
+    clone.querySelector('img').setAttribute("data-book-title", books[i].title);
+    clone.querySelector('.book-title').setAttribute("data-book-id", books[i].bookId);
+    clone.querySelector('.book-title').setAttribute("data-book-title", books[i].title);
+    clone.querySelector('.ic-trash').setAttribute("data-book-id", books[i].bookId);
+    clone.querySelector('.ic-trash').setAttribute("data-book-title", books[i].title);
+    totalPrice = totalPrice + books[i].price;
+    container.appendChild(clone);
+  }
+  setBookOnClickListener();
+  setTrashIconOnClickListener();
+  $('#total-amount span').html(convertToRupiah(totalPrice));
 }
 
 function convertToRupiah(angka){

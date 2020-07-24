@@ -69,25 +69,6 @@ class Order extends Model
         return number_format($price,0,',','.');
     }
 
-    public static function getUserCart()
-    {
-        $userId = session('id');
-        $cart = DB::table('carts')
-                        ->join('books', 'carts.bookId', '=', 'books.id')
-                        ->join('publishers', 'books.publisherId', '=', 'publishers.id')
-                        ->join('ebook_covers', 'books.ebookCoverId', '=', 'ebook_covers.id')
-                        ->where('carts.userId', $userId)
-                        ->select('carts.bookId', 'books.title', 'books.author', 'books.price', 'ebookCoverId')
-                        ->addSelect(DB::raw('`publishers`.`name` as publisherName'))
-                        ->addSelect(DB::raw('`ebook_covers`.`name` as ebookCoverName'))
-                        ->get();
-        foreach ($cart as $book) {
-            $book->priceForHuman = Order::convertPriceToCurrencyFormat($book->price);
-        }
-        // dd($cart);
-        return response()->json($cart);
-    }
-
     public static function removeBookFromCart($bookId)
     {
         $userId = session('id');

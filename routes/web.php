@@ -82,7 +82,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::prefix('/get')->group(function() {
             Route::get('/user_wishlist', 'api\WishesController@getUserWishlist');
             Route::get('/get_user_role_for_ebook_info_page/{bookId}', 'api\BookController@getUserRoleForEbookInfoPage');
-            Route::get('/get_user_cart', 'api\OrderController@getUserCart');
+            Route::get('/get_user_cart', 'api\CartController@getUserCart');
             Route::get('/whether_the_transaction_is_pending_or_success/{bookId}', 'api\OrderController@whetherTheTransactionIsPendingOrSuccess');
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Route::get('/get_people_gave_stars_count_all_rating/{id}', 'api\BookController@getPeopleGaveStarsCountAllRating');

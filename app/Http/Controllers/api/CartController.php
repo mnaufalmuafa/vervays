@@ -23,4 +23,9 @@ class CartController extends Controller
     {
         Cart::removeBookFromCart($request->bookId);
     }
+
+    public function getUserCart(Request $request)
+    {
+        return Cart::getUserCart($request->userId);
+    }
 }
