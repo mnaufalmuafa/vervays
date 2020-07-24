@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use App\Book;
 
 class EbookFile
 {
@@ -12,5 +13,12 @@ class EbookFile
                     ->select('id', 'name')
                     ->where('id' , $ebookFileId)
                     ->first();
+    }
+
+    public static function getBookFileURL($bookId)
+    {
+        $ebookFileId = Book::getEbookFileId($bookId);
+        $ebookFile = EbookFile::getEbookFile($ebookFileId);
+        return "/ebook/ebook_files/".$ebookFile->id."/".$ebookFile->name;
     }
 }

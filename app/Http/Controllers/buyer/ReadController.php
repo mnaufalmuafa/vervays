@@ -5,6 +5,7 @@ namespace App\Http\Controllers\buyer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Book;
+use App\EbookFile;
 
 class ReadController extends Controller
 {
@@ -21,7 +22,7 @@ class ReadController extends Controller
     {
         $data = [
             "bookId" => $request->bookId,
-            "ebookURL" => Book::getBookFileURL($request->bookId),
+            "ebookURL" => EbookFile::getBookFileURL($request->bookId),
         ];
         return view('pages.buyer.read', $data);
     }

@@ -501,7 +501,7 @@ class Book extends Model
         return DB::table('books')->where('id', $bookId)->pluck('sampleEbookFileId')[0];
     }
 
-    private static function getEbookFileId($bookId)
+    public static function getEbookFileId($bookId)
     {
         return DB::table('books')->where('id', $bookId)->pluck('ebookFileId')[0];
     }
@@ -511,13 +511,6 @@ class Book extends Model
         $sampleEbookFileId = Book::getSampleEbookFileId($bookId);
         $sampleEbookFile = SampleEbookFile::getSampleEbookFile($sampleEbookFileId);
         return "/ebook/sample_ebook_files/".$sampleEbookFile->id."/".$sampleEbookFile->name;
-    }
-
-    public static function getBookFileURL($bookId)
-    {
-        $ebookFileId = Book::getEbookFileId($bookId);
-        $ebookFile = EbookFile::getEbookFile($ebookFileId);
-        return "/ebook/ebook_files/".$ebookFile->id."/".$ebookFile->name;
     }
 
     public static function getBookDataForMyBookPage()
