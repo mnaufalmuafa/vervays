@@ -71,7 +71,7 @@ Route::middleware(['IsLogin'])->group(function() {
         Route::get('/info/order/{orderId}/', 'buyer\OrderController@showOrderDetail');
 
         Route::get('/wishes', 'buyer\WishesController@index')->name('wishlist');
-        Route::get('/cart', 'buyer\OrderController@index')->name('cart');
+        Route::get('/cart', 'buyer\CartController@index')->name('cart');
         Route::get('/orders', 'buyer\OrderController@showList')->name('orders');
         Route::get('/read/sample/{bookId}', 'buyer\ReadController@readSample');
         Route::get('/read/book/{bookId}', 'buyer\ReadController@readBook')->middleware(['DoUserHaveTheBook']);

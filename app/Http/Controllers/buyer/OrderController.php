@@ -12,14 +12,6 @@ use App\Step;
 
 class OrderController extends Controller
 {
-    public function index()
-    {
-        $data = [
-            "firstName" => User::getFirstName(session('id'))
-        ];
-        return view('pages.buyer.cart', $data);
-    }
-
     public function showList()
     {
         $data = [
@@ -40,7 +32,6 @@ class OrderController extends Controller
             "arrPaymentMethod" => $arrPaymentMethod,
             "arrStep" => Step::getPaymentMethodStepsForOrderInfoPage($arrPaymentMethod),
         ];
-        // dd($data["paymentMethod"]);
         return view('pages.buyer.info_order', $data);
     }
 }
