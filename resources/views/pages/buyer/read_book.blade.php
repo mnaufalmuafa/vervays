@@ -41,6 +41,6 @@
     src="{{ url('js/csrf_token.js') }}">
   </script>
   <script src="{{ url('/js/library/pdf.js') }}"></script>
-  <script src="{{ url('/js/view/buyer/read.js') }}"></script>
+  <script src="{{ url('/js/view/buyer/read_book.js') }}"></script>
 </body>
 </html>
