@@ -17,14 +17,13 @@ class DashboardController extends Controller
             "publisher" => Publisher::getPublisherData(session('id')),
             "books" => Book::getBookDataForDashboardPublisher(),
         ];
-        // dd($data["publisher"]);
         return view('pages.publisher.dashboard', $data);
     }
 
     public function bePublisher()
     {
         $id = session('id');
-        User::bePublisher($id);
+        Publisher::bePublisher($id);
         return true;
     }
 

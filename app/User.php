@@ -74,49 +74,6 @@ class User
         return DB::table('users')->get()->count();
     }
 
-    private static function getPublishersCount() {
-        return DB::table('publishers')->get()->count();
-    }
-
-    public static function bePublisher($id) {
-        $user = DB::table('publishers')
-            ->join('users', 'users.id', '=', 'publishers.userId')
-            ->where('userId', $id)
-            ->where('users.isDeleted', 0)
-            ->first();
-        if ($user == null) { //Belum menjadi publisher
-            $name = User::getFirstName($id) . ' '
-                . User::getLastName($id);
-            $now = Carbon::now();
-            DB::table('publishers')->insert([
-                "id" => User::getPublishersCount()+1,
-                "userId" => $id,
-                "profilePhotoId" => 1,
-                "name" => $name,
-                "description" => "-",
-                "balance" => 0,
-                "month" => $now->month,
-                "year" => $now->year,
-                "created_at" => $now,
-                "updated_at" => $now,
-            ]);
-        }
-    }
-
-    public static function doesUserAmongThePublishers($userId)
-    {
-        $value = DB::table('publishers')
-            ->join('users', 'users.id', '=', 'publishers.userId')
-            ->where('userId', $userId)
-            ->where('users.isDeleted', 0)
-            ->get()
-            ->count();
-        if ($value == 1) {
-            return true;
-        }
-        return false;
-    }
-
     public static function IsTheEmailNotVerified()
     {
         $id = session('id');

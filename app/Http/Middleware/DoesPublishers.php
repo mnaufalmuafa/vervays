@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-use App\User;
+use App\Publisher;
 
 class DoesPublishers
 {
@@ -18,10 +18,10 @@ class DoesPublishers
     public function handle($request, Closure $next)
     {
         $userId = session('id');
-        if (User::doesUserAmongThePublishers($userId)) {
+        if (Publisher::isUserAPublisher($userId)) {
             return $next($request);
         }
-        User::bePublisher($userId);
+        Publisher::bePublisher($userId);
         return redirect()->route('dashboard-publisher');
     }
 }

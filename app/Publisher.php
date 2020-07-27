@@ -195,4 +195,33 @@ class Publisher
     {
         return DB::table('publishers')->where('userId', $userId)->get()->count() == 1;
     }
+
+    private static function getPublishersCount() {
+        return DB::table('publishers')->get()->count();
+    }
+
+    public static function bePublisher($id) {
+        $user = DB::table('publishers')
+                    ->join('users', 'users.id', '=', 'publishers.userId')
+                    ->where('userId', $id)
+                    ->where('users.isDeleted', 0)
+                    ->first();
+        if ($user == null) { //Belum menjadi publisher
+            $name = User::getFirstName($id) . ' '
+                . User::getLastName($id);
+            $now = Carbon::now();
+            DB::table('publishers')->insert([
+                "id" => Publisher::getPublishersCount()+1,
+                "userId" => $id,
+                "profilePhotoId" => 1,
+                "name" => $name,
+                "description" => "-",
+                "balance" => 0,
+                "month" => $now->month,
+                "year" => $now->year,
+                "created_at" => $now,
+                "updated_at" => $now,
+            ]);
+        }
+    }
 }
