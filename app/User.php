@@ -131,33 +131,9 @@ class User
         return false;
     }
 
-    public static function createEmailVerificationToken() {
-        $faker = Faker::create('id_ID');
-        $id = session('id');
-        $token = $faker->md5;
-        DB::table('email_verification_tokens')->insert([
-            "userId" => $id,
-            "token" => $token,
-            "created_at" => Carbon::now(),
-            "updated_at" => Carbon::now(),
-        ]);
-        return $token;
-    }
-
-    public static function isEmailVerificationExist($userId, $token)
-    {
-        $value = DB::table('email_verification_tokens')
-            ->where('userId', $userId)
-            ->where('token', $token)
-            ->first();
-        return $value != null;
-    }
-
     public static function verificateEmail($userId)
     {
-        DB::table('email_verification_tokens')
-            ->where('userId', $userId)
-            ->delete();
+        EmailVerificationToken::deleteByUserId($userId);
         DB::table('users')
             ->where('id', $userId)
             ->update([

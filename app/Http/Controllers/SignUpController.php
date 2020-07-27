@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\EmailVerificationToken;
 use App\Mail\UserVerificationMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,7 +37,7 @@ class SignUpController extends Controller
             return view('pages.signup', $data);
         }
         else {
-            $token = User::createEmailVerificationToken();;
+            $token = EmailVerificationToken::store();
             Mail::to($request->email)->send(new UserVerificationMail($token, session('id')));
             return redirect()->route('email-verification');
         }
@@ -51,7 +52,7 @@ class SignUpController extends Controller
 
     public function verificateEmail(Request $request)
     {
-        if (User::isEmailVerificationExist($request->get('id'),$request->get('token'))) {
+        if (EmailVerificationToken::isEmailVerificationExist($request->get('id'),$request->get('token'))) {
             session(['id' => $request->get('id')]);
             User::verificateEmail($request->get('id'));
             return redirect()->route('dashboard');
