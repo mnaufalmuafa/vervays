@@ -117,15 +117,8 @@ class User
             $token = 0;
         }
         else { // Jika email terdaftar
-            DB::table('password_reset_tokens') //Menghapus token reset password jika ada
-                ->where('userId', User::getIdByEmail($email))
-                ->delete();
-            DB::table('password_reset_tokens')->insert([ //Membuat token reset
-                    "userId" => User::getIdByEmail($email),
-                    "token" => $token,
-                    "created_at" => Carbon::now(),
-                    "updated_at" => Carbon::now(),
-                ]);
+            PasswordResetToken::deleteByUserId(User::getIdByEmail($email)); //Menghapus token reset password jika ada
+            PasswordResetToken::store(User::getIdByEmail($email), $token); //Menyimpan token reset
         }
         return $token;
     }
@@ -148,15 +141,6 @@ class User
         return $result[0]->id ?? 0;
     }
 
-    public static function isPasswordResetRequestExist($userId, $token)
-    {
-        $value = DB::table('password_reset_tokens')
-            ->where('userId', $userId)
-            ->where('token', $token)
-            ->first();
-        return $value != null;
-    }
-
     public static function updatePassword($userId, $newPassword)
     {
         $value = DB::table('users')
@@ -171,9 +155,7 @@ class User
                     "password" => $newPassword,
                     "updated_at" => Carbon::now(),
                 ]);
-            DB::table('password_reset_tokens')
-                ->where('userId', $userId)
-                ->delete();
+            PasswordResetToken::deleteByUserId($userId); //Menghapus token reset password jika ada
             return true; // Tanda jika berhasil update password
         }
         return false; // Tanda jika gagal update password

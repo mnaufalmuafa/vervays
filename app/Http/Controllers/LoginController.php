@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\PasswordResetToken;
 use App\Mail\ForgotPasswordMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -65,7 +66,7 @@ class LoginController extends Controller
     public function changePassword(Request $request)
     {
         $id = User::getIdByEmail($request->get('email'));
-        if (User::isPasswordResetRequestExist($id, $request->get('token'))) {
+        if (PasswordResetToken::isPasswordResetRequestExist($id, $request->get('token'))) {
             $data = [
                 "id" => $id,
             ];
