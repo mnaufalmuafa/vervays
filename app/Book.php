@@ -25,23 +25,6 @@ class Book extends Model
         DB::table('books')->insert($ebookData);
     }
 
-    public static function getCategories()
-    {
-        return DB::table('categories')
-            ->select('id', 'name')
-            ->orderBy('name')
-            ->get()
-            ->all();
-    }
-
-    public static function getLanguages()
-    {
-        return DB::table('languages')
-            ->select('id', 'name')
-            ->get()
-            ->all();
-    }
-
     public static function getNewEbookFilesId()
     {
         return DB::table('ebook_files')->get()->count() + 1;
