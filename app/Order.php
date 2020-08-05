@@ -150,7 +150,7 @@ class Order extends Model
         CURLOPT_HTTPHEADER => array(
             "Accept: application/json",
             "Content-Type: application/json",
-            "Authorization: Basic U0ItTWlkLXNlcnZlci1RMkhTRE5pX1pfcUxGNjRQdEplLUo3RWw6"
+            env("MIDTRANS_AUTHORIZATION")
         ),
         ));
 
@@ -177,7 +177,7 @@ class Order extends Model
         CURLOPT_HTTPHEADER => array(
             "Accept: application/json",
             "Content-Type: application/json",
-            "Authorization: Basic U0ItTWlkLXNlcnZlci1RMkhTRE5pX1pfcUxGNjRQdEplLUo3RWw6"
+            env("MIDTRANS_AUTHORIZATION")
         ),
         ));
 
