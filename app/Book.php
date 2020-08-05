@@ -413,6 +413,11 @@ class Book extends Model
         return DB::table('books')->where('id', $bookId)->pluck('price')[0];
     }
 
+    public static function getTitle($bookId)
+    {
+        return DB::table('books')->where('id', $bookId)->pluck('title')[0];
+    }
+
     public static function getBooksByArrBookId($arrBookId)
     {
         return DB::table('books')->whereIn('id', $arrBookId)->get();

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\EbookFile;
 use App\SampleEbookFile;
+use App\Book;
 
 class ReadController extends Controller
 {
@@ -13,6 +14,7 @@ class ReadController extends Controller
     {
         $data = [
             "bookId" => $request->bookId,
+            "title" => Book::getTitle($request->bookId),
             "ebookURL" => SampleEbookFile::getSampleBookFileURL($request->bookId),
         ];
         return view('pages.buyer.read_sample', $data);
@@ -22,6 +24,7 @@ class ReadController extends Controller
     {
         $data = [
             "bookId" => $request->bookId,
+            "title" => Book::getTitle($request->bookId),
             "ebookURL" => EbookFile::getBookFileURL($request->bookId),
         ];
         return view('pages.buyer.read_book', $data);
