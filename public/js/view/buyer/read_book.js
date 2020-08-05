@@ -95,6 +95,7 @@ pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
     if (intLastRead === 0) {
       intLastRead = 1;
     }
+    pageNum = intLastRead;
     renderPage(intLastRead);
   });
 }).catch(err => {
