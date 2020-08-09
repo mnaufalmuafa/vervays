@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use App\Publisher;
+use App\Reviews;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -61,8 +62,8 @@ class Book extends Model
                 "author" => $book->author,
                 "imageURL" => Book::getEbookCoverURL($book->ebookCoverId),
                 "synopsis" => $book->synopsis,
-                "rating" => Book::getBookRating($book->id),
-                "ratingCount" => Book::getBookRatingCount($book->id),
+                "rating" => Reviews::getBookRating($book->id),
+                "ratingCount" => Reviews::getBookRatingCount($book->id),
                 "soldCount" => Book::getBookSoldCount($book->id),
                 "price" => Book::convertPriceToCurrencyFormat($book->price),
             ]);
@@ -77,24 +78,6 @@ class Book extends Model
             ->first()
             ->name;
         return url("ebook/ebook_cover/".$ebookCoverId."/".$fileName);
-    }
-
-    public static function getBookRating($id)
-    {
-        $rating = DB::table('reviews')
-            ->join('have', 'reviews.haveId', '=', 'have.id')
-            ->where('bookId', $id)
-            ->avg('rating');
-        return $rating ?? 0;
-    }
-
-    public static function getBookRatingCount($id)
-    {
-        $ratingCount = DB::table('reviews')
-            ->join('have', 'reviews.haveId', '=', 'have.id')
-            ->where('bookId', $id)
-            ->count();
-        return $ratingCount ?? 0;
     }
 
     public static function getBookSoldCount($id)
@@ -214,7 +197,7 @@ class Book extends Model
         }
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
-            $rating = Book::getBookRating($bookArray[$i]["id"]);
+            $rating = Reviews::getBookRating($bookArray[$i]["id"]);
             $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
             $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
@@ -236,7 +219,7 @@ class Book extends Model
         }
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
-            $rating = Book::getBookRating($bookArray[$i]["id"]);
+            $rating = Reviews::getBookRating($bookArray[$i]["id"]);
             $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
             $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
@@ -269,7 +252,6 @@ class Book extends Model
                 array_push($pureArrBooksId, $arrBooksId[$i]->id);
             }
         }
-        //
         $books = DB::table('books')
             ->select('id', 'title', 'author', 'price',  'ebookCoverId')
             ->where('isDeleted', '0')
@@ -281,7 +263,7 @@ class Book extends Model
         }
         $bookArray = json_decode(json_encode($books), true); //mengubah objek menjadi array
         for ($i=0; $i < count($books); $i++) { 
-            $rating = Book::getBookRating($bookArray[$i]["id"]);
+            $rating = Reviews::getBookRating($bookArray[$i]["id"]);
             $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
             $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
@@ -311,13 +293,11 @@ class Book extends Model
         $query = $query.$addOnQuery;
         $books = DB::select($query, [1]);
         foreach ($books as $book) {
-            $book->rating = Book::getBookRating($book->id);
-            // $book->rating = 5.0;
-            $book->ratingCount = Book::getBookRatingCount($book->id);
+            $book->rating = Reviews::getBookRating($book->id);
+            $book->ratingCount = Reviews::getBookRatingCount($book->id);
             $book->soldCount = Book::getBookSoldCount($book->id);
             $book->priceForHuman = Book::convertPriceToCurrencyFormat($book->price);
         }
-        // dd($books[0]);
         return response()->json($books);
     }
 
@@ -344,10 +324,10 @@ class Book extends Model
         $book->language = Book::getLanguageName($book->languageId);
         $book->category = Book::getCategoryName($book->categoryId);
         $book->publisher = Publisher::getPublisherName($book->publisherId);
-        $rating = Book::getBookRating($book->id);
+        $rating = Reviews::getBookRating($book->id);
         $rating = number_format((float) $rating, 1, '.', '');
         $book->rating = $rating;
-        $book->ratingCount = Book::getBookRatingCount($book->id);
+        $book->ratingCount = Reviews::getBookRatingCount($book->id);
         $book->soldCount = Book::getBookSoldCount($book->id);
         $book->imageURL = Book::getEbookCoverURL($book->ebookCoverId);
         unset($book->ebookCoverId);
@@ -494,7 +474,7 @@ class Book extends Model
                         ->get();
         $data = [];
         foreach ($books as $book) {
-            $rating = Book::getBookRating($book->id);
+            $rating = Reviews::getBookRating($book->id);
             $rating = number_format((float) $rating, 1, '.', '');
             array_push($data,[
                 "id" => $book->id,
@@ -503,7 +483,7 @@ class Book extends Model
                 "imageURL" => Book::getEbookCoverURL($book->ebookCoverId),
                 "synopsis" => $book->synopsis,
                 "rating" => $rating,
-                "ratingCount" => Book::getBookRatingCount($book->id),
+                "ratingCount" => Reviews::getBookRatingCount($book->id),
                 "soldCount" => Book::getBookSoldCount($book->id),
                 "price" => Book::convertPriceToCurrencyFormat($book->price),
             ]);

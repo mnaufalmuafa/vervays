@@ -36,4 +36,22 @@ class Reviews
     {
         return DB::table('reviews')->get()->count() + 1;
     }
+
+    public static function getBookRating($id)
+    {
+        $rating = DB::table('reviews')
+            ->join('have', 'reviews.haveId', '=', 'have.id')
+            ->where('bookId', $id)
+            ->avg('rating');
+        return $rating ?? 0;
+    }
+
+    public static function getBookRatingCount($id)
+    {
+        $ratingCount = DB::table('reviews')
+            ->join('have', 'reviews.haveId', '=', 'have.id')
+            ->where('bookId', $id)
+            ->count();
+        return $ratingCount ?? 0;
+    }
 }
