@@ -37,15 +37,23 @@ $(document).ready(function() {
 
   $('#linkLogout').click(function(event) {
     event.preventDefault();
-    var isLogout = confirm("Apakah yakin ingin logout?");
-    if (isLogout) {
-      $.ajax({
-        url : "/logout",
-        method : "POST",
-      }).done(function() {
-        window.location.href = "/";
-      });
-    }
+    Swal.fire({
+      title: 'Apakah anda yakin ingin logout?',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya',
+      cancelButtonText : 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url : "/logout",
+          method : "POST",
+        }).done(function() {
+          window.location.href = "/";
+        });
+      }
+    });
   });
 
   $('#linkMenjadiPublisher').click(function(event) {
@@ -61,7 +69,6 @@ $(document).ready(function() {
 
 function NavbarWindowChangeListener() {
   var width = $(window).width();
-  // $('#tesLayar').html(width);
   if (width < 992) {
     $("#navbarSeparator").hide();
   }

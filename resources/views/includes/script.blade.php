@@ -9,6 +9,7 @@
   integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" 
   crossorigin="anonymous">
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script
   type="text/javascript"
   src="{{ url('js/component/navbar.js') }}">
