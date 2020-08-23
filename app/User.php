@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 
@@ -12,11 +13,10 @@ class User
     {
         $user = DB::table('users')
             ->where('email', $email)
-            ->where('password', $password)
             ->where('isDeleted', '0')
-            ->select('id')
+            ->select('id', 'hashed_password')
             ->first();
-        if ($user == null) {
+        if ($user == null || !Hash::check($password, $user->hashed_password)) {
             return 0;
         }
         else {
@@ -41,6 +41,7 @@ class User
                 "isDeleted" => 0,
                 "email" => $email,
                 "password" => $password,
+                "hashed_password" => Hash::make($password),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -153,6 +154,7 @@ class User
                 ->where('isDeleted', '0')
                 ->update([
                     "password" => $newPassword,
+                    "hashed_password" => Hash::make($newPassword),
                     "updated_at" => Carbon::now(),
                 ]);
             PasswordResetToken::deleteByUserId($userId); //Menghapus token reset password jika ada
