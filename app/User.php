@@ -41,8 +41,6 @@ class User
                 "isDeleted" => 0,
                 "email" => $email,
                 "password" => Hash::make($password),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
             ]);
             session(['id' => $id]);
             return 1;
@@ -95,7 +93,6 @@ class User
             ->where('id', $userId)
             ->update([
                 "email_verified_at" => Carbon::now(),
-                "updated_at" => Carbon::now(),
             ]);
     }
 
@@ -153,7 +150,6 @@ class User
                 ->where('isDeleted', '0')
                 ->update([
                     "password" => Hash::make($newPassword),
-                    "updated_at" => Carbon::now(),
                 ]);
             PasswordResetToken::deleteByUserId($userId); //Menghapus token reset password jika ada
             return true; // Tanda jika berhasil update password
@@ -175,19 +171,19 @@ class User
     {
         $userId = session('id');
         if ($firstName != "") {
-            DB::table('users')->where('id', $userId)->update(["firstName" => $firstName, "updated_at" => Carbon::now()]);
+            DB::table('users')->where('id', $userId)->update(["firstName" => $firstName,]);
         }
         if ($lastName != "") {
-            DB::table('users')->where('id', $userId)->update(["lastName" => $lastName, "updated_at" => Carbon::now()]);
+            DB::table('users')->where('id', $userId)->update(["lastName" => $lastName,]);
         }
         if ($birthDay != "") {
-            DB::table('users')->where('id', $userId)->update(["birthDay" => $birthDay, "updated_at" => Carbon::now()]);
+            DB::table('users')->where('id', $userId)->update(["birthDay" => $birthDay,]);
         }
         if ($phoneNum != "") {
-            DB::table('users')->where('id', $userId)->update(["phoneNumber" => $phoneNum, "updated_at" => Carbon::now()]);
+            DB::table('users')->where('id', $userId)->update(["phoneNumber" => $phoneNum,]);
         }
         if ($gender != "") {
-            DB::table('users')->where('id', $userId)->update(["gender" => $gender, "updated_at" => Carbon::now()]);
+            DB::table('users')->where('id', $userId)->update(["gender" => $gender,]);
         }
     }
 
@@ -213,7 +209,6 @@ class User
         }
         DB::table('users')->where('id', $userId)->update([
             "isDeleted" => 1,
-            "updated_at" => Carbon::now(),
         ]);
         Order::cancelAllOrderByUserId($userId);
         session(['id' => 0]);
