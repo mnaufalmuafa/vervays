@@ -14,9 +14,9 @@ class User
         $user = DB::table('users')
             ->where('email', $email)
             ->where('isDeleted', '0')
-            ->select('id', 'hashed_password')
+            ->select('id', 'password')
             ->first();
-        if ($user == null || !Hash::check($password, $user->hashed_password)) {
+        if ($user == null || !Hash::check($password, $user->password)) {
             return 0;
         }
         else {
@@ -40,8 +40,7 @@ class User
                 "lastName" => $lastName,
                 "isDeleted" => 0,
                 "email" => $email,
-                "password" => $password,
-                "hashed_password" => Hash::make($password),
+                "password" => Hash::make($password),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -153,8 +152,7 @@ class User
                 ->where('id', $userId)
                 ->where('isDeleted', '0')
                 ->update([
-                    "password" => $newPassword,
-                    "hashed_password" => Hash::make($newPassword),
+                    "password" => Hash::make($newPassword),
                     "updated_at" => Carbon::now(),
                 ]);
             PasswordResetToken::deleteByUserId($userId); //Menghapus token reset password jika ada
@@ -195,7 +193,7 @@ class User
 
     public static function isPasswordTrue($userId, $password)
     {
-        $hashedPassword = DB::table('users')->where('id', $userId)->pluck('hashed_password')[0];
+        $hashedPassword = DB::table('users')->where('id', $userId)->pluck('password')[0];
         return Hash::check($password, $hashedPassword);
     }
 
