@@ -232,8 +232,5 @@
 @endsection
 
 @push('add-on-script')
-  <script
-    src="{{ url('js/library/bootstrap-notify.js') }}">
-  </script>
   <script src="{{ url('js/view/buyer/ebook_info.js') }}"></script>
 @endpush

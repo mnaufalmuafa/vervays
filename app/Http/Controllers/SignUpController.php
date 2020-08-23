@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\EmailVerificationToken;
+use App\FlashMessages;
 use App\Mail\UserVerificationMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -55,6 +56,12 @@ class SignUpController extends Controller
         if (EmailVerificationToken::isEmailVerificationExist($request->get('id'),$request->get('token'))) {
             session(['id' => $request->get('id')]);
             User::verificateEmail($request->get('id'));
+
+            $flashMessages = new FlashMessages();
+            $flashMessages->userId = $request->get('id');
+            $flashMessages->allotmentId = 1;
+            $flashMessages->save();
+
             return redirect()->route('dashboard');
         }
         else {

@@ -96,6 +96,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::get('/update_last_read/{bookId}/{lastRead}', 'api\HaveController@updateLastRead');
             Route::get('/get_last_read/{bookId}', 'api\HaveController@getLastRead');
             Route::get('/get_user_books', 'api\BookController@getUserBooks');
+            Route::get('/flash_messages', 'api\FlashMessageController@getFlashMessages');
         });
 
         Route::prefix('/post')->group(function() {
