@@ -195,7 +195,8 @@ class User
 
     public static function isPasswordTrue($userId, $password)
     {
-        return DB::table('users')->where('id', $userId)->pluck('password')[0] == $password;
+        $hashedPassword = DB::table('users')->where('id', $userId)->pluck('hashed_password')[0];
+        return Hash::check($password, $hashedPassword);
     }
 
     public static function getPublisherId($userId)
