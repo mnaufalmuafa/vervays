@@ -3,6 +3,7 @@ $(document).ready(function(){
 	setChangeProfileFormOnSubmitListener();
 	setUpChangePasswordForm();
 	setUpDeleteAccount();
+	setUpAlert();
 });
 
 function setUpGenderRadioButton() {
@@ -29,7 +30,6 @@ function setChangeProfileFormOnSubmitListener() {
 		else if ($("#inputRadioPR:checked").val()) {
 			gender = "female";
 		}
-		console.log({firstName, lastName, birthDay, phoneNum, gender});
 		$.ajax({
 			url : "/post/update_profile",
 			method : "POST",
@@ -41,6 +41,7 @@ function setChangeProfileFormOnSubmitListener() {
 				gender : gender
 			}
 		}).done(function() {
+			storeFlashMessage("Berhasil mengubah profil", "success", 2);
 			location.reload();
 		});
 	});
@@ -72,12 +73,11 @@ function setUpChangePasswordForm() {
 						password : $("#inputNewPassword").val()
 					}
 				}).done(function() {
+					storeFlashMessage("Berhasil mengubah password", "success", 2);
 					location.reload();
 				});
 			}
 			else {
-				var newPassword = $("#inputNewPassword").val();
-				console.log({newPassword});
 				$("#btnSubmitChangePassword").prop('disabled', false);
 			}
 		});
