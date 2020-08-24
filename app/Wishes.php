@@ -82,4 +82,20 @@ class Wishes
         }
         return json_encode(false);
     }
+
+    public static function removeAllBookByPublisherId($publisherId)
+    {
+        DB::table('wishes')
+                    ->join('books', 'wishes.bookId', '=', 'books.id')
+                    ->join('publishers', 'books.publisherId', '=', 'publishers.id')
+                    ->where('publishers.id', $publisherId)
+                    ->delete();
+    }
+
+    public static  function removeAllBookByBookId($bookId)
+    {
+        DB::table('wishes')
+            ->where('bookId', $bookId)
+            ->delete();
+    }
 }

@@ -219,9 +219,13 @@ class Publisher
                 "balance" => 0,
                 "month" => $now->month,
                 "year" => $now->year,
-                "created_at" => $now,
-                "updated_at" => $now,
             ]);
         }
+    }
+
+    public static function destroy($id)
+    {
+        Book::deleteAllPublisherBooks($id);
+        DB::table('publishers')->where('id', $id)->update(['isDeleted'=> 1,]);
     }
 }

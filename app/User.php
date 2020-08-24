@@ -206,6 +206,9 @@ class User
             if (Publisher::getBalance($publisherId) > 0) { // Jika pengguna masih memiliki saldo penerbit
                 return "Maaf, akun tidak dapat dihapus karena anda masih memiliki saldo (cairkan semua saldo agar dapat menghapus akun)";
             }
+            else {
+                Publisher::destroy($publisherId);
+            }
         }
         DB::table('users')->where('id', $userId)->update([
             "isDeleted" => 1,

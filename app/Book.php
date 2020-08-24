@@ -180,8 +180,15 @@ class Book extends Model
         $book = Book::find($id);
         $book->isDeleted = 1;
         $book->save();
-        DB::table('carts')->where("bookId", $id)->delete();
-        DB::table('wishes')->where("bookId", $id)->delete();
+        Cart::removeAllBookByBookId($id);
+        Wishes::removeAllBookByBookId($id);
+    }
+
+    public static function deleteAllPublisherBooks($publisherId)
+    {
+        Cart::removeAllBookByPublisherId($publisherId);
+        Wishes::removeAllBookByPublisherId($publisherId);
+        DB::statement('UPDATE `books` SET `isDeleted` = 1 WHERE `publisherId` = '.$publisherId);
     }
 
     public static function getSixNewestBookForBuyerDashboard()

@@ -94,4 +94,20 @@ class Cart
     {
         return number_format($price,0,',','.');
     }
+
+    public static function removeAllBookByPublisherId($publisherId)
+    {
+        DB::table('carts')
+                ->join('books', 'carts.bookId', '=', 'books.id')
+                ->join('publishers', 'books.publisherId', '=', 'publishers.id')
+                ->where('publishers.id', $publisherId)
+                ->delete();
+    }
+
+    public static  function removeAllBookByBookId($bookId)
+    {
+        DB::table('carts')
+            ->where('bookId', $bookId)
+            ->delete();
+    }
 }
