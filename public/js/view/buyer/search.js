@@ -138,8 +138,6 @@ function showBookListWithFilter(arrBook) {
     clone.querySelector("span.author-text").innerHTML = filteredArrBook[i].author;
     clone.querySelector("p.synopsis").innerHTML = filteredArrBook[i].synopsis;
     clone.querySelector("span.price").innerHTML = filteredArrBook[i].priceForHuman;
-    // filteredArrBook[i].rating = filteredArrBook[i].rating.toPrecision(2);
-    var rating = filteredArrBook[i].rating;
     clone.querySelector("span.rating").innerHTML = filteredArrBook[i].rating;
     clone.querySelector("span.ratingCount").innerHTML = filteredArrBook[i].ratingCount;
     clone.querySelector("span.soldCount").innerHTML = filteredArrBook[i].soldCount;
@@ -173,8 +171,6 @@ function prepareAfterAjax(data, wouldDisplayCategoryAndLanguageFilter) {
     // Jika ada buku yang sesuai dengan kata kunci pencarian dan jika filter akan ditampilkan
     displayCategoryAndLanguageFilter(arrBook);
   }
-  // showBookList(arrBook);
-  // showAllRating();
   setListOnClickListener(arrBook);
   setOrderOptionListener(arrBook);
   return true;
