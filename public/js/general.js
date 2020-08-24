@@ -1,7 +1,7 @@
 // File ini berisi fungsi fungsi yang umum digunakan
 console.log("general func");
 
-function storeFlahMessage(message, type, allotmentId) {
+function storeFlashMessage(message, type, allotmentId) {
   $.ajax({
     url : "/post/store_flash_message",
     method : "POST",

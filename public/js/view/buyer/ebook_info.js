@@ -350,7 +350,7 @@ function addBookToCart() {
     $('#btnAddToCart').html("Hapus dari Keranjang");
     $('#btnAddToCart').attr("onclick", "deleteBookFromCart()");
     $('#btnAddToCart').attr("id", "btnDeleteFromCart");
-    storeFlahMessage("Berhasil menambah ebook ke keranjang belanja", "success", 2);
+    storeFlashMessage("Berhasil menambah ebook ke keranjang belanja", "success", 2);
     setUpAlert();
   });
 }
@@ -366,7 +366,7 @@ function deleteBookFromCart() {
     $('#btnDeleteFromCart').html("Tambah ke Keranjang");
     $('#btnDeleteFromCart').attr("onclick", "addBookToCart()");
     $('#btnDeleteFromCart').attr("id", "btnAddToCart");
-    storeFlahMessage("Berhasil menghapus ebook dari keranjang belanja", "success", 2);
+    storeFlashMessage("Berhasil menghapus ebook dari keranjang belanja", "success", 2);
     setUpAlert();
   });
 }
@@ -401,7 +401,7 @@ function addBookToWishList() {
     $('#btnAddToWishList').html("Hapus dari Wishlist");
     $('#btnAddToWishList').attr("onclick", "removeBookFromWishList()");
     $('#btnAddToWishList').attr("id", "btnDeleteFromWishList");
-    storeFlahMessage("Berhasil menambah ebook ke wishlist", "success", 2);
+    storeFlashMessage("Berhasil menambah ebook ke wishlist", "success", 2);
     setUpAlert();
   });
 }
@@ -417,7 +417,7 @@ function removeBookFromWishList() {
     $('#btnDeleteFromWishList').html("Tambah ke Wishlist");
     $('#btnDeleteFromWishList').attr("onclick", "addBookToWishList()");
     $('#btnDeleteFromWishList').attr("id", "btnAddToWishList");
-    storeFlahMessage("Berhasil menghapus ebook dari wishlist", "success", 2);
+    storeFlashMessage("Berhasil menghapus ebook dari wishlist", "success", 2);
     setUpAlert();
   });
 }
