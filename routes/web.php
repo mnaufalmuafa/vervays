@@ -110,6 +110,7 @@ Route::middleware(['IsLogin'])->group(function() {
             Route::post('/is_password_true', 'api\UserController@isPasswordTrue');
             Route::post('/update_password', 'api\UserController@updatePassword');
             Route::post('/destroy_account', 'api\UserController@destroy');
+            Route::post('/store_flash_message', 'api\FlashMessageController@store');
         });
 
         // UNTUK PUBLISHER

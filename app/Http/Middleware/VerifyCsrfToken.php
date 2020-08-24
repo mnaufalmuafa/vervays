@@ -15,5 +15,6 @@ class VerifyCsrfToken extends Middleware
         '/logout',
         '/bepublisher',
         '/post/create_order',
+        'post/store_flash_message',
     ];
 }

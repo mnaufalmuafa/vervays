@@ -17,3 +17,7 @@
   type="text/javascript"
   src="{{ url('js/component/navbar.js') }}">
 </script>
+<script
+  type="text/javascript"
+  src="{{ url('js/general.js') }}">
+</script>

@@ -14,4 +14,14 @@ class FlashMessageController extends Controller
         FlashMessages::where('userId', session('id'))->delete();
         return response()->json($flashMessages);
     }
+
+    public function store(Request $request)
+    {
+        $flashMessages = new FlashMessages();
+        $flashMessages->userId = session('id');
+        $flashMessages->message = $request->post('message');
+        $flashMessages->type = $request->post('type');
+        $flashMessages->allotmentId = $request->post('allotmentId');
+        $flashMessages->save();
+    }
 }
