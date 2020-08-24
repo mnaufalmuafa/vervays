@@ -110,19 +110,31 @@ function setUpInputRetypeNewPassword() {
 
 function setUpDeleteAccount() {
 	$("#deleteAccount").click(function() {
-		var con = confirm("Apakah anda yakin ingin menghapus akun ?");
-		if(con) {
-			$.ajax({
-				url : "/post/destroy_account",
-				method : "POST"
-			}).done(function(res) {
-				if (res != "success") {
-					alert(res);
-				}
-				else {
-					window.location.href = "/";
-				}
-			});
-		}
+    Swal.fire({
+      title: 'Apakah anda yakin ingin menghapus akun ?',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Ya',
+      cancelButtonText : 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url : "/post/destroy_account",
+          method : "POST"
+        }).done(function(res) {
+          if (res != "success") {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: res,
+            });
+          }
+          else {
+            window.location.href = "/";
+          }
+        });
+      }
+    });
 	});
 }
