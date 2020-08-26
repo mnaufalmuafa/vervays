@@ -87,15 +87,23 @@ function setTrashIconOnClickListener() {
   $(".ic-trash").click(function() {
     var id = $(this).attr("data-book-id");
     var title = $(this).attr("data-book-title");
-    var willDeleteBookFromCart = confirm("Apakah anda yakin akan menghapus buku \""+title+"\" dari keranjang ?");
-    if (willDeleteBookFromCart) {
-      $.ajax({
-        url : "/post/remove_book_from_cart/"+id,
-        method : "POST"
-      }).done(function() {
-        location.reload();
-      });
-    }
+    Swal.fire({
+      title: "Apakah anda yakin akan menghapus buku \""+title+"\" dari keranjang ?",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText : 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url : "/post/remove_book_from_cart/"+id,
+          method : "POST"
+        }).done(function() {
+          location.reload();
+        });
+      }
+    });
   });
 }
 
