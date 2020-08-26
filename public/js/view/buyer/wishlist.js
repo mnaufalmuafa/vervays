@@ -96,16 +96,24 @@ function setBookOnClickListener() {
 function setTrashIconOnClickListener() {
 	$(".ic-trash").click(function() {
 		var id = $(this).attr("data-book-id");
-		var title = $(this).attr("data-book-title");
-		var removeBook = confirm("Apakah anda yakin ingin menghapus buku \""+title+"\" dari wishlist?");
-		if (removeBook) {
-			$.ajax({
-				url : "/post/remove_book_from_wish_list/"+id,
-				method : "POST"
-			}).done(function() {
-				location.reload();
-			});
-		}
+    var title = $(this).attr("data-book-title");
+    Swal.fire({
+      title: "Apakah anda yakin ingin menghapus buku \""+title+"\" dari wishlist?",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText : 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          url : "/post/remove_book_from_wish_list/"+id,
+          method : "POST"
+        }).done(function() {
+          location.reload();
+        });
+      }
+    });
 	});
 }
 
