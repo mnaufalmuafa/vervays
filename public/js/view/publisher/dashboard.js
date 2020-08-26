@@ -23,19 +23,27 @@ function setBtnTambahBukuOnClickListener() {
 function setTrashIconOnClickListener() {
   $('.ic-trash').click(function() {
     console.log("hapus");
-    var wantDelete = confirm("Apakah anda yakin ingin menghapus buku \""+$(this).attr("book-title")+'" ?');
-    if (wantDelete) {
-      var id = $(this).attr("book-id");
-      $.ajax({
-        url : "/publisher/delete/book",
-        method : "POST",
-        data : {
-          "id" : id
-        }
-      }).done(function() {
-        window.location.href = "/publisher/dashboard";
-      });
-    }
+    Swal.fire({
+      title: "Apakah anda yakin akan menghapus buku \""+$(this).attr("book-title")+' ?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText : 'Tidak'
+    }).then((result) => {
+      if (result.value) {
+        var id = $(this).attr("book-id");
+        $.ajax({
+          url : "/publisher/delete/book",
+          method : "POST",
+          data : {
+            "id" : id
+          }
+        }).done(function() {
+          window.location.href = "/publisher/dashboard";
+        });
+      }
+    });
   });
 }
 
