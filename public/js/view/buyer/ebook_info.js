@@ -247,19 +247,27 @@ function setAsideButtonDisplay() {
         window.location.href = "/publisher/edit/book?id="+bookId;
       });
       $('#btnDelete').click(function() {
-        var wantDelete = confirm("Apakah anda yakin ingin menghapus buku \""+$(this).attr("data-title")+'" ?');
-        if (wantDelete) {
-          var id = bookId;
-          $.ajax({
-            url : "/publisher/delete/book",
-            method : "POST",
-            data : {
-              "id" : id
-            }
-          }).done(function() {
-            window.location.href = "/publisher/dashboard";
-          });
-        }
+        Swal.fire({
+          title: "Apakah anda yakin ingin menghapus buku \""+$(this).attr("data-title")+'" ?',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya',
+          cancelButtonText : 'Tidak'
+        }).then((result) => {
+          if (result.value) {
+            var id = bookId;
+            $.ajax({
+              url : "/publisher/delete/book",
+              method : "POST",
+              data : {
+                "id" : id
+              }
+            }).done(function() {
+              window.location.href = "/publisher/dashboard";
+            });
+          }
+        });
       });
     }
     else if (role == 3) {
