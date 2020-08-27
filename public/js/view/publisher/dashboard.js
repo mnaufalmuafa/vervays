@@ -42,7 +42,8 @@ function setTrashIconOnClickListener() {
           }
         }).done(function() {
           storeFlashMessage("Berhasil menghapus buku "+"\""+title+"\"", "success", 2);
-          window.location.href = "/publisher/dashboard";
+          $("#book-card-"+id).remove();
+          setUpAlert();
         });
       }
     });
