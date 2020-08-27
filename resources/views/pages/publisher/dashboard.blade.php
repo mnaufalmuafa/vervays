@@ -61,8 +61,8 @@
     <h4 class="d-inline">Data Buku</h4>
     <button class="button d-inline float-right" id="btnTambahBuku">Tambah Buku</button>
   </div>
-  @foreach ($books as $book)
-    <div class="container-fluid">
+  <div class="container-fluid">
+    @foreach ($books as $book)
       <div 
         class="row card-book"
         rating="{{ $book["rating"] }}"
@@ -124,8 +124,8 @@
             book-title="{{ $book["title"] }}">Lihat detail buku</button>
         </div>
       </div>
-    </div>
-  @endforeach
+    @endforeach
+  </div>
 @endsection
 
 @push('add-on-script')
