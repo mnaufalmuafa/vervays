@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  setUpAlert();
   setBtnUbahDataOnClickListener();
   setUpBtnCashout();
   setBtnTambahBukuOnClickListener();
@@ -22,9 +23,9 @@ function setBtnTambahBukuOnClickListener() {
 
 function setTrashIconOnClickListener() {
   $('.ic-trash').click(function() {
-    console.log("hapus");
+    var title = $(this).attr("book-title");
     Swal.fire({
-      title: "Apakah anda yakin akan menghapus buku \""+$(this).attr("book-title")+' ?',
+      title: "Apakah anda yakin akan menghapus buku \""+title+' ?',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -40,6 +41,7 @@ function setTrashIconOnClickListener() {
             "id" : id
           }
         }).done(function() {
+          storeFlashMessage("Berhasil menghapus buku "+"\""+title+"\"", "success", 2);
           window.location.href = "/publisher/dashboard";
         });
       }
