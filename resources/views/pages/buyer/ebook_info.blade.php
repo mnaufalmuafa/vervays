@@ -15,7 +15,10 @@
 @endsection
 
 @section('content')
-  <div class="container-fluid">
+  <div class="container-fluid d-none" id="exception-container">
+    <h2 class="text-center mt-3">Hmmm.... Buku telah terhapus</h2>
+  </div>
+  <div class="container-fluid d-none" id="main-container">
     <div class="row mt-2">
       <div class="col-2">
         <img 

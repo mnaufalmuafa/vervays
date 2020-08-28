@@ -325,7 +325,6 @@ class Book extends Model
     {
         $book = DB::table('books')
                     ->where('id', $id)
-                    ->where('isDeleted', '0')
                     ->first();
         $book->priceForHuman = Book::convertPriceToCurrencyFormat($book->price);
         $book->language = Book::getLanguageName($book->languageId);

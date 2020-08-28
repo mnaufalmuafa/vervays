@@ -38,4 +38,9 @@ class BookController extends Controller
     {
         return Book::getPublisherName($request->bookId);
     }
+
+    public function isBookNotDeleted(Request $request)
+    {
+        return response()->json(Book::isBookNotDeleted($request->get('id')));
+    }
 }

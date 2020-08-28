@@ -1,12 +1,29 @@
 $(document).ready(function() {
-  setAsideButtonDisplay();
-  setRating("first");
-  setPublisherTextOnClickListener();
-  setReleaseDateFormat();
-  setRating("rating");
-  setRatingProgress();
-  displayReview();
+  checkBookAvailability();
 });
+
+function checkBookAvailability() {
+  var id = $('meta[name=book-id]').attr("content");
+  $.ajax({
+    url : '/get/is_book_not_deleted',
+    method : "GET",
+    data : { id }
+  }).done(function(isNotDeleted) {
+    if (isNotDeleted) {
+      $("#main-container").attr("class", "container-fluid");
+      setAsideButtonDisplay();
+      setRating("first");
+      setPublisherTextOnClickListener();
+      setReleaseDateFormat();
+      setRating("rating");
+      setRatingProgress();
+      displayReview();
+    }
+    else {
+      $("#exception-container").attr("class", "container-fluid");
+    }
+  });
+}
 
 function setRating(section) {
   var rating = $('.first-section p.rating').html();

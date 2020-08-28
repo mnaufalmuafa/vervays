@@ -1,5 +1,4 @@
 // File ini berisi fungsi fungsi yang umum digunakan
-console.log("general func");
 
 function storeFlashMessage(message, type, allotmentId) {
   $.ajax({
@@ -18,7 +17,6 @@ function setUpAlert() {
     url : "/get/flash_messages",
     method : "GET",
   }).done(function(data) {
-    console.log(data);
     for (let i = 0; i < data.length; i++) {
       if (data[i].allotmentId == 1) {
         Swal.fire({
@@ -44,7 +42,7 @@ function showAlert(message, type) {
   },{
     // settings
     type: type,
-    newest_on_top : true,
+    newest_on_top : false,
   });
 }
 
