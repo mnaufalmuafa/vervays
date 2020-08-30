@@ -55,29 +55,6 @@ $(document).ready(function() {
   });
 });
 
-function showAllRating() {
-  $('.card-book').each(function() {
-    var rating = $(this).attr("rating");
-    var id = $(this).attr("id");
-    rating = Math.floor(rating);
-    if (rating >= 1) {
-      $('#'+id+' .first-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 2) {
-      $('#'+id+' .second-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 3) {
-      $('#'+id+' .third-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 4) {
-      $('#'+id+' .fourth-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating == 5) {
-      $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
-    }
-  });
-}
-
 function showBookList(arrBook) {
   arrBook = sortArrBook(arrBook);
   removeAllBook(arrBook);
@@ -300,28 +277,5 @@ function setBookOnClickListener(arrBook) {
     $('#book-'+item.id).click(function() {
       window.location.href = "/book/detail/"+item.id+"/"+string_to_slug(item.title);
     });
-  });
-}
-
-function setAllRating() {
-  $(".card-book").each(function() {
-    var id = $(this).attr("id");
-    var rating = $('#'+id+" span.rating").html();
-    rating = Math.floor(rating);
-    if (rating >= 1) {
-      $('#'+id+' .first-star').attr("src", "/image/icon/yellow_star.png");
-    }
-    if (rating >= 2) {
-      $('#'+id+' .second-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 3) {
-      $('#'+id+' .third-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 4) {
-      $('#'+id+' .fourth-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating == 5) {
-      $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
-    }
   });
 }

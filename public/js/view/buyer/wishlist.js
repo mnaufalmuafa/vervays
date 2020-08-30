@@ -7,7 +7,6 @@ function showWishlist() {
 		url : "/get/user_wishlist",
 		method : "GET"
 	}).done(function(data) {
-		console.log({data});
 		if (data.length == 0) {
 			showExceptionContainer();
 			$("#btnSearchBook").click(function() {
@@ -47,29 +46,6 @@ function showWishlist() {
 			setUpBtnBuy();
 		}
 	});
-}
-
-function setAllRating() {
-  $(".card-book").each(function() {
-    var id = $(this).attr("id");
-    var rating = $('#'+id+" span.rating").html();
-    rating = Math.floor(rating);
-    if (rating >= 1) {
-      $('#'+id+' .first-star').attr("src", "/image/icon/yellow_star.png");
-    }
-    if (rating >= 2) {
-      $('#'+id+' .second-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 3) {
-      $('#'+id+' .third-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 4) {
-      $('#'+id+' .fourth-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating == 5) {
-      $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
-    }
-  });
 }
 
 function setBookOnClickListener() {
