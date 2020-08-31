@@ -41,7 +41,7 @@
               {{-- diisi item buku --}}
             </section>
             <section class="third-section">
-              <p class="total-price text-right mt-1">Total Rp. <span>72.000</span></p>
+              <p class="total-price text-right mt-1">Total <span>72.000</span></p>
             </section>
           </div>
         </div>
@@ -59,7 +59,7 @@
               <p class="title">Judul Buku</p>
               <p class="author-info">Ditulis oleh <span>Nama Penulis</span></p>
               <p class="publisher">Penerbit</p>
-              <p class="float-right mt-5 price">Rp. <span>34.000</span></p>
+              <p class="float-right mt-5 price"><span>34.000</span></p>
             </div>
           </div>
           <hr>

@@ -57,7 +57,7 @@
         <div class="card px-2 py-2">
           <div class="card-first-section row pr-3">
             <p class="d-inline col">Total harga</p>
-            <p class="d-inline text-right col" id="total-amount">Rp <span>156.000</span></p>
+            <p class="d-inline text-right col" id="total-amount"><span>156.000</span></p>
           </div>
           <hr>
           <div class="card-second-section">

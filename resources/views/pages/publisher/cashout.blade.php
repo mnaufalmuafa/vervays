@@ -17,7 +17,7 @@
     <div class="form-group row"> 
       <label for="totalBalance" class="col-sm-2 col-form-label">Total Saldo</label>
       <div class="col-sm-10">
-        <p id="totalBalance" class="col-sm-2 col-form-label pl-0">Rp. <span class="info-balance">{{ $balance }}</span></p>
+        <p id="totalBalance" class="col-sm-2 col-form-label pl-0"><span class="info-balance">{{ $balance }}</span></p>
       </div>
     </div>
     <div class="form-group row">

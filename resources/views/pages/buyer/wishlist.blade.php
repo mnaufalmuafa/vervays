@@ -67,7 +67,7 @@
             </div>
             <p class="d-inline-block mt-3"><span class="rating">4.5</span> &emsp; (<span class="ratingCount">25</span> Ulasan) &emsp; <span class="soldCount">100</span>x terjual</p>
           </div>
-          <p class="price font-weight-bold d-inline">Rp. <span class="price">154.000</span></p>
+          <p class="price font-weight-bold d-inline"><span class="price">154.000</span></p>
           <img 
             src="{{ url('/image/ic_trash.png') }}" 
             alt="ic_trash"
