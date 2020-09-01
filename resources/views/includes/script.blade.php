@@ -12,6 +12,7 @@
 <script
   src="{{ url('js/library/bootstrap-notify.js') }}">
 </script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script
   type="text/javascript"

@@ -20,66 +20,78 @@
   </div>
   <div class="main-section container-fluid">
     <h2 class="font-weight-bold mt-2">Wishlist</h2>
-    <template id="bookTemplate">
-      <div 
-        class="row card-book"
-        rating="4.5"
-        id="book">
-        <div class="col-2">
-          <img 
-            src="{{ url('image/book_placeholder.png') }}" 
-            alt=""
-            class="ebook-image"
-            data-book-id=""
-            data-book-title="">
-        </div>
-        <div class="col-10">
-          <h4
-            class="book-title"
-            data-book-id=""
-            data-book-title="">Judul Buku</h4>
-          <p
-            class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">Nama penulis</span></p>
-          <p
-            class="synopsis">I'm baby tacos authentic letterpress, beard hella direct trade cronut trust fund tousled bitters venmo tote bag raw denim. Forage before they sold out migas banh mi echo park, scenester prism. Pickled keytar iceland, asymmetrical pork belly disrupt pop-up farm-to-table food truck marfa raclette austin slow-carb woke. Health goth art party roof party yr disrupt pitchfork kickstarter VHS affogato hell of poutine XOXO flannel. Health goth austin gluten-free put a bird on it cronut bespoke.</p>
-          <div class="book-rating-container mb-3">
-            <div class="star-container d-inline">
+    <div id="listBook">
+      <transition-group 
+        name="fade" 
+        enter-active-class="animated fadeIn" 
+        leave-active-class="animated fadeOutRight">
+        <div 
+          class="row card-book"
+          rating="4.5"
+          :id="item.id | cardBookId"
+          v-for="(item, index) in books"
+          :key="item.id">
+          <div class="col-2">
+            <a 
+              :href="item.id | bookDetailURL(item.title)">
               <img 
-                src="{{ url('image/icon/blank_star.png') }}"
+                :src="item.id | ebookCoverURL(item.ebookCoverId, item.ebookCoverName)"
                 alt=""
-                class="star-image first-star">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image second-star">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image third-star">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image fourth-star">
-              <img
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image fifth-star">
-            </div>
-            <p class="d-inline-block mt-3"><span class="rating">4.5</span> &emsp; (<span class="ratingCount">25</span> Ulasan) &emsp; <span class="soldCount">100</span>x terjual</p>
+                class="ebook-image">
+            </a>
           </div>
-          <p class="price font-weight-bold d-inline"><span class="price">154.000</span></p>
-          <img 
-            src="{{ url('/image/ic_trash.png') }}" 
-            alt="ic_trash"
-            class="d-inline float-right ic-trash mt-1"
-            data-book-id=""
-            data-book-title="">
-          <button 
-            class="float-right btn-buy mr-3"
-            data-book-id="">Beli</button>
+          <div class="col-10">
+            <a 
+              :href="item.id | bookDetailURL(item.title)">
+              <h4
+                class="book-title">
+                @{{ item.title }}
+              </h4>
+            </a>
+            <p
+              class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">@{{ item.author }}</span></p>
+            <p
+              class="synopsis">@{{ item.synopsis }}</p>
+            <div class="book-rating-container mb-3">
+              <div class="star-container d-inline">
+                <img 
+                  :src="item.rating | firstStarURL"
+                  alt=""
+                  class="star-image first-star">
+                <img 
+                  :src="item.rating | secondStarURL"
+                  alt=""
+                  class="star-image second-star">
+                <img 
+                  :src="item.rating | thirdStarURL"
+                  alt=""
+                  class="star-image third-star">
+                <img 
+                  :src="item.rating | fourthStarURL"
+                  alt=""
+                  class="star-image fourth-star">
+                <img
+                  :src="item.rating | fifthStarURL"
+                  alt=""
+                  class="star-image fifth-star">
+              </div>
+              <p class="d-inline-block mt-3"><span class="rating">@{{ item.rating }}</span> &emsp; (@{{ item.ratingCount }} Ulasan) &emsp; @{{ item.soldCount }}x terjual</p>
+            </div>
+            <p class="price font-weight-bold d-inline"><span class="price">@{{ item.price | currencyFormat }}</span></p>
+            <img 
+              src="{{ url('/image/ic_trash.png') }}" 
+              alt="ic_trash"
+              class="d-inline float-right ic-trash mt-1"
+              @click="deleteBook(item.id, item.title, index)">
+            <button 
+              class="float-right btn-buy mr-3"
+              @click="buyBook(item.id)">
+              Beli
+            </button>
+          </div>
         </div>
-      </div>
-    </template>
+      </transition-group>
+    </div>
   </div>
 
 @endsection

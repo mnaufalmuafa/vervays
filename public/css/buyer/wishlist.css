@@ -73,3 +73,11 @@ p.price {
 .ebook-image:hover {
   cursor: pointer;
 }
+
+a h4 {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+}
