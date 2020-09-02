@@ -17,7 +17,7 @@
       <div class="row">
         @foreach ($bestsellerBook as $book)
           <div 
-            class="col-2 book-card"
+            class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 book-card"
             rating="{{ $book["rating"] }}"
             id="book-card-{{ $book["id"] }}-bestseller">
             <img 
@@ -60,7 +60,7 @@
       <div class="row">
         @foreach ($newestBook as $book)
           <div 
-            class="col-2 book-card"
+            class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 book-card"
             rating="{{ $book["rating"] }}"
             id="book-card-{{ $book["id"] }}-newest">
             <img 
@@ -103,7 +103,7 @@
       <div class="row">
         @foreach ($editorChoicesBook as $book)
         <div 
-          class="col-2 book-card"
+          class="col-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 book-card"
           rating="{{ $book["rating"] }}"
           id="book-card-{{ $book["id"] }}-editor-choice">
           <img 
