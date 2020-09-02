@@ -47,3 +47,11 @@ p.authorInfo span {
 .book-title:hover, .book-cover:hover {
   cursor: pointer;
 }
+
+a h4 {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+}
