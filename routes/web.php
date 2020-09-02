@@ -57,7 +57,7 @@ Route::middleware(['IsLogin'])->group(function() {
 
     Route::middleware(['HasTheEmailBeenVerified', 'CheckOrderStatus'])->group(function(){
         // UNTUK BUYER
-        Route::get('/dashboard', 'buyer\DashboardController@index')
+        Route::get('/home', 'buyer\DashboardController@index')
             ->name('dashboard');
 
         Route::get('/search', 'buyer\SearchController@index')
