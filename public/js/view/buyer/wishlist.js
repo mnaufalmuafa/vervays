@@ -1,3 +1,7 @@
+$(document).ready(function() {
+  setUpAlert();
+});
+
 const blankStarURL = "/image/icon/blank_star.png";
 const yellowStarURL = "/image/icon/yellow_star.png";
 
@@ -71,11 +75,8 @@ var listBook = new Vue({
             method : "POST"
           });
           this.books.splice(index, 1);
-          Swal.fire(
-            'Terhapus!',
-            'Buku '+title+' berhasil dihapus dari wishlist',
-            'success'
-          )
+          storeFlashMessage("Buku \""+title+"\" telah dihapus dari wishlist", "success", 2);
+          setUpAlert();
           if (this.books.length == 0) {
             showExceptionContainer();
           }
