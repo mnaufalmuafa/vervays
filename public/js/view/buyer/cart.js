@@ -81,6 +81,8 @@ var listBook = new Vue({
     submit : function() {
       paymentMethod = getPaymentMethodValue();
       console.log({ paymentMethod });
+      $(':input[type="submit"]').prop('disabled', true);
+      $(':input[type="submit"]').html('....');
       $.ajax({
         url : "http://127.0.0.1:8000/post/create_order",
         method : "POST",
