@@ -28,7 +28,6 @@ var listBook = new Vue({
         this.books = data;
         console.log(this.books);
         if (this.books.length == 0) {
-          hideMainSection();
           displayExceptionSection();
         }
       })
