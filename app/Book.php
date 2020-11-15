@@ -275,7 +275,12 @@ class Book extends Model
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
             $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
+            $soldCount = Book::getBookSoldCount($bookArray[$i]["id"]);
+            $bookArray[$i] = array_merge($bookArray[$i], array("soldCount" => $soldCount));
         }
+        \usort($bookArray, function ($book1, $book2) {
+            return $book2['soldCount'] <=> $book1['soldCount'];
+        });
         return $bookArray;
     }
 
