@@ -74,7 +74,7 @@ const showNextPage = () => {
 function updateLastRead(num) {
   var bookId = getBookId();
   var link = "/get/update_last_read/"+bookId+"/"+num;
-  console.log({link});
+  // console.log({link});
   $.ajax({
     url : link,
     method : "GET"
@@ -84,14 +84,14 @@ function updateLastRead(num) {
 // Get Document
 pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
   pdfDoc = pdfDoc_;
-  //console.log(pdfDoc);
+  
   document.querySelector('#page-count').textContent = pdfDoc.numPages;
   $.ajax({
     url : "/get/get_last_read/"+getBookId(),
     method : "GET"
   }).done(function(lastRead) {
     var intLastRead = parseInt(lastRead);
-    console.log({intLastRead});
+    // console.log({intLastRead});
     if (intLastRead === 0) {
       intLastRead = 1;
     }

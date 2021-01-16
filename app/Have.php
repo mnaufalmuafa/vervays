@@ -26,7 +26,7 @@ class Have
     public static function updateLastRead($bookId, $lastRead)
     {
         DB::table('have')
-            ->where('userId', 1)
+            ->where('userId', session('id'))
             ->where('bookId', $bookId)
             ->update([
                 "lastRead" => $lastRead,
