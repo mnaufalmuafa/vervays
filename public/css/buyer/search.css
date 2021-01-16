@@ -106,13 +106,12 @@ p.price {
   height: 20px;
 }
 
-.ic-trash:hover, .ebook-image {
+.card-book {
   cursor: pointer;
 }
 
 .book-title:hover {
   color: red;
-  cursor: pointer;
 }
 
 button {
