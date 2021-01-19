@@ -37,7 +37,7 @@ class ForgotPasswordMail extends Mailable
             "firstName" => User::getFirstNameByEmail($this->email),
             "url" => $url,
         ];
-        return $this->from('vervais@ebookstore.com')
+        return $this->from('vervays@ebookstore.com')
                     ->markdown('emails.forgot_password')
                     ->with($data);
     }

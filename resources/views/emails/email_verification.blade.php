@@ -2,9 +2,9 @@
 {{-- Greeting --}}
 # Hello!
 
-Selamat Datang di Vervais
+Selamat Datang di Vervays
 
-Langkah terakhir untuk membuat akun di Vervais adalah dengan memverifikasi email.
+Langkah terakhir untuk membuat akun di Vervays adalah dengan memverifikasi email.
 Untuk memferivikasi email, silakan klik tombol berikut
 
 {{-- Action Button --}}
@@ -14,6 +14,6 @@ Untuk memferivikasi email, silakan klik tombol berikut
 Verifikasi Email
 @endcomponent
 
-Jika anda tidak mendaftar akun di Vervais, harap abaikan email ini
+Jika anda tidak mendaftar akun di Vervays, harap abaikan email ini
 
 @endcomponent

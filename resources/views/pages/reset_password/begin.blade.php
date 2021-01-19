@@ -22,7 +22,7 @@
 </head>
 <body>
   <div class="container">
-    <h4 class="mt-4">Vervais</h4>
+    <h4 class="mt-4">Vervays</h4>
     <h5>Temukan Akunmu</h5>
     @if ($errors->any())
       <div class="alert alert-danger">
@@ -33,7 +33,7 @@
         </ul>
       </div>
     @endif
-    <p>Masukkan email yang terdaftar pada Vervais</p>
+    <p>Masukkan email yang terdaftar pada Vervays</p>
     <form action="/account/begin_reset_password" method="POST">
       @csrf
       <input type="email" class="input-email" name="email" required>

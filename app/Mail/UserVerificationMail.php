@@ -38,7 +38,7 @@ class UserVerificationMail extends Mailable
             "url" => $url,
         ];
         //return $this->markdown('emails.email_verification', $data);
-        return $this->from('vervais@ebookstore.com')
+        return $this->from('vervays@ebookstore.com')
                     ->markdown('emails.email_verification')
                     ->with($data);
     }

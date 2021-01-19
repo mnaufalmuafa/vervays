@@ -1,1 +1,1 @@
-Vervais adalah sebuah platform jual beli ebook secara online
+Vervays adalah sebuah platform jual beli ebook secara online
