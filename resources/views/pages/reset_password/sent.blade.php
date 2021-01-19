@@ -22,7 +22,7 @@
 </head>
 <body>
   <div class="container">
-    <h4 class="mt-4">Heav</h4>
+    <h4 class="mt-4">FerFrais</h4>
     <p>Email verifikasi telah dikirimkan</p>
     <p>Jika Email tidak terlihat, periksa pada folder spam atau junk</p>
   </div>

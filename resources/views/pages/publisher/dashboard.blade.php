@@ -11,7 +11,7 @@
 @endpush
 
 @section('title')
-  Heav Publisher
+  FerFais Publisher
 @endsection
 
 @section('content')

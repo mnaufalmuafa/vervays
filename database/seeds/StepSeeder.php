@@ -274,7 +274,7 @@ class StepSeeder extends Seeder
             "id" => 32,
             "paymentMethodId" => 5,
             "order" => 2,
-            "step" => "Beritahu kasir bahwa Anda akan melakukan pembayaran Heav",
+            "step" => "Beritahu kasir bahwa Anda akan melakukan pembayaran FerFrais",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
@@ -324,7 +324,7 @@ class StepSeeder extends Seeder
             "id" => 38,
             "paymentMethodId" => 5,
             "order" => 2,
-            "step" => "Beritahu kasir bahwa Anda akan melakukan pembayaran Heav",
+            "step" => "Beritahu kasir bahwa Anda akan melakukan pembayaran FerFrais",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);

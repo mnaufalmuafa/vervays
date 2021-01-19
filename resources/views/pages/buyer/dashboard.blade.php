@@ -7,7 +7,7 @@
 @endpush
 
 @section('title')
-  Heav ebook store
+  FerFais ebook store
 @endsection
 
 @section('content')

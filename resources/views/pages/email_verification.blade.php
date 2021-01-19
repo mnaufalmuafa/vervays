@@ -9,8 +9,8 @@
 	<title>Verifikasi Email</title>
 </head>
 <body>
-  <h1 class="text-center mt-5">Heav</h1>
-  <h6 class="text-center mt-3">Untuk menggunakan layanan Heav, anda harus memverifikasi email terlebih dahulu</h6>
+  <h1 class="text-center mt-5">FerFrais</h1>
+  <h6 class="text-center mt-3">Untuk menggunakan layanan FerFrais, anda harus memverifikasi email terlebih dahulu</h6>
 	<h6 class="text-center mt-1">Email verifikasi sudah dikirimkan ke {{ $email }}</h6>
 	<button class="float-right button mr-4 d-block" id="btnLogout">Logout</button>
   @include('includes.script')
