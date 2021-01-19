@@ -7,7 +7,7 @@
 @endpush
 
 @section('title')
-  FerFais ebook store
+  Vervais ebook store
 @endsection
 
 @section('content')

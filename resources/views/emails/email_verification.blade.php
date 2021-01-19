@@ -2,9 +2,9 @@
 {{-- Greeting --}}
 # Hello!
 
-Selamat Datang di FerFrais
+Selamat Datang di Vervais
 
-Langkah terakhir untuk membuat akun di FerFrais adalah dengan memverifikasi email.
+Langkah terakhir untuk membuat akun di Vervais adalah dengan memverifikasi email.
 Untuk memferivikasi email, silakan klik tombol berikut
 
 {{-- Action Button --}}
@@ -14,6 +14,6 @@ Untuk memferivikasi email, silakan klik tombol berikut
 Verifikasi Email
 @endcomponent
 
-Jika anda tidak mendaftar akun di FerFrais, harap abaikan email ini
+Jika anda tidak mendaftar akun di Vervais, harap abaikan email ini
 
 @endcomponent

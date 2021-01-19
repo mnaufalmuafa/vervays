@@ -11,7 +11,7 @@
 @endpush
 
 @section('title')
-  FerFais Publisher
+  Dashboard Publisher
 @endsection
 
 @section('content')

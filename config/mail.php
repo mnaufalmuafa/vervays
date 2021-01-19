@@ -111,8 +111,8 @@ return [
     "host" => "smtp.mailtrap.io",
     "port" => 2525,
     "from" => array(
-        "address" => "ferfrais@ebookstore.com",
-        "name" => "FerFrais"
+        "address" => "vervais@ebookstore.com",
+        "name" => "Vervais"
     ),
     "username" => env("MAIL_USERNAME"), // get username from .env files
     "password" => env("MAIL_PASSWORD"), // get password from .env files

@@ -134,7 +134,7 @@
 		<section class="fourth-section">
 			<h3 class="font-weight-bold">Hapus Akun</h3>
 			<div class="d-flex justify-content-between">
-				<p>Ingin menghapus akun FerFrais mu?</p>
+				<p>Ingin menghapus akun Vervais mu?</p>
 				<p id="deleteAccount">Hapus Akun</p>
 			</div>
 		</section>

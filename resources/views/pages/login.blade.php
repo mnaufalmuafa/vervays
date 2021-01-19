@@ -26,7 +26,7 @@
       <div class="col-6 left-side" id="left-side">
         <div class="left-side-content w-100">
           <img 
-            src="{{ url('image/login/left_side_login_content2.png') }}" 
+            src="{{ url('image/login/left_side_login_content3.png') }}" 
             alt="left_side_login_content">
         </div>
       </div>
