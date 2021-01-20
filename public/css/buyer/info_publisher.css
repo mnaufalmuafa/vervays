@@ -44,6 +44,10 @@ p {
   border-radius: 10px;
 }
 
+.card-book:hover {
+  cursor: pointer;
+}
+
 .ebook-image {
   height: 200px;
 }
