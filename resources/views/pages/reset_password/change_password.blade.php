@@ -24,7 +24,7 @@
   <div class="container">
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="#">
-        <img src="{{ url('image/navbar/navbar_brand.png') }}" alt="" style="height: 40px;">
+        <img src="{{ url('image/navbar/navbar_brand4.png') }}" alt="" style="height: 40px;">
       </a>
     </nav>
     <h4 class="mt-4">Ubah Password</h4>
@@ -51,9 +51,5 @@
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" 
     crossorigin="anonymous">
   </script>
-  {{-- <script 
-    type="text/javascript"
-    src= "{{ url('js/view/reset_password.js') }}">
-  </script> --}}
 </body>
 </html>
