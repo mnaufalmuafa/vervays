@@ -10,7 +10,7 @@
       type="text"
       id="inputSearchBar"
       class="form-control" 
-      placeholder="Apa yang sedang anda cari?"
+      placeholder="Buku apa yang sedang anda cari?"
       aria-label="Amount (to the nearest dollar)">
     <div class="input-group-append">
       <span class="input-group-text">
