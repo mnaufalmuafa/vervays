@@ -100,7 +100,7 @@
         </div>
       </div>
       <div class="form-group row"> {{-- Sinopsis --}}
-        <label for="inputSinopsis" class="col-sm-2 col-form-label">Sinopsis</label>
+        <label for="inputSinopsis" class="col-sm-2 col-form-label">Abstraksi</label>
         <div class="col-sm-10">
           <textarea 
             class="form-control" 

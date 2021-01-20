@@ -71,7 +71,7 @@
           <hr>
         </section>
         <section class="synopsis-section">
-          <h4>Sinopsis</h4>
+          <h4>Abstraksi</h4>
           <div id="textSynopsis" style="white-space: pre-wrap">{{ $book["synopsis"] }}</div>
           <hr>
         </section>
