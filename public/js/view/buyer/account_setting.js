@@ -3,8 +3,81 @@ $(document).ready(function(){
 	setChangeProfileFormOnSubmitListener();
 	setUpChangePasswordForm();
 	setUpDeleteAccount();
+	setupSidebar();
 	setUpAlert();
 });
+
+function resetMenu() {
+	$(".menu-sidebar div").attr("class", $("#MenuUbahProfil div").attr("class").replace("red", "white")); // menghilangkan sign
+	$(".menu-sidebar p").css("color", "black"); // mengubah teks menjadi hitam
+	$(".menu-sidebar hr").attr("class", ""); // mengubah warna hr menjadi hitam
+	$("section").attr("class","d-none"); // menghilangkan semua isi side utama
+}
+
+function choiceMenu(menuId, sectionId) {
+	$("#" + menuId + " div").attr("class", $("#" + menuId +" div").attr("class").replace("white", "red")); //setup sign
+	$("#" + menuId + " p").css("color", "red"); // mengubah teks menjadi merah
+	$("#" + menuId + " hr").attr("class", "red-hr"); // mengubah warna hr menjadi merah
+	$("#"+sectionId).attr("class", "");
+}
+
+function setupMonthJoined() {
+	var intMonthJoin = parseInt($("#memberJoinFrom span").text());
+	switch(intMonthJoin) {
+		case 1 :
+			$("#memberJoinFrom span").text("Jan");
+			break;
+		case 2 :
+			$("#memberJoinFrom span").text("Feb");
+			break;
+		case 3 :
+			$("#memberJoinFrom span").text("Mar");
+			break;
+		case 4 :
+			$("#memberJoinFrom span").text("Apr");
+			break;
+		case 5 :
+			$("#memberJoinFrom span").text("Mei");
+			break;
+		case 6 :
+			$("#memberJoinFrom span").text("Jun");
+			break;
+		case 7 :
+			$("#memberJoinFrom span").text("Jul");
+			break;
+		case 8 :
+			$("#memberJoinFrom span").text("Agu");
+			break;
+		case 9 :
+			$("#memberJoinFrom span").text("Sep");
+			break;
+		case 10 :
+			$("#memberJoinFrom span").text("Okt");
+			break;
+		case 11 :
+			$("#memberJoinFrom span").text("Nov");
+			break;
+		case 12 :
+			$("#memberJoinFrom span").text("Des");
+			break;
+	}
+}
+
+function setupSidebar() {
+	setupMonthJoined();
+	$("#MenuUbahProfil").click(function() {
+		resetMenu();
+		choiceMenu("MenuUbahProfil", "section-ubah-profil");
+	});
+	$("#MenuUbahPassword").click(function() {
+		resetMenu();
+		choiceMenu("MenuUbahPassword", "section-ubah-password");
+	});
+	$("#MenuHapusAkun").click(function() {
+		resetMenu();
+		choiceMenu("MenuHapusAkun", "section-hapus-akun");
+	});
+}
 
 function setUpGenderRadioButton() {
 	var gender = $('meta[name=userGender]').attr("content");

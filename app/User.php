@@ -161,9 +161,12 @@ class User
     {
         $user = DB::table('users')
                     ->where('id', $userId)
-                    ->select('id', 'email', 'firstName', 'lastName', 'birthDay', 'phoneNumber', 'gender')
+                    ->select('id', 'email', 'firstName', 'lastName', 'birthDay', 'phoneNumber', 'gender', 'created_at')
                     ->first();
         $user->name = User::getFirstName($userId)." ".(User::getLastName($userId) ?? "");
+        $parsedDate = Carbon::parse($user->created_at);
+        $user->created_at_month = $parsedDate->month;
+        $user->created_at_year = $parsedDate->year;
         return $user;
     }
 

@@ -3,6 +3,60 @@
 	width: 60px;
 }
 
+#userName {
+	margin-top: 15px;
+	margin-bottom: 0px;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#memberJoinFrom {
+	font-weight: 300;
+	font-size: 14px;
+}
+
+.menu-sidebar {
+	margin-top: 10px;
+}
+
+.menu-sidebar p {
+	margin-bottom: 0px;
+	font-size: 16px;
+	min-height: 16px;
+	max-height: 16px;
+}
+
+.menu-sidebar hr {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.menu-sign {
+	width: 5px;
+	height: 13px;
+	background-color: red;
+}
+
+.menu-sign-red {
+	background-color: red;
+}
+
+.menu-sign-white {
+	background-color: white;
+}
+
+.red-hr {
+	border-top: 1px solid red;
+}
+
+#MenuUbahProfil p {
+	color: red;
+}
+
+.menu-sidebar:hover {
+	cursor: pointer;
+}
+
 p.user-name {
 	margin-bottom: 5px;
 }
