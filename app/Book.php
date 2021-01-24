@@ -435,7 +435,7 @@ class Book extends Model
         return DB::table('books')->where('id', $bookId)->pluck('ebookFileId')[0];
     }
 
-    public static function getBookDataForMyBookPage()
+    public static function getBookDataForBookCollectionPage()
     {
         $books = DB::table('books')
                         ->join('have', 'have.bookId', '=', 'books.id')

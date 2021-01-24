@@ -8,11 +8,11 @@ use App\User;
 
 class HaveController extends Controller
 {
-    public function mybook()
+    public function bookCollection()
     {
         $data = [
             "firstName" => User::getFirstName(session('id')),
         ];
-        return view('pages.buyer.mybook', $data);
+        return view('pages.buyer.book_collection', $data);
     }
 }

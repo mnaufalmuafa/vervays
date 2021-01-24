@@ -11,7 +11,7 @@ class BookController extends Controller
 {
     public function getUserBooks()
     {
-        return Book::getBookDataForMyBookPage();
+        return Book::getBookDataForBookCollectionPage();
     }
 
     public function getPeopleGaveStarsCountAllRating(Request $request) // untuk semua rating (dari 1.0 sampai 5.0)

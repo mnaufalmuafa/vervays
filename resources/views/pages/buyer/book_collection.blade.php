@@ -3,7 +3,7 @@
 @push('add-on-style')
   <link 
     rel="stylesheet" 
-    href="{{ url('css/buyer/mybook.css') }}">
+    href="{{ url('css/buyer/book_collection.css') }}">
 @endpush
 
 @section('title')
@@ -48,6 +48,6 @@
 @push('add-on-script')
   <script 
     type="text/javascript"
-    src= "{{ url('js/view/buyer/mybook.js') }}">
+    src= "{{ url('js/view/buyer/book_collection.js') }}">
   </script>
 @endpush
