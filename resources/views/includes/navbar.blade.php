@@ -48,7 +48,7 @@
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{{ route('mybook') }}">Koleksi Buku</a>
           <a class="dropdown-item" href="" id="linkMenjadiPublisher">Menu Publisher</a>
-          <a class="dropdown-item" href="{{ route('orders') }}">Pesanan Saya</a>
+          <a class="dropdown-item" href="{{ route('orders') }}">Daftar Pesanan</a>
           <a class="dropdown-item" href="{{ route('account-setting') }}">Pengaturan akun</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="" id="linkLogout">Logout</a>

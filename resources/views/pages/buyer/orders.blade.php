@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="main-container d-none">
-      <h3 class="mt-2">Daftar Transaksi</h3>
+      <h3 class="mt-2">Daftar Pesanan</h3>
       <template id="orderCardTemplate">
         <div class="order-card mb-3" data-order-id="" id="">
           <div class="order-status-container">
