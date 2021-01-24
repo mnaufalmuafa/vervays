@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 function showBooks() {
 	$.ajax({
-		url : "get/get_user_books",
+		url : "/get/get_user_books",
 		method : "GET"
 	}).done(function(data) {
 		console.log(data);

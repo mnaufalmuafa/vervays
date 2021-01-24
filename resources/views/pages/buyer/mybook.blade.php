@@ -7,7 +7,7 @@
 @endpush
 
 @section('title')
-  Buku Saya
+  Koleksi Buku
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
 		</div>
 	</div>
   <div class="container-fluid main-container d-none">
-    <h2 class="mt-2 font-weight-bold">Buku Saya</h2>
+    <h2 class="mt-2 font-weight-bold">Koleksi Buku</h2>
     <div class="row">
       <template id="bookTemplate">
         <div class="card-book col-2 mb-3" id="book-">
