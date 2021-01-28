@@ -37,7 +37,7 @@
           <p>Daftar akun agar bisa berbelanja di Vervays</p>
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="firstName">Nama depan</label>
+              <label for="firstName">Nama depan*</label>
               <input 
                 type="text" 
                 class="form-control" 
@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">Email*</label>
             <input
               type="email"
               id="email"
@@ -82,7 +82,7 @@
             @endisset
           </div>
           <div class="form-group">
-            <label for="email">Password</label>
+            <label for="password">Password*</label>
             <input
               type="password" 
               id="password"
