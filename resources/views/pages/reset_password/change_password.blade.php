@@ -17,7 +17,7 @@
     rel="stylesheet">
   <link 
     rel="stylesheet" 
-    href="{{ url('css/reset_password/begin.css') }}">
+    href="{{ url('css/reset_password/change_password.css') }}">
   <title>Change Password</title>
 </head>
 <body>
@@ -27,14 +27,40 @@
         <img src="{{ url('image/navbar/navbar_brand4.png') }}" alt="" style="height: 40px;">
       </a>
     </nav>
-    <h4 class="mt-4">Ubah Password</h4>
-    <form action="/account/reset/password/from/email" method="POST">
-      @csrf
-      <input type="hidden" name="id" value="{{ $id }}">
-      <label for="">Masukkan password baru</label>
-      <input type="password" name="password" min="8">
-      <input type="submit" class="btn btn-danger" value="Ubah Password">
-    </form>
+    <div class="col-md-6 mx-auto mt-5">
+      <div class="card card-body">
+        <h4 class="mt-2 d-flex justify-content-center">Ubah Password</h4>
+        <form action="/account/reset/password/from/email" method="POST" id="changePasswordForm">
+          @csrf
+          <input type="hidden" name="id" value="{{ $id ?? '' }}">
+          {{-- <label for="">Masukkan password baru</label>
+          <input type="password" name="password" min="8"> --}}
+          <div class="form-group">
+            <label for="password">Password baru</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              minlength="8"
+              required>
+          </div>
+          <div class="form-group">
+            <label for="repassword">Ulangi password baru</label>
+            <input
+              type="password"
+              id="repassword"
+              name="repassword"
+              class="form-control"
+              required>
+            <small id="repasswordHelp" class="form-text text-danger d-none">Password tidak sama</small>
+          </div>
+          <div class="text-center">
+            <input type="submit" class="btn btn-danger" value="Ubah Password">
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
   <script 
     src="https://code.jquery.com/jquery-3.5.1.slim.min.js" 
@@ -50,6 +76,10 @@
     src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" 
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" 
     crossorigin="anonymous">
+  </script>
+  <script 
+    type="text/javascript"
+    src= "{{ url('js/view/reset_password/change_password.js') }}">
   </script>
 </body>
 </html>
