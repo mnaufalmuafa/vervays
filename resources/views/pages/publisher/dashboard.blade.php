@@ -58,73 +58,46 @@
     <hr>
   </div>
   <div class="container-fluid mt-3">
-    <h4 class="d-inline">Data Buku</h4>
+    <h4 class="d-inline">Daftar Buku</h4>
     <button class="button d-inline float-right" id="btnTambahBuku">Tambah Buku</button>
   </div>
   <div class="container-fluid">
-    @foreach ($books as $book)
-      <div 
-        class="row card-book"
-        rating="{{ $book["rating"] }}"
-        id="book-card-{{$book["id"]}}">
-        <div class="col-2">
-          <img 
-            src="{{ $book["imageURL"] }}" 
-            alt=""
-            class="ebook-image"
-            book-id="{{ $book["id"] }}">
-        </div>
-        <div class="col-10">
-          <h4
-            class="book-title"
-            book-id="{{ $book["id"] }}">{{ $book["title"] }}</h4>
-          <p
-            class="font-weight-bold author-info"><span>Ditulis oleh </span><span class="author-text">{{ $book["author"] }}</span></p>
-          <p
-            class="synopsis">{{ $book["synopsis"] }}</p>
-          <div class="book-rating-container row">
-            <div class="star-container d-inline">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image first-star">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image second-star">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image third-star">
-              <img 
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image fourth-star">
-              <img
-                src="{{ url('image/icon/blank_star.png') }}"
-                alt=""
-                class="star-image fifth-star">
-            </div>
-            <p class="d-inline-block ml-3"><span>{{ $book["rating"] }}</span> &emsp; (<span>{{ $book["ratingCount"] }}</span> Ulasan) &emsp; <span>{{ $book["soldCount"] }}</span>x terjual</p>
-          </div>
-          <p 
-            class="price font-weight-bold d-inline">Rp. {{ $book["price"] }}</p>
-          <img 
-            src="{{ url('/image/ic_trash.png') }}" 
-            alt="ic_trash"
-            class="d-inline float-right ic-trash mt-1"
-            book-id="{{ $book["id"] }}"
-            book-title="{{ $book["title"] }}">
-          <button
-            class="button d-inline float-right mr-2 btn-edit-buku"
-            book-id="{{ $book["id"] }}">Edit buku</button>
-          <button
-            class="button d-inline float-right mr-2 btn-view-buku"
-            book-id="{{ $book["id"] }}"
-            book-title="{{ $book["title"] }}">Lihat detail buku</button>
-        </div>
-      </div>
-    @endforeach
+    <table class="table table-bordered table-striped table-sm mt-3">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Judul</th>
+          <th>Harga</th>
+          <th>Rating</th>
+          <th>Terjual</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($books as $key => $book)
+          <tr>
+            <td>{{ $key + 1 }}</td>
+            <td>{{ $book["title"] }}</td>
+            <td>Rp. {{ $book["price"] }}</td>
+            <td>{{ $book["rating"] }} ({{ $book["ratingCount"] }})</td>
+            <td>{{ $book["soldCount"] }}</td>
+            <td>
+              <button
+                class="button btn-edit-buku"
+                book-id="{{ $book["id"] }}">Edit</button>
+              <button
+                class="button btn-view-buku"
+                book-id="{{ $book["id"] }}"
+                book-title="{{ $book["title"] }}">Lihat detail</button>
+              <button
+                class="button btn-hapus-buku"
+                book-id="{{ $book["id"] }}"
+                book-title="{{ $book["title"] }}">Hapus</button>
+            </td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
   </div>
 @endsection
 

@@ -3,8 +3,7 @@ $(document).ready(function() {
   setBtnUbahDataOnClickListener();
   setUpBtnCashout();
   setBtnTambahBukuOnClickListener();
-  setTrashIconOnClickListener();
-  setRating();
+  setBtnHapusOnClickListener();
   setBtnEditBukuOnClickListener();
   setBtnViewBukuOnClickListener();
 });
@@ -21,8 +20,8 @@ function setBtnTambahBukuOnClickListener() {
   });
 }
 
-function setTrashIconOnClickListener() {
-  $('.ic-trash').click(function() {
+function setBtnHapusOnClickListener() {
+  $('.btn-hapus-buku').click(function() {
     var title = $(this).attr("book-title");
     Swal.fire({
       title: "Apakah anda yakin akan menghapus buku \""+title+' ?',
@@ -42,39 +41,11 @@ function setTrashIconOnClickListener() {
           }
         }).done(function() {
           storeFlashMessage("Berhasil menghapus buku "+"\""+title+"\"", "success", 2);
-          $("#book-card-"+id).remove();
-          setUpAlert();
+          location.reload();
         });
       }
     });
   });
-}
-
-function setRating() {
-  $('.card-book').each(function() {
-    var rating = $(this).attr("rating");
-    var id = $(this).attr("id");
-    rating = parseFloat(rating);
-    rating = rating.toFixed(1);
-    $("#"+id + " .book-rating-container p span:first-child").html(rating);
-    rating = Math.floor(rating);
-    if (rating >= 1) {
-      $('#'+id+' .first-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 2) {
-      $('#'+id+' .second-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 3) {
-      $('#'+id+' .third-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 4) {
-      $('#'+id+' .fourth-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating == 5) {
-      $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
-    }
-  });
-  
 }
 
 function setBtnEditBukuOnClickListener() {

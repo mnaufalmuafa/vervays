@@ -59,9 +59,6 @@ class Book extends Model
             array_push($data,[
                 "id" => $book->id,
                 "title" => $book->title,
-                "author" => $book->author,
-                "imageURL" => Book::getEbookCoverURL($book->ebookCoverId),
-                "synopsis" => $book->synopsis,
                 "rating" => Reviews::getBookRating($book->id),
                 "ratingCount" => Reviews::getBookRatingCount($book->id),
                 "soldCount" => Book::getBookSoldCount($book->id),
