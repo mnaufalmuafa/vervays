@@ -65,6 +65,8 @@ class Book extends Model
                 "price" => Book::convertPriceToCurrencyFormat($book->price),
             ]);
         }
+        $titles = array_column($data, 'title');
+        array_multisort($titles, SORT_ASC, $data);
         return $data;
     }
 

@@ -43,4 +43,9 @@ class BookController extends Controller
     {
         return response()->json(Book::isBookNotDeleted($request->get('id')));
     }
+
+    public function getPublisherBook(Request $request)
+    {
+        return Book::getBookDataForDashboardPublisher();
+    }
 }

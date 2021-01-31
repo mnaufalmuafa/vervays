@@ -3,10 +3,40 @@ $(document).ready(function() {
   setBtnUbahDataOnClickListener();
   setUpBtnCashout();
   setBtnTambahBukuOnClickListener();
-  setBtnHapusOnClickListener();
-  setBtnEditBukuOnClickListener();
-  setBtnViewBukuOnClickListener();
+  setupBookList();
 });
+
+function setupBookList() {
+  $.ajax({
+    url : "/get/get_publishers_book",
+    method : "GET"
+  }).done(function (data) {
+    console.log(data);
+    showBookList(data);
+    setBtnHapusOnClickListener();
+    setBtnEditBukuOnClickListener();
+    setBtnViewBukuOnClickListener();
+  });
+}
+
+function showBookList(data) {
+  var temp = document.getElementById("book-table-row");
+  for (let index = 0; index < data.length; index++) {
+    var clone = temp.content.cloneNode(true);
+    clone.querySelector(".no").innerHTML = index + 1;
+    clone.querySelector(".title").innerHTML = data[index].title;
+    clone.querySelector(".price").innerHTML = data[index].price;
+    clone.querySelector(".rating").innerHTML = data[index].rating;
+    clone.querySelector(".ratingCount").innerHTML = data[index].ratingCount;
+    clone.querySelector(".soldCount").innerHTML = data[index].soldCount;
+    clone.querySelector(".btn-edit-buku").setAttribute("book-id", data[index].id);
+    clone.querySelector(".btn-view-buku").setAttribute("book-id", data[index].id);
+    clone.querySelector(".btn-hapus-buku").setAttribute("book-id", data[index].id);
+    clone.querySelector(".btn-view-buku").setAttribute("book-title", data[index].title);
+    clone.querySelector(".btn-hapus-buku").setAttribute("book-title", data[index].title);
+    document.getElementById("book-table-tbody").appendChild(clone);
+  }
+}
 
 function setBtnUbahDataOnClickListener() {
   $('#btnUbahData').click(function() {

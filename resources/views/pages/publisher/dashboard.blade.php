@@ -73,29 +73,29 @@
           <th>Aksi</th>
         </tr>
       </thead>
-      <tbody>
-        @foreach($books as $key => $book)
+      <tbody id="book-table-tbody">
+        <template id="book-table-row">
           <tr>
-            <td>{{ $key + 1 }}</td>
-            <td>{{ $book["title"] }}</td>
-            <td>Rp. {{ $book["price"] }}</td>
-            <td>{{ $book["rating"] }} ({{ $book["ratingCount"] }})</td>
-            <td>{{ $book["soldCount"] }}</td>
+            <td><span class="no"></span></td>
+            <td><span class="title"></span></td>
+            <td><span class="price"></span></td>
+            <td><span class="rating"></span> (<span class="ratingCount"></span>)</td>
+            <td><span class="soldCount"></span></td>
             <td>
               <button
                 class="button btn-edit-buku"
-                book-id="{{ $book["id"] }}">Edit</button>
+                book-id="">Edit</button>
               <button
                 class="button btn-view-buku"
-                book-id="{{ $book["id"] }}"
-                book-title="{{ $book["title"] }}">Lihat detail</button>
+                book-id=""
+                book-title="">Lihat detail</button>
               <button
                 class="button btn-hapus-buku"
-                book-id="{{ $book["id"] }}"
-                book-title="{{ $book["title"] }}">Hapus</button>
+                book-id=""
+                book-title="">Hapus</button>
             </td>
           </tr>
-        @endforeach
+        </template>
       </tbody>
     </table>
   </div>
