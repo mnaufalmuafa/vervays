@@ -72,9 +72,7 @@ function showBookList(arrBook) {
     clone.querySelector("span.author-text").innerHTML = arrBook[i].author;
     clone.querySelector("p.synopsis").innerHTML = arrBook[i].synopsis;
     clone.querySelector("span.price").innerHTML = arrBook[i].priceForHuman;
-    var rating = parseFloat(arrBook[i].rating);
-    rating = rating.toPrecision(2);
-    arrBook[i].rating = rating;
+    c
     clone.querySelector("span.rating").innerHTML = arrBook[i].rating;
     clone.querySelector("span.ratingCount").innerHTML = arrBook[i].ratingCount;
     clone.querySelector("span.soldCount").innerHTML = arrBook[i].soldCount;

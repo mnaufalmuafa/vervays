@@ -57,11 +57,11 @@
     <button class="button d-none ml-5" id="btnCashout">Cairkan Saldo</button>
     <hr>
   </div>
-  <div class="container-fluid mt-3">
+  <div class="container-fluid mt-3" id="containerListBuku">
     <h4 class="d-inline">Daftar Buku</h4>
-    <button class="button d-inline float-right" id="btnTambahBuku">Tambah Buku</button>
-  </div>
-  <div class="container-fluid">
+    <button 
+      class="button d-inline float-right"
+      @click="redirectToAddBookPage()">Tambah Buku</button>
     <table class="table table-bordered table-striped table-sm mt-3">
       <thead>
         <tr>
@@ -74,28 +74,27 @@
         </tr>
       </thead>
       <tbody id="book-table-tbody">
-        <template id="book-table-row">
-          <tr>
-            <td><span class="no"></span></td>
-            <td><span class="title"></span></td>
-            <td><span class="price"></span></td>
-            <td><span class="rating"></span> (<span class="ratingCount"></span>)</td>
-            <td><span class="soldCount"></span></td>
-            <td>
-              <button
-                class="button btn-edit-buku"
-                book-id="">Edit</button>
-              <button
-                class="button btn-view-buku"
-                book-id=""
-                book-title="">Lihat detail</button>
-              <button
-                class="button btn-hapus-buku"
-                book-id=""
-                book-title="">Hapus</button>
-            </td>
-          </tr>
-        </template>
+        <tr
+          id="book-table-row"
+          v-for="(book, index) in books"
+          :key="book.id">
+          <td>@{{ index + 1 }}</td>
+          <td>@{{ book.title }}</td>
+          <td>@{{ book.price | currencyFormat }}</td>
+          <td>@{{ book.rating | formatRating }} (@{{ book.ratingCount }})</td>
+          <td>@{{ book.soldCount }}</td>
+          <td>
+            <button
+              class="button"
+              @click="redirectToEditBookPage(book.id)">Edit</button>
+            <button
+              class="button btn-view-buku"
+              @click="redirectToBookDetailPage(book.id, book.title)">Lihat detail</button>
+            <button
+              class="button btn-hapus-buku"
+              @click="deleteBook(book.id, book.title)">Hapus</button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
