@@ -1,296 +1,226 @@
-$(document).ready(function() {
-  $('.text-info-book-not-found').hide();
-  $('.text-info-book-not-found-after-filter').hide();
-  var keyword = $('meta[name=keyword]').attr("content");
-  while (keyword.includes("-", 0)) {
-    keyword = keyword.replace('-', ' ');
-  }
-  $('#keyword span').html(keyword);
-  while (keyword.includes(" ", 0)) {
-    keyword = keyword.replace(' ', '%20');
-  }
-  firstAjaxRequest(keyword);
-  ///////////////////////////////////////////////////////////
-  $('#categoryList').collapse('show');
-  $('#languageList').collapse('show');
-  $('#categoryList').on('hide.bs.collapse', function() {
-    var kelas = $('#ic-sort-desc-category').attr('class');
-    kelas = kelas.replace('fa-sort-desc','fa-sort-asc');
-    $('#ic-sort-desc-category').attr("class", kelas);
-  });
-  $('#categoryList').on('show.bs.collapse', function() {
-    var kelas = $('#ic-sort-desc-category').attr('class');
-    kelas = kelas.replace('fa-sort-asc','fa-sort-desc');
-    $('#ic-sort-desc-category').attr("class", kelas);
-  });
-  $('#languageList').on('hide.bs.collapse', function() {
-    var kelas = $('#ic-sort-desc-language').attr('class');
-    kelas = kelas.replace('fa-sort-desc','fa-sort-asc');
-    $('#ic-sort-desc-language').attr("class", kelas);
-  });
-  $('#languageList').on('show.bs.collapse', function() {
-    var kelas = $('#ic-sort-desc-language').attr('class');
-    kelas = kelas.replace('fa-sort-asc','fa-sort-desc');
-    $('#ic-sort-desc-language').attr("class", kelas);
-  });
-  $('.card-book').each(function() {
-    var rating = $(this).attr("rating");
-    var id = $(this).attr("id");
-    rating = Math.floor(rating);
-    if (rating >= 1) {
-      $('#'+id+' .first-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 2) {
-      $('#'+id+' .second-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 3) {
-      $('#'+id+' .third-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating >= 4) {
-      $('#'+id+' .fourth-star').attr("src","/image/icon/yellow_star.png");
-    }
-    if (rating == 5) {
-      $('#'+id+' .fifth-star').attr("src","/image/icon/yellow_star.png");
-    }
-  });
-});
+const blankStarURL = "/image/icon/blank_star.png";
+const yellowStarURL = "/image/icon/yellow_star.png";
 
-function showBookList(arrBook) {
-  arrBook = sortArrBook(arrBook);
-  removeAllBook(arrBook);
-  var template = document.querySelector('#productRow');
-  var colBook = document.querySelector("#col-book");
-  for (var i = 0 ; i < arrBook.length ; i++) {
-    var clone = template.content.cloneNode(true);
-    var ebookCoverId = arrBook[i].ebookCoverId;
-    var ebookCoverFileName = arrBook[i].ebookCoverName;
-    var ebookCoverURL = "/ebook/ebook_cover/"+ebookCoverId+"/"+ebookCoverFileName;
-    clone.querySelector('.card-book').setAttribute("id", "book-"+arrBook[i].id);
-    clone.querySelector('.card-book').setAttribute("rating", arrBook[i].rating);
-    clone.querySelector(".ebook-image").setAttribute("src", ebookCoverURL);
-    clone.querySelector("h4.book-title").innerHTML = arrBook[i].title;
-    clone.querySelector("span.author-text").innerHTML = arrBook[i].author;
-    clone.querySelector("p.synopsis").innerHTML = arrBook[i].synopsis;
-    clone.querySelector("span.price").innerHTML = arrBook[i].priceForHuman;
-    c
-    clone.querySelector("span.rating").innerHTML = arrBook[i].rating;
-    clone.querySelector("span.ratingCount").innerHTML = arrBook[i].ratingCount;
-    clone.querySelector("span.soldCount").innerHTML = arrBook[i].soldCount;
-    colBook.appendChild(clone);
+function getChoicedCategory(categories) {
+  var selectedCategory = []
+  for (let i = 0; i < categories.length; i++) {
+    if (categories[i].isUsed === true) {
+      selectedCategory.push(categories[i].namaKategori);
+    }
   }
-  setAllRating();
-  setBookOnClickListener(arrBook);
+  return selectedCategory;
 }
 
-function showBookListWithFilter(arrBook) {
-  arrBook = sortArrBook(arrBook);
-  removeAllBook(arrBook);
-  var filteredArrBook = [];
-  if ($('#categoryWrapper').val() !== "" && $('#languageWrapper').val() !== "") {
-    filteredArrBook = filterArrBookByCategory(arrBook);
-    filteredArrBook = filterArrBookByLanguage(filteredArrBook);
+function getChoicedLanguages(languages) {
+  var selectedLanguage = []
+  for (let i = 0; i < languages.length; i++) {
+    if (languages[i].isUsed === true) {
+      selectedLanguage.push(languages[i].namaBahasa);
+    }
   }
-  else if ($('#languageWrapper').val() !== "") {
-    filteredArrBook = filterArrBookByLanguage(arrBook);
+  return selectedLanguage;
+}
+
+function anyBookFiltered(categories, languages, books) {
+  if (categories.length == 0 && languages.length == 0) {
+    return true;
   }
-  else if ($('#categoryWrapper').val() !== "") {
-    filteredArrBook = filterArrBookByCategory(arrBook);
-  }
-  if ($('#languageWrapper').val() === "" && $('#categoryWrapper').val() === "") {
-    filteredArrBook = arrBook;
-  }
-  var template = document.querySelector('#productRow');
-  var colBook = document.querySelector("#col-book");
-  for (var i = 0 ; i < filteredArrBook.length ; i++) {
-    var clone = template.content.cloneNode(true);
-    var ebookCoverId = filteredArrBook[i].ebookCoverId;
-    var ebookCoverFileName = filteredArrBook[i].ebookCoverName;
-    var ebookCoverURL = "/ebook/ebook_cover/"+ebookCoverId+"/"+ebookCoverFileName;
-    clone.querySelector('.card-book').setAttribute("id", "book-"+filteredArrBook[i].id);
-    clone.querySelector('.card-book').setAttribute("rating", filteredArrBook[i].rating);
-    clone.querySelector(".ebook-image").setAttribute("src", ebookCoverURL);
-    clone.querySelector("h4.book-title").innerHTML = filteredArrBook[i].title;
-    clone.querySelector("span.author-text").innerHTML = filteredArrBook[i].author;
-    clone.querySelector("p.synopsis").innerHTML = filteredArrBook[i].synopsis;
-    clone.querySelector("span.price").innerHTML = filteredArrBook[i].priceForHuman;
-    clone.querySelector("span.rating").innerHTML = filteredArrBook[i].rating;
-    clone.querySelector("span.ratingCount").innerHTML = filteredArrBook[i].ratingCount;
-    clone.querySelector("span.soldCount").innerHTML = filteredArrBook[i].soldCount;
-    colBook.appendChild(clone);
-  }
-  setAllRating();
-  setBookOnClickListener(arrBook);
-  if (filteredArrBook.length === 0) {
-    $('.text-info-book-not-found-after-filter').show();
+  else if (categories.length > 0 && languages.length > 0) {
+    filteredBooks = [];
+    for (let i = 0; i < categories.length; i++) {
+      for (let j = 0; j < books.length; j++) {
+        if (books[j].Category == categories[i]) {
+          filteredBooks.push(books[j]);
+        }
+      }
+    }
+    
+    for (let i = 0; i < languages.length; i++) {
+      for (let j = 0; j < filteredBooks.length; j++) {
+        if (filteredBooks[j].Language == languages[i]) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
   else {
-    $('.text-info-book-not-found-after-filter').hide();
+    return true;
   }
 }
 
-function firstAjaxRequest(keyword) {
-  $.ajax({
-    url : "/search/book?keyword="+keyword,
-    type : "GET"
-  }).done(function(data) {
-    prepareAfterAjax(data, true);
-  });
-}
-
-function prepareAfterAjax(data, wouldDisplayCategoryAndLanguageFilter) {
-  var arrBook = Object.values(data);
-  if (arrBook.length == 0) { // Jika tidak ada buku yang sesuai dengan kata kunci pencarian
-    $('.text-info-book-not-found').show();
-  }
-  else if (wouldDisplayCategoryAndLanguageFilter) { 
-    // Jika ada buku yang sesuai dengan kata kunci pencarian dan jika filter akan ditampilkan
-    displayCategoryAndLanguageFilter(arrBook);
-  }
-  setListOnClickListener(arrBook);
-  setOrderOptionListener(arrBook);
-  return true;
-}
-
-function removeAllBook(arrBook) {
-  arrBook.forEach(function(item) {
-    $('#book-'+item.id).remove();
-  });
-}
-
-function displayCategoryAndLanguageFilter(arrBook) {
-  var arrPureCategory = [];
-  var arrCategory = [];
-  var arrPureLanguage = [];
-  var arrLanguage = [];
-  arrBook.forEach(function(item) {
-    if (!(arrPureCategory.includes(item.Category))) {
-      var namaKategori = item.Category;
-      var idKategori = item.categoryId;
-      arrCategory.push( { namaKategori, idKategori });
-      arrPureCategory.push(item.Category);
-    }
-    if (!(arrPureLanguage.includes(item.Language))) {
-      var namaBahasa = item.Language;
-      var idBahasa = item.languageId;
-      arrLanguage.push({ namaBahasa, idBahasa });
-      arrPureLanguage.push(item.Language);
-    }
-  });
-  var categoryRowTemplate = document.querySelector('#category-row');
-  var languageRowTemplate = document.querySelector('#language-row');
-  arrCategory.forEach(function(item) {
-    var clone = categoryRowTemplate.content.cloneNode(true);
-    clone.querySelector('li').setAttribute("id", "category-"+item.idKategori);
-    clone.querySelector('p.category-name').innerHTML = item.namaKategori;
-    document.querySelector("ul#categoryList").appendChild(clone);
-  });
-  arrLanguage.forEach(function(item) {
-    var clone = languageRowTemplate.content.cloneNode(true);
-    clone.querySelector('li').setAttribute("id", "language-"+item.idBahasa);
-    clone.querySelector('p').innerHTML = item.namaBahasa;
-    document.querySelector("ul#languageList").appendChild(clone);
-  });
-}
-
-function setCategoryWrapperValue() {
-  var selectedCategory = []
-  $('.li-category').each(function() {
-    var id = $(this).attr("id");
-    if (!$('.li-category#'+id+' div').attr("class").includes('d-none')) {
-      selectedCategory.push($('.li-category#'+id+' p').html());
-    }
-  });
-  $("#categoryWrapper").val(selectedCategory.join("|"));
-}
-
-function setLanguageWrapperValue() {
-  var selectedLanguages = []
-  $('.li-language').each(function() {
-    var id = $(this).attr("id");
-    if (!$('.li-language#'+id+' div').attr("class").includes('d-none')) {
-      selectedLanguages.push($('.li-language#'+id+' p').html());
-    }
-  });
-  $("#languageWrapper").val(selectedLanguages.join("|"));
-}
-
-function setListOnClickListener(arrBook) {
-  $('.li-category').click(function() {
-    var id = $(this).attr("id");
-    if ($('.li-category#'+id+' div').attr("class").includes("d-none")) { // Jika kategori tidak dipilih sebelumnya
-      $('.li-category#'+id+' div').attr("class", "float-right"); //memunculkan
-    }
-    else {
-      $('.li-category#'+id+' div').attr("class", "float-right d-none"); //menghilangkan
-    }
-    setCategoryWrapperValue();
-    showBookListWithFilter(arrBook);
-  })
-
-  $('.li-language').click(function() {
-    var id = $(this).attr("id");
-    if ($('.li-language#'+id+' div').attr("class").includes("d-none")) { // Jika bahasa tidak dipilih sebelumnya
-      $('.li-language#'+id+' div').attr("class", "float-right"); //memunculkan
-    }
-    else {
-      $('.li-language#'+id+' div').attr("class", "float-right d-none"); //menghilangkan
-    }
-    setLanguageWrapperValue();
-    showBookListWithFilter(arrBook);
-  });
-}
-
-function filterArrBookByCategory(arrBook) {
-  category = $('#categoryWrapper').val().split('|');
-  var filteredArrBook = [];
-  arrBook.forEach(function(item) {
-    if (category.includes(item.Category)) {
-      filteredArrBook.push(item);
-    } 
-  });
-  return filteredArrBook;
-}
-
-function filterArrBookByLanguage(arrBook) {
-  language = $('#languageWrapper').val().split('|');
-  var filteredArrBook = [];
-  arrBook.forEach(function(item) {
-    if (language.includes(item.Language)) {
-      filteredArrBook.push(item);
-    } 
-  });
-  return filteredArrBook;
-}
-
-function setOrderOptionListener(arrBook) {
-  $('#orderOption').change(function() {
-    if ($('#categoryWrapper').val() !== "" || $('#languageWrapper').val() !== "") { // Jika ada filter
-      showBookListWithFilter(arrBook);
-    }
-    else {
-      showBookList(arrBook);
-    }
-  }).change();
-}
-
-function sortArrBook(arrBook) {
-  var orderOption = $( "#orderOption option:selected" ).val();
-  if (orderOption == 1) { // Berdasarkan Bestseller
-    arrBook.sort(function(a, b){return b.soldCount - a.soldCount});
-  }
-  else if (orderOption == 2) { // Berdasarkan Harga - Termahal ke termurah
-    arrBook.sort(function(a, b){return b.price - a.price});
-  }
-  else if (orderOption == 3) { // Berdasarkan Harga - Termurah ke termahal
-    arrBook.sort(function(a, b){return a.price - b.price});
-  }
-  return arrBook;
-}
-
-function setBookOnClickListener(arrBook) {
-  arrBook.forEach(function(item) {
-    $('#book-'+item.id).click(function() {
-      window.location.href = "/book/detail/"+item.id+"/"+string_to_slug(item.title);
+var searchPage = new Vue({
+  el : "#searchPage",
+  data : {
+    books : null,
+    keyword : null,
+    keywordToShow : null,
+    categories : null,
+    languages : null,
+    sortingMethod : "bestseller",
+    choicedCategory : [],
+    choicedLanguage : [],
+    isInfoBookNotFoundAfterFilterShowed : false,
+  },
+  beforeCreate : function() {
+    $('.text-info-book-not-found').hide();
+  },
+  mounted : function mounted() {
+    this.keyword = $('meta[name=keyword]').attr("content");
+    this.keyword = this.keyword.replaceAll('-', '%20');
+    this.keywordToShow = this.keyword.replaceAll("%20", " ");
+    fetch("/search/book?keyword="+this.keyword)
+    .then(response => response.json())
+    .then(data => {
+      this.books = data;
+      this.books.sort(function(a, b){return b.soldCount - a.soldCount});
+      if (this.books.length == 0) {
+        $('.text-info-book-not-found').show();
+      }
+      var arrCategory = []
+      var arrPureCategory = []
+      var arrLanguage = []
+      var arrPureLanguage = []
+      for (let index = 0; index < data.length; index++) {
+        if (!(arrPureCategory.includes(data[index].Category))) {
+          var namaKategori = data[index].Category;
+          var idKategori = data[index].categoryId;
+          var isUsed = false;
+          arrCategory.push( { namaKategori, idKategori, isUsed });
+          arrPureCategory.push(data[index].Category);
+        }
+        if (!(arrPureLanguage.includes(data[index].Language))) {
+          var namaBahasa = data[index].Language;
+          var idBahasa = data[index].languageId;
+          var isUsed = false;
+          arrLanguage.push({ namaBahasa, idBahasa, isUsed });
+          arrPureLanguage.push(data[index].Language);
+        }
+      }
+      this.categories = arrCategory;
+      this.languages = arrLanguage;
     });
-  });
-}
+    $('#categoryList').collapse('show');
+    $('#languageList').collapse('show');
+  },
+  filters : {
+    formatRating : function(value) {
+      return parseFloat(value).toPrecision(2);
+    },
+    ebookCoverURL : function(value, ebookCoverId, ebookCoverName) {
+      return "/ebook/ebook_cover/"+ebookCoverId+"/"+ebookCoverName;
+    },
+    firstStarURL : function(rating) {
+      return (rating >= 1) ? yellowStarURL : blankStarURL;
+    },
+    secondStarURL : function(rating) {
+      return (rating >= 2) ? yellowStarURL : blankStarURL;
+    },
+    thirdStarURL : function(rating) {
+      return (rating >= 3) ? yellowStarURL : blankStarURL;
+    },
+    fourthStarURL : function(rating) {
+      return (rating >= 4) ? yellowStarURL : blankStarURL;
+    },
+    fifthStarURL : function(rating) {
+      return (rating == 5) ? yellowStarURL : blankStarURL;
+    },
+    currencyFormat : function(value) {
+      return convertToRupiah(value);
+    }
+  },
+  methods : {
+    changeIcSortCategory : function() {
+      if ($('#categoryList').is( ":visible" )) { // jika list akan dicollapse
+        var kelas = $('#ic-sort-asc-category').attr('class');
+        kelas = kelas.replace('fa-sort-asc','fa-sort-desc');
+        $('#ic-sort-asc-category').attr("class", kelas);
+      }
+      else { // jika list akan dishow
+        var kelas = $('#ic-sort-asc-category').attr('class');
+        kelas = kelas.replace('fa-sort-desc','fa-sort-asc');
+        $('#ic-sort-asc-category').attr("class", kelas);
+      }
+    },
+    changeIcSortLanguage : function() {
+      if ($('#languageList').is( ":visible" )) { // jika list akan dicollapse
+        var kelas = $('#ic-sort-asc-language').attr('class');
+        kelas = kelas.replace('fa-sort-asc','fa-sort-desc');
+        $('#ic-sort-asc-language').attr("class", kelas);
+      }
+      else { // jika list akan dishow
+        var kelas = $('#ic-sort-asc-language').attr('class');
+        kelas = kelas.replace('fa-sort-desc','fa-sort-asc');
+        $('#ic-sort-asc-language').attr("class", kelas);
+      }
+    },
+    listCategoryOnClickListener : function(nama) {
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[i].namaKategori == nama) {
+          if (this.categories[i].isUsed === false) { // jika sebelumnya tidak dipilih
+            this.categories[i].isUsed = true;
+          }
+          else { // jika sebelumnya dipilih
+            this.categories[i].isUsed = false;
+          }
+        }
+      }
+      this.choicedCategory = getChoicedCategory(this.categories);
+      if (anyBookFiltered(this.choicedCategory, this.choicedLanguage, this.books)) { // jika ada buku yang terfilter
+        this.isInfoBookNotFoundAfterFilterShowed = false;
+      }
+      else {
+        this.isInfoBookNotFoundAfterFilterShowed = true;
+      }
+    },
+    listLanguageOnClickListener : function(nama) {
+      for (let i = 0; i < this.languages.length; i++) {
+        if (this.languages[i].namaBahasa == nama) {
+          if (this.languages[i].isUsed === false) { // jika sebelumnya tidak dipilih
+            this.languages[i].isUsed = true;
+          }
+          else { // jika sebelumnya dipilih
+            this.languages[i].isUsed = false;
+          }
+        }
+      }
+      this.choicedLanguage = getChoicedLanguages(this.languages);
+      if (anyBookFiltered(this.choicedCategory, this.choicedLanguage, this.books)) { // jika ada buku yang terfilter
+        this.isInfoBookNotFoundAfterFilterShowed = false;
+      }
+      else {
+        this.isInfoBookNotFoundAfterFilterShowed = true;
+      }
+    },
+    bookOnClickListener : function(id, title) {
+      window.location.href = "/book/detail/"+id+"/"+string_to_slug(title);
+    },
+    selectSortingMethodOnChange : function() {
+      switch (this.sortingMethod) {
+        case "bestseller":
+          this.books.sort(function(a, b){return b.soldCount - a.soldCount});
+          break;
+        case "tertinggi" :
+          this.books.sort(function(a, b){return b.price - a.price});
+          break;
+        default:
+          this.books.sort(function(a, b){return a.price - b.price});
+          break;
+      }
+    },
+    isBookFiltered(category, language) {
+      if (this.choicedCategory.length == 0 && this.choicedLanguage.length == 0) {
+        return true;
+      }
+      else if (this.choicedCategory.length > 0 && this.choicedLanguage.length > 0) {
+        return this.choicedCategory.includes(category) && this.choicedLanguage.includes(language);
+      }
+      else if (this.choicedCategory.length > 0) {
+        return this.choicedCategory.includes(category);
+      }
+      else if (this.choicedLanguage.length > 0) {
+        return this.choicedLanguage.includes(language);
+      }
+    }
+  }
+});
