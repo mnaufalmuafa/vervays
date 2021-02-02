@@ -28,22 +28,22 @@ optgroup, select {
   margin-bottom: 5px;
 }
 
-.second-row .col-2 ul {
+.second-row ul {
   text-decoration: none;
   list-style-type: none;
   padding-left: 0px;
 }
 
-.second-row .col-2 ul li {
+.second-row ul li {
   border-bottom: 1px solid black;
 }
 
-.second-row .col-2 ul li:hover {
+.second-row ul li:hover {
   border-bottom: 1px solid black;
   cursor: pointer;
 }
 
-.second-row .col-2 ul li p {
+.second-row ul li p {
   padding-left: 5px;
   margin-bottom: 0px !important;
 }
@@ -132,4 +132,26 @@ button {
 
 .second-row .col-10 .card-book:first-child {
   margin-top: 0px;
+}
+
+#orderOptionWrapper2 {
+  display: none;
+}
+
+#orderOption2 {
+  height: fit-content;
+}
+
+@media only screen and (max-width: 800px) {
+  .card-book {
+    width: auto;
+  }
+
+  #orderOptionWrapper1 {
+    display: none;
+  }
+
+  #orderOptionWrapper2 {
+    display: flex !important;
+  }
 }

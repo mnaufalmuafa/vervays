@@ -15,7 +15,7 @@
   <div class="container-fluid" id="searchPage">
     <div class="row justify-content-between mt-3 mx-1 first-row">
       <p class="col" id="keyword">Hasil pencarian untuk "@{{ keywordToShow }}"</p>
-      <div class="col">
+      <div class="col" id="orderOptionWrapper1">
         <select 
           name="" 
           id="orderOption" 
@@ -29,8 +29,23 @@
         <p class="d-inline float-right">Urutkan berdasarkan : </p>
       </div>
     </div>
+    <div 
+      class="d-none justify-content-start"
+      id="orderOptionWrapper2">
+      <p class="">Urutkan berdasarkan : </p>
+      <select 
+        name="" 
+        id="orderOption2"
+        class="ml-2" 
+        v-model="sortingMethod" 
+        @change="selectSortingMethodOnChange()">
+        <option value="bestseller" selected>Bestseller</option>
+        <option value="tertinggi">Harga - Tertinggi ke terendah</option>
+        <option value="terendah">Harga - Terendah ke tertinggi</option>
+      </select>
+    </div>
     <div class="row second-row">
-      <div class="col-2">
+      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
         <div class="filter-wrapper"> {{-- Filter kategori --}}
           <div 
             class="collapse-header" 
@@ -101,7 +116,7 @@
         </div>
         
       </div>
-      <div class="col-10" id="col-book">
+      <div class="col-xl-10 col-xl-10 col-md-10 col-sm-10 col-10" id="col-book">
         <h3 class="ml-4 text-info-book-not-found">Maaf, buku tidak ditemukan</h3>
         <p class="ml-4 text-info-book-not-found">Cek lagi kata pencarianmu</p>
         <div v-if="isInfoBookNotFoundAfterFilterShowed">
@@ -116,14 +131,14 @@
               rating="4.5"
               id="book"
               @click="bookOnClickListener(book.id, book.title)">
-              <div class="col-2">
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
                 <img 
                   :src="book.id | ebookCoverURL(book.ebookCoverId, book.ebookCoverName)" 
                   alt=""
                   class="ebook-image"
                   book-id="id">
               </div>
-              <div class="col-10">
+              <div class="col-xl-10 col-xl-10 col-md-10 col-sm-10 col-10">
                 <h4
                   class="book-title"
                   book-id="">@{{ book.title }}</h4>
