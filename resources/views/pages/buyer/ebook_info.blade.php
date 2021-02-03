@@ -2,6 +2,8 @@
 
 @push('add-on-meta')
   <meta name="book-id" content="{{ $book["id"] }}">
+  <meta name="publisherId" content="{{ $book["publisherId"] }}">
+  <meta name="relaseDate" content="{{ $book["release_at"] }}">
 @endpush
 
 @push('add-on-style')
@@ -45,23 +47,23 @@
           <p class="author-info">Ditulis oleh <span>{{ $book["author"] }}</span></p>
           <div class="row rating-row">
             <img 
-              src="{{ url('image/icon/blank_star.png') }}"
+              :src="this.rating | starURL(1)"
               alt=""
               class="star-image d-inline first-star">
             <img 
-              src="{{ url('image/icon/blank_star.png') }}"
+              :src="this.rating | starURL(2)"
               alt=""
               class="star-image d-inline second-star">
             <img 
-              src="{{ url('image/icon/blank_star.png') }}"
+              :src="this.rating | starURL(3)"
               alt=""
               class="star-image d-inline third-star">
             <img 
-              src="{{ url('image/icon/blank_star.png') }}"
+              :src="this.rating | starURL(4)"
               alt=""
               class="star-image d-inline fourth-star">
             <img 
-              src="{{ url('image/icon/blank_star.png') }}"
+              :src="this.rating | starURL(5)"
               alt=""
               class="star-image d-inline fifth-star">
             <p class="d-inline-block rating mt-1 ml-2">{{ $book["rating"] }}</p>
@@ -88,11 +90,11 @@
             </div>
             <div class="d-inline">
               <p>: {{ $book["language"] }}</p>
-              <p id="publisherText" data-id="{{ $book["publisherId"] }}">: <span>{{ $book["publisher"] }}</span></p>
+              <p id="publisherText" @click="goToInfoPublisherPage()">: <span>{{ $book["publisher"] }}</span></p>
               <p>: {{ $book["author"] }}</p>
               <p>: {{ $book["category"] }}</p>
               <p>: {{ $book["numberOfPage"] }}</p>
-              <p id="relaseDate">: <span>{{ $book["release_at"] }}</span></p>
+              <p id="relaseDate">: <span>@{{ this.relaseDate | relaseDateFormat }}</span></p>
             </div>
           </div>
           <hr>
@@ -107,23 +109,23 @@
               </div>
               <div class="row rating-row mt-1 mb-2">
                 <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
+                  :src="this.rating | starURL(1)"
                   alt=""
                   class="star-image d-inline first-star">
                 <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
+                  :src="this.rating | starURL(2)"
                   alt=""
                   class="star-image d-inline second-star">
                 <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
+                  :src="this.rating | starURL(3)"
                   alt=""
                   class="star-image d-inline third-star">
                 <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
+                  :src="this.rating | starURL(4)"
                   alt=""
                   class="star-image d-inline fourth-star">
                 <img 
-                  src="{{ url('image/icon/blank_star.png') }}"
+                  :src="this.rating | starURL(5)"
                   alt=""
                   class="star-image d-inline fifth-star">
               </div>
@@ -137,9 +139,9 @@
                   class="star-image d-inline first-star">
                 <p class="d-inline-block mt-1 ml-1 font-weight-bold">5</p>
                 <div class="custom-progress mt-2 ml-2">
-                  <div class="loaded"></div>
+                  <div class="loaded" v-bind:style="{ width: ratingLoadedPercentage[4] }"></div>
                 </div>
-                <p class="mt-1 ml-2">0</p>       
+                <p class="mt-1 ml-2">@{{ ratingPerCategory[4] }}</p>       
               </div>
               <div class="row rating-row-progress" id="fourth-rating-row">
                 <img 
@@ -148,9 +150,9 @@
                   class="star-image d-inline first-star">
                 <p class="d-inline-block mt-1 ml-1 font-weight-bold">4</p>
                 <div class="custom-progress mt-2 ml-2">
-                  <div class="loaded"></div>
+                  <div class="loaded" v-bind:style="{ width: ratingLoadedPercentage[3] }"></div>
                 </div>
-                <p class="mt-1 ml-2">0</p>       
+                <p class="mt-1 ml-2">@{{ ratingPerCategory[3] }}</p>       
               </div>
               <div class="row rating-row-progress" id="third-rating-row">
                 <img 
@@ -159,9 +161,9 @@
                   class="star-image d-inline first-star">
                 <p class="d-inline-block mt-1 ml-1 font-weight-bold">3</p>
                 <div class="custom-progress mt-2 ml-2">
-                  <div class="loaded"></div>
+                  <div class="loaded" v-bind:style="{ width: ratingLoadedPercentage[2] }"></div>
                 </div>
-                <p class="mt-1 ml-2">0</p>       
+                <p class="mt-1 ml-2">@{{ ratingPerCategory[2] }}</p>       
               </div>
               <div class="row rating-row-progress" id="second-rating-row">
                 <img 
@@ -170,9 +172,9 @@
                   class="star-image d-inline first-star">
                 <p class="d-inline-block mt-1 ml-1 font-weight-bold">2</p>
                 <div class="custom-progress mt-2 ml-2">
-                  <div class="loaded"></div>
+                  <div class="loaded" v-bind:style="{ width: ratingLoadedPercentage[1] }"></div>
                 </div>
-                <p class="mt-1 ml-2">0</p>       
+                <p class="mt-1 ml-2">@{{ ratingPerCategory[1] }}</p>       
               </div>
               <div class="row rating-row-progress" id="first-rating-row">
                 <img 
@@ -181,9 +183,9 @@
                   class="star-image d-inline first-star">
                 <p class="d-inline-block mt-1 ml-1 font-weight-bold">1</p>
                 <div class="custom-progress mt-2 ml-2">
-                  <div class="loaded"></div>
+                  <div class="loaded" v-bind:style="{ width: ratingLoadedPercentage[0] }"></div>
                 </div>
-                <p class="mt-1 ml-2">0</p>       
+                <p class="mt-1 ml-2">@{{ ratingPerCategory[0] }}</p>       
               </div>
             </div>
           </div>

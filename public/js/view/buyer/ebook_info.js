@@ -1,3 +1,6 @@
+const blankStarURL = "/image/icon/blank_star.png";
+const yellowStarURL = "/image/icon/yellow_star.png";
+
 $(document).ready(function() {
   setUpAlert();
   checkBookAvailability();
@@ -13,55 +16,12 @@ function checkBookAvailability() {
     if (isNotDeleted) {
       $("#main-container").attr("class", "container-fluid");
       setAsideButtonDisplay();
-      setRating("first");
-      setPublisherTextOnClickListener();
-      setReleaseDateFormat();
-      setRating("rating");
-      setRatingProgress();
       displayReview();
     }
     else {
       $("#exception-container").attr("class", "container-fluid");
     }
   });
-}
-
-function setRating(section) {
-  var rating = $('.first-section p.rating').html();
-  rating = Math.floor(rating);
-  if (rating >= 1) {
-    $('.'+section+'-section .first-star').attr("src", "/image/icon/yellow_star.png");
-  }
-  if (rating >= 2) {
-    $('.'+section+'-section .second-star').attr("src","/image/icon/yellow_star.png");
-  }
-  if (rating >= 3) {
-    $('.'+section+'-section .third-star').attr("src","/image/icon/yellow_star.png");
-  }
-  if (rating >= 4) {
-    $('.'+section+'-section .fourth-star').attr("src","/image/icon/yellow_star.png");
-  }
-  if (rating == 5) {
-    $('.'+section+'-section .fifth-star').attr("src","/image/icon/yellow_star.png");
-  }
-}
-
-function setPublisherTextOnClickListener() {
-  $('#publisherText').click(function() {
-    var id = $(this).attr("data-id");
-    var publisherName = $('#publisherText span').html();
-    var publisherSlug = string_to_slug(publisherName);
-    window.location.href = "/info/publisher/"+id+"/"+publisherSlug;
-  });
-}
-
-function setReleaseDateFormat() {
-  var relaseDate = new Date($('#relaseDate span').html());
-  var date = relaseDate.getDate();
-  var month = relaseDate.getMonth()+1;
-  month = getMonthInBahasa(month);
-  var year = relaseDate.getFullYear();
-  $('#relaseDate span').html(date+" "+month+" "+year);
 }
 
 function getMonthInBahasa(intMonth) {
@@ -81,34 +41,84 @@ function getMonthInBahasa(intMonth) {
   }
 }
 
-function setRatingProgress() {
-  var id = $('meta[name=book-id]').attr("content");
-  $.ajax({
-    type : "GET",
-    url : "/get/get_people_gave_stars_count_all_rating/"+id,
-  }).done(function(data) {
-    var ratingAllCount = data;
-    setRatingProgressPerRating(id, 5, "fifth", ratingAllCount);
-    setRatingProgressPerRating(id, 4, "fourth", ratingAllCount);
-    setRatingProgressPerRating(id, 3, "third", ratingAllCount);
-    setRatingProgressPerRating(id, 2, "second", ratingAllCount);
-    setRatingProgressPerRating(id, 1, "first", ratingAllCount);
-  });
-}
+var firstSection = new Vue({
+  el : ".first-section",
+  data : {
+    rating : null,
+  },
+  mounted : function mounted(){
+    this.rating = Math.floor($('.first-section p.rating').html());
+  },
+  filters : {
+    starURL : function(rating, order) {
+      return (rating >= order) ? yellowStarURL : blankStarURL;
+    },
+  },
+});
 
-function setRatingProgressPerRating(id, rating, standing, ratingAllCount) {
-  $.ajax({
-    type : "GET",
-    url : "/get/get_people_gave_stars_count_by_rating/"+id+"/"+rating
-  }).done(function(data) {
-    var width = 0;
-    if (ratingAllCount != 0) {
-      width = (data/ratingAllCount)*100;
-    }
-    $("#"+standing+"-rating-row .loaded").css("width", width+"%");
-    $("#"+standing+"-rating-row p:last-child").html(data);
-  });
-}
+var detailSection = new Vue({
+  el : ".detail-section",
+  data : {
+    publisherId : null,
+    publisherName : null,
+    relaseDate : null,
+  },
+  filters : {
+    relaseDateFormat : function(value) {
+      value = new Date(value);
+      var date = value.getDate();
+      var month = value.getMonth()+1;
+      month = getMonthInBahasa(month);
+      var year = value.getFullYear();
+      return date+" "+month+" "+year;
+    },
+  },
+  mounted : function mounted() {
+    this.publisherId = $('meta[name=publisherId]').attr("content");
+    this.publisherName = $('#publisherText span').html();
+    this.relaseDate = $('meta[name=relaseDate]').attr("content");
+  },
+  methods : {
+    goToInfoPublisherPage : function() {
+      var publisherSlug = string_to_slug(this.publisherName);
+      window.location.href = "/info/publisher/"+this.publisherId+"/"+publisherSlug;
+    },
+  }
+});
+
+var ratingSection = new Vue({
+  el : ".rating-section",
+  data : {
+    bookId : null,
+    rating : null,
+    ratingAllCount : null,
+    ratingPerCategory : [],
+    ratingLoadedPercentage : [],
+  },
+  mounted : function mounted() {
+    this.bookId = $('meta[name=book-id]').attr("content");
+    this.rating = Math.floor($('.first-section p.rating').html());
+    category = ["fifth", "fourth", "third", "second", "first"];
+    fetch("/get/get_people_gave_stars_count_all_rating/"+this.bookId) // mendapatkan banyak orang yang mengulas
+      .then(response => response.json())
+      .then(data => {
+        this.ratingAllCount = data;
+        for (let i = 1; i < 6; i++) { // mendapatkan banyak orang untuk setiap kategori rating
+          fetch("/get/get_people_gave_stars_count_by_rating/"+this.bookId+"/"+i)
+            .then(response => response.json())
+            .then(data => {
+              this.ratingPerCategory.push(data);
+              this.ratingLoadedPercentage.push((data / this.ratingAllCount * 100) + "%");
+            });
+        }
+      });
+  },
+  filters : {
+    starURL : function(rating, order) {
+      return (rating >= order) ? yellowStarURL : blankStarURL;
+    },
+  }
+});
 
 function displayReview() {
   var id = $('meta[name=book-id]').attr("content");
