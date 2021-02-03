@@ -1,6 +1,3 @@
-const blankStarURL = "/image/icon/blank_star.png";
-const yellowStarURL = "/image/icon/yellow_star.png";
-
 function getChoicedCategory(categories) {
   var selectedCategory = []
   for (let i = 0; i < categories.length; i++) {

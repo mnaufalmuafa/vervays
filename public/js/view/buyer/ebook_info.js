@@ -1,6 +1,3 @@
-const blankStarURL = "/image/icon/blank_star.png";
-const yellowStarURL = "/image/icon/yellow_star.png";
-
 $(document).ready(function() {
   setUpAlert();
   checkBookAvailability();

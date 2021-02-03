@@ -1,5 +1,8 @@
 // File ini berisi fungsi fungsi yang umum digunakan
 
+const blankStarURL = "/image/icon/blank_star.png";
+const yellowStarURL = "/image/icon/yellow_star.png";
+
 function storeFlashMessage(message, type, allotmentId) {
   $.ajax({
     url : "/post/store_flash_message",

@@ -2,9 +2,6 @@ $(document).ready(function() {
   setUpAlert();
 });
 
-const blankStarURL = "/image/icon/blank_star.png";
-const yellowStarURL = "/image/icon/yellow_star.png";
-
 function showExceptionContainer() {
 	$(".main-section").hide();
 	var kelas = $('.exception-container').attr("class");
