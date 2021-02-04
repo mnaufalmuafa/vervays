@@ -13,7 +13,6 @@ function checkBookAvailability() {
     if (isNotDeleted) {
       $("#main-container").attr("class", "container-fluid");
       setAsideButtonDisplay();
-      displayReview();
     }
     else {
       $("#exception-container").attr("class", "container-fluid");
@@ -117,135 +116,60 @@ var ratingSection = new Vue({
   }
 });
 
-function displayReview() {
-  var id = $('meta[name=book-id]').attr("content");
-  $.ajax({
-    type : "GET",
-    url : "/get/get_reviews_by_book_id/"+id
-  }).done(function(data) {
-    var reviewsCount = data.length;
-    var template = document.querySelector('#ratingContainer');
-    var container = document.querySelector('#reviews-container');
-    var loaded = 0;
-    for (let i = 0; i < reviewsCount && i < 3; i++) {
-      var clone = template.content.cloneNode(true);
-      var name = getReviewerFormattedName(data[i].firstName, data[i].lastName, data[i].isAnonymous, data[i].isDeleted);
-      var date = getFormattedDateForReviewSection(data[i].created_at);
-      switch (data[i].rating) {
-        case 5:
-          clone.querySelector('.fifth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 4 :
-          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 3 :
-          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 2 :
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 1 :
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
+var reviewSection = new Vue({
+  el : ".review-section",
+  data : {
+    bookId : null,
+    reviews : null,
+    loaded : 0,
+  },
+  mounted : function mounted() {
+    this.bookId = $('meta[name=book-id]').attr("content");
+    fetch("/get/get_reviews_by_book_id/"+this.bookId) // mendapatkan banyak orang yang mengulas
+      .then(response => response.json())
+      .then(data => {
+        this.reviews = data;
+        if (data.length >= 3) {
+          this.loaded = 3;
+        }
+        else {
+          this.loaded = data.length;
+        }
+      });
+  },
+  computed : {
+    isLoadMoreButtonShow : function() {
+      return this.loaded < this.reviews.length;
+    }
+  },
+  filters : {
+    starURL : function(rating, order) {
+      return (rating >= order) ? yellowStarURL : blankStarURL;
+    },
+    formattedDateForReviewSection : function(date) {
+      var newDate = new Date(date);
+      return newDate.getDate()+" "+getMonthInBahasa(newDate.getMonth()+1)+" "+newDate.getFullYear();
+    },
+    reviewerFormattedName : function(firstName, lastName, isAnonymous, isUserDeleted) {
+      var name = firstName + " " + lastName;
+      if (isAnonymous == 1) {
+        name = name.substring(0,1) + "***" + name.substring(name.length-1,name.length);
       }
-      clone.querySelector('.card-custom').setAttribute("id", "rating-"+data[i].id);
-      clone.querySelector('p.reviewer').innerHTML = name;
-      clone.querySelector('p.review').innerHTML = data[i].review;
-      clone.querySelector('p.review-date').innerHTML = date;
-      container.appendChild(clone);
-      loaded++;
-    }
-    if (loaded < reviewsCount) {
-      $('#btnLoadMore').show();
-      continueDisplayReview(loaded, reviewsCount, data);
-    }
-    else {
-      $('#btnLoadMore').hide();
-    }
-  });
-}
-
-function continueDisplayReview(loaded, reviewsCount, data) {
-  $('#btnLoadMore').click(function() {
-    var template = document.querySelector('#ratingContainer');
-    var container = document.querySelector('#reviews-container');
-    var loadedNow = loaded;
-    for (let i = loaded; i < reviewsCount && i < (loadedNow+3);) {
-      if (i == reviewsCount) {
-        break;
+      if (isUserDeleted == 1) {
+        name = "Deleted Account";
       }
-      var clone = template.content.cloneNode(true);
-      var name = getReviewerFormattedName(data[i].firstName, data[i].lastName, data[i].isAnonymous, data[i].isDeleted);
-      var date = getFormattedDateForReviewSection(data[i].created_at);
-      switch (data[i].rating) {
-        case 5:
-          clone.querySelector('.fifth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 4 :
-          clone.querySelector('.fourth-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 3 :
-          clone.querySelector('.third-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 2 :
-          clone.querySelector('.second-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
-        case 1 :
-          clone.querySelector('.first-star').setAttribute("src", "http://127.0.0.1:8000/image/icon/yellow_star.png");
-          break;
+      return name;
+    }
+  },
+  methods : {
+    loadMore : function() {
+      var loadedNow = this.loaded;
+      for (let i = this.loaded; i < this.reviews.length && i < (loadedNow + 3); i++) {
+        this.loaded++;
       }
-      clone.querySelector('.card-custom').setAttribute("id", "rating-"+data[i].id);
-      clone.querySelector('p.reviewer').innerHTML = name;
-      clone.querySelector('p.review').innerHTML = data[i].review;
-      clone.querySelector('p.review-date').innerHTML = date;
-      container.appendChild(clone);
-      loaded++;
-      i++;
     }
-    if (loaded < reviewsCount) {
-      $('#btnLoadMore').show();
-    }
-    else {
-      $('#btnLoadMore').hide();
-    }
-  });
-}
-
-function getReviewerFormattedName(firstName, lastName, isAnonymous, isUserDeleted) {
-  var name = firstName + " " + lastName;
-  if (isAnonymous == 1) {
-    name = name.substring(0,1) + "***" + name.substring(name.length-1,name.length);
   }
-  if (isUserDeleted == 1) {
-    name = "Deleted Account";
-  }
-  return name;
-}
-
-function getFormattedDateForReviewSection(date) {
-  var newDate = new Date(date);
-  return newDate.getDate()+" "+getMonthInBahasa(newDate.getMonth()+1)+" "+newDate.getFullYear();
-}
+});
 
 function hideAllAsideButton() {
   $('#btnDelete').hide();

@@ -191,45 +191,52 @@
           </div>
         </section>
         <section class="review-section mt-4">
-          <div id="reviews-container">
-            <template id="ratingContainer">
+          <div 
+            id="reviews-container"
+            v-for="(review, index) in reviews"
+            v-if="index < loaded">
+            <div>
               <div class="card-custom" id="rating-">
                 <div class="rating-row">
                   <div class="row rating-row mt-1">
                     <img 
-                      src="{{ url('image/icon/blank_star.png') }}"
+                      :src="review.rating | starURL(1)"
                       alt=""
                       class="star-image d-inline first-star">
                     <img 
-                      src="{{ url('image/icon/blank_star.png') }}"
+                      :src="review.rating | starURL(2)"
                       alt=""
                       class="star-image d-inline second-star">
                     <img 
-                      src="{{ url('image/icon/blank_star.png') }}"
+                      :src="review.rating | starURL(3)"
                       alt=""
                       class="star-image d-inline third-star">
                     <img 
-                      src="{{ url('image/icon/blank_star.png') }}"
+                      :src="review.rating | starURL(4)"
                       alt=""
                       class="star-image d-inline fourth-star">
                     <img 
-                      src="{{ url('image/icon/blank_star.png') }}"
+                      :src="review.rating | starURL(5)"
                       alt=""
                       class="star-image d-inline fifth-star">
-                    <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">Kikim Rahmawati</p>
+                    <p class="reviewer d-inline-block mt-1 ml-4 font-weight-bold">@{{ review.firstName | reviewerFormattedName(review.lastName, review.isAnonymous, review.isDeleted) }}</p>
                   </div>
                 </div>
                 <p class="review">
-                  My reading tastes seem to have changed this past year and I've been scooping up a lot of books in the mystery/suspense genre. So when St. Martin's Press sent me a paperback of this book, I couldn't wait to dive in. I am impressed with T.M. Logan's writing. I was practically glued to the pages of this book.
+                  @{{ review.review }}
                 </p>
                 <div class="review-date-row">
-                  <p class="review-date">28 September 2020</p>
+                  <p class="review-date">@{{ review.created_at | formattedDateForReviewSection }}</p>
                 </div>
               </div>
-            </template>
+            </div>
           </div>
-          <button
-            class="mb-5 ml-2 button" id="btnLoadMore">Muat Lebih</button>
+          <div
+            v-if="isLoadMoreButtonShow">
+            <button
+              class="mb-5 ml-2 button" id="btnLoadMore"
+              @click="loadMore()">Muat Lebih</button>
+          </div>
         </section>
       </div>
     </div>
