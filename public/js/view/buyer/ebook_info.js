@@ -37,6 +37,21 @@ function getMonthInBahasa(intMonth) {
   }
 }
 
+var firstSectionClone = new Vue({
+  el : ".first-section-clone",
+  data : {
+    rating : null,
+  },
+  mounted : function mounted(){
+    this.rating = Math.floor($('.first-section p.rating').html());
+  },
+  filters : {
+    starURL : function(rating, order) {
+      return (rating >= order) ? yellowStarURL : blankStarURL;
+    },
+  },
+});
+
 var firstSection = new Vue({
   el : ".first-section",
   data : {
@@ -171,19 +186,8 @@ var reviewSection = new Vue({
   }
 });
 
-function hideAllAsideButton() {
-  $('#btnDelete').hide();
-  $('#btnEdit').hide();
-  $('#btnRead').hide();
-  $('#btnGiveRating').hide();
-  $('#btnReadSample').hide();
-  $('#btnAddToCart').hide();
-  $('#btnAddToWishlist').hide();
-  $('#btnBuy').hide();
-}
-
 function setAsideButtonDisplay() {
-  hideAllAsideButton();
+  $(".button-aside").hide();
   var bookId = $('meta[name=book-id]').attr("content");
   $.ajax({
     type : "GET",

@@ -151,3 +151,10 @@ p.review-date {
   font-size: 1em;
   color: #212529;
 }
+
+@media only screen and (max-width: 768px) {
+  .ebook-cover {
+    max-height: 330px;
+    width: auto;
+  }
+}
