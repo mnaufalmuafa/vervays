@@ -22,7 +22,7 @@
     <h2 class="mt-2 font-weight-bold">Koleksi Buku</h2>
     <div class="row">
       <template id="bookTemplate">
-        <div class="card-book col-2 mb-3" id="book-">
+        <div class="card-book col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 mb-3" id="book-">
           <div class="card">
             <a href="" class="imageLink">
               <img 
