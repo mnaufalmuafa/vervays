@@ -8,6 +8,10 @@
   padding-bottom: 10px;
 }
 
+.card-book img {
+  max-height: 330px;
+}
+
 .ebook-image {
   width: 100%;
 }

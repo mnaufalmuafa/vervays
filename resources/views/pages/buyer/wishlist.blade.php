@@ -31,7 +31,7 @@
           :id="item.id | cardBookId"
           v-for="(item, index) in books"
           :key="item.id">
-          <div class="col-2">
+          <div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 d-flex justify-content-center">
             <a 
               :href="item.id | bookDetailURL(item.title)">
               <img 
@@ -40,7 +40,7 @@
                 class="ebook-image">
             </a>
           </div>
-          <div class="col-10">
+          <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
             <a 
               :href="item.id | bookDetailURL(item.title)">
               <h4
