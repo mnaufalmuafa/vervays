@@ -21,26 +21,44 @@
   <div class="container-fluid main-container d-none">
     <h2 class="mt-2 font-weight-bold">Koleksi Buku</h2>
     <div class="row">
-      <template id="bookTemplate">
-        <div class="card-book col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 mb-3" id="book-">
-          <div class="card">
-            <a href="" class="imageLink">
-              <img 
-                src="{{ url('image/book_placeholder.png') }}" 
-                alt=""
-                class="book-cover">
+      <div 
+        class="card-book col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 mb-3" 
+        v-for="(book, index) in books"
+        @mouseenter="onMouseEnter(index)"
+        @mouseleave="onMouseLeave(index)">
+        <div class="card">
+          <a 
+            :href="book.id | bookDetailURL(book.title)" 
+            class="imageLink">
+            <img 
+              :src="book.ebookCoverId | bookCoverURL(book.ebookCoverFileName)" 
+              alt=""
+              class="book-cover">
+          </a>
+          <div class="info-container">
+            <a 
+              :href="book.id | bookDetailURL(book.title)" 
+              class="titleLink">
+              <p class="title mx-1">@{{ book.title }}</p>
             </a>
-            <div class="info-container">
-              <a href="" class="titleLink">
-                <p class="title mx-1">Judul Buku</p>
-              </a>
-              <p class="author mx-1">Author</p>
-            </div>
-            <button class="button mb-1 mx-auto btnRead">Baca Buku</button>
-            <button class="button mx-auto btnGiveRating" data-emptied="0">Beri Ulasan</button>
+            <p class="author mx-1">@{{ book.author }}</p>
+          </div>
+          <div
+            class="d-flex justify-content-center"
+            v-if="books[index].isBtnShowed">
+            <button 
+              class="button mb-1 mx-auto btnRead"
+              @click="redirectToReadBookPage(book.id)">Baca Buku</button>
+          </div>
+          <div
+            class="d-flex justify-content-center" 
+            v-if="book.didTheUserGiveAReview === false && books[index].isBtnShowed">
+            <button 
+              class="button mx-auto btnGiveRating"
+              @click="redirectToGiveRatingPage(book.id)">Beri Ulasan</button>
           </div>
         </div>
-      </template>
+      </div>
     </div>
   </div>
 @endsection
