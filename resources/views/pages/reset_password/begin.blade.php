@@ -18,9 +18,19 @@
   <link 
     rel="stylesheet" 
     href="{{ url('css/reset_password/begin.css') }}">
-  <title>Login</title>
+  <title>Mulai reset passsword</title>
 </head>
 <body>
+  <div id="loader-wrapper">
+    <div class="content">
+      <img 
+        id="rotated-image"
+        src="/image/icon/loading_screen/background.png">
+    </div>
+    <div class="content">
+      <img src="/image/icon/loading_screen/logo_without_border.png">
+    </div>
+  </div>
   <div class="container">
     <h4 class="mt-4">Vervays</h4>
     <h5>Temukan Akunmu</h5>
@@ -34,7 +44,11 @@
       </div>
     @endif
     <p>Masukkan email yang terdaftar pada Vervays</p>
-    <form action="/account/begin_reset_password" method="POST">
+    <form 
+      action="/account/begin_reset_password" 
+      method="POST"
+      {{-- @submit="onFormSubmit" --}}
+      id="formResetPassword">
       @csrf
       <input type="email" class="input-email" name="email" required>
       <br>
@@ -56,9 +70,10 @@
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" 
     crossorigin="anonymous">
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
   <script 
     type="text/javascript"
-    src= "{{ url('js/view/reset_password.js') }}">
+    src= "{{ url('js/view/reset_password/begin.js') }}">
   </script>
 </body>
 </html>
