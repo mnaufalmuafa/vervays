@@ -21,6 +21,16 @@
   <title>Sign Up</title>
 </head>
 <body>
+  <div id="loader-wrapper">
+    <div class="content">
+      <img 
+        id="rotated-image"
+        src="/image/icon/loading_screen/background.png">
+    </div>
+    <div class="content">
+      <img src="/image/icon/loading_screen/logo_without_border.png">
+    </div>
+  </div>
   <div class="container-custom">
     <div class="row">
       <div class="col-6 left-side" id="left-side">
@@ -31,7 +41,11 @@
         </div>
       </div>
       <div class="col-6 right-side" id="right-side">
-        <form action="/signup" method="POST" class="form">
+        <form 
+          action="/signup" 
+          method="POST" 
+          class="form"
+          id="signUpForm">
           @csrf
           <h2 class="font-weight-bold">Sign Up</h2>
           <p>Daftar akun agar bisa berbelanja di Vervays</p>

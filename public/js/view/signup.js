@@ -2,6 +2,7 @@ var leftSideVal;
 var leftSideClass;
 var rightSideClass;
 $(document).ready(function() {
+  $("#loader-wrapper").hide();
   leftSideVal = $('.left-side').html();
   leftSideClass = $('.left-side').attr('class');
   rightSideClass = $('.right-side').attr('class');
@@ -25,3 +26,8 @@ function windowChangeListener() {
   }
 }
 $(window).on('resize', windowChangeListener);
+
+$("#signUpForm").on("submit", function(e) {
+  $("#loader-wrapper").show();
+  $("#formResetPassword").submit();
+});

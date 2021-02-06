@@ -3,6 +3,8 @@ h4 {
 	color: red;
 }
 
+/* Loading Screen */
+
 #rotated-image {
   -webkit-animation:spin 4s linear infinite;
   -moz-animation:spin 4s linear infinite;
@@ -30,3 +32,5 @@ h4 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+/* End Loading Screen */
