@@ -22,6 +22,7 @@ var listBook = new Vue({
     books : null
   },
   beforeCreate : function() {
+    $("#loader-wrapper").hide();
     fetch("/get/get_user_cart")
       .then(response => response.json())
       .then(data => {
@@ -79,6 +80,7 @@ var listBook = new Vue({
       });
     },
     submit : function() {
+      $("#loader-wrapper").show();
       paymentMethod = getPaymentMethodValue();
       console.log({ paymentMethod });
       $(':input[type="submit"]').prop('disabled', true);
@@ -86,7 +88,6 @@ var listBook = new Vue({
       $.ajax({
         url : "http://127.0.0.1:8000/post/create_order",
         method : "POST",
-        // timeout : 0,
         headers : {
           "Content-Type": "application/json",
         },

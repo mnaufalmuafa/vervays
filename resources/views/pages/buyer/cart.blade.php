@@ -11,6 +11,16 @@
 @endsection
 
 @section('content')
+  <div id="loader-wrapper">
+    <div class="content">
+      <img 
+        id="rotated-image"
+        src="/image/icon/loading_screen/background.png">
+    </div>
+    <div class="content">
+      <img src="/image/icon/loading_screen/logo_without_border.png">
+    </div>
+  </div>
   <div class="container-fluid exception-container d-none">
     <h2 class="text-center mt-5">Wah, keranjang belanjamu masih kosong</h2>
     <h4 class="text-center">Yuk, isi keranjang belanjamu</h4>
