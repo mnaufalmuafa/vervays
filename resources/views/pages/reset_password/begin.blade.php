@@ -47,7 +47,6 @@
     <form 
       action="/account/begin_reset_password" 
       method="POST"
-      {{-- @submit="onFormSubmit" --}}
       id="formResetPassword">
       @csrf
       <input type="email" class="input-email" name="email" required>
