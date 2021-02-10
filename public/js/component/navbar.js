@@ -1,9 +1,13 @@
 $(document).ready(function() {
+  $("#collapsedSection").hide();
   var width = $(window).width();
   if (width < 992) {
-    $("#navbarSeparator").hide();
+    $(".navbar").hide();
   }
-  $('#inputSearchBar').keypress(function(event) {
+  else {
+    $(".responsive-navbar").hide();
+  }
+  $('.inputSearchBar').keypress(function(event) {
     if ( event.which == 13 ) {
       if ($('#inputSearchBar').val() === "") {
         console.log('kosong');
@@ -17,7 +21,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#linkLogout').click(function(event) {
+  $('.linkLogout').click(function(event) {
     event.preventDefault();
     Swal.fire({
       title: 'Apakah anda yakin ingin logout?',
@@ -38,7 +42,7 @@ $(document).ready(function() {
     });
   });
 
-  $('#linkMenjadiPublisher').click(function(event) {
+  $('.linkMenjadiPublisher').click(function(event) {
     event.preventDefault();
     $.ajax({
       url : "/bepublisher",
@@ -52,11 +56,24 @@ $(document).ready(function() {
 function NavbarWindowChangeListener() {
   var width = $(window).width();
   if (width < 992) {
-    $("#navbarSeparator").hide();
+    $(".responsive-navbar").show();
+    $(".navbar").hide();
   }
   else {
-    $("#navbarSeparator").show();
+    $(".responsive-navbar").hide();
+    $(".navbar").show();
   }
 }
 
 $(window).on('resize', NavbarWindowChangeListener);
+
+$("#nav-toggler").click(function() {
+  if ($("#nav-toggler").attr("isCollapsed") == "1") {
+    $("#collapsedSection").show(1000);
+    $("#nav-toggler").attr("isCollapsed", 0);
+  }
+  else {
+    $("#collapsedSection").hide(1000);
+    $("#nav-toggler").attr("isCollapsed", 1);
+  }
+});
