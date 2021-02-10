@@ -62,7 +62,9 @@
     <button 
       class="button d-inline float-right"
       @click="redirectToAddBookPage()">Tambah Buku</button>
-    <table class="table table-bordered table-striped table-sm mt-3">
+    <table 
+      class="mt-3"
+      id="bookTable">
       <thead>
         <tr>
           <th>No</th>

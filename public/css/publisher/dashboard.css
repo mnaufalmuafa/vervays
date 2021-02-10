@@ -112,3 +112,31 @@ p.price {
 .book-rating-container p {
   margin-top: 4.5px;
 }
+
+#bookTable {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#bookTable, #bookTable th, #bookTable td {
+  border: 1px solid black;
+  padding: 3px 5px;
+}
+
+#bookTable tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+
+#bookTable tbody tr:hover {
+  background-color: #ddd;
+}
+
+/* #bookTable thead tr:nth-child(1):hover{
+  background-color: white;
+} */
+
+@media only screen and (max-width: 768px) {
+  #bookTable {
+    width: 1920px;
+  }
+}
