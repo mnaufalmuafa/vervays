@@ -44,7 +44,7 @@
 				</div>
 			</div>
 			<div class="col-10">
-				<section class="" id="section-ubah-profil">
+				<section class="section-content" id="section-ubah-profil">
 					<form id="changeProfileForm" class="mb-2">
 						<h3 class="font-weight-bold">Ubah Profil</h3>
 						<div class="form-row">
@@ -112,7 +112,7 @@
 						</div>
 					</form>
 				</section>
-				<section class="d-none" id="section-ubah-password">
+				<section class="section-content" id="section-ubah-password">
 					<form id="changePasswordForm">
 						<h3 class="font-weight-bold">Ubah Password</h3>
 						<div class="form-group row">
@@ -141,7 +141,7 @@
 						</div>
 					</form>
 				</section>
-				<section class="d-none" id="section-hapus-akun">
+				<section class="section-content" id="section-hapus-akun">
 					<h3 class="font-weight-bold">Hapus Akun</h3>
 					<div class="d-flex justify-content-between">
 						<p>Ingin menghapus akun Vervays mu?</p>

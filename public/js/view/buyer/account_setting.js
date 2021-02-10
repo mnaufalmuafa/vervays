@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  resetMenu();
 	setUpGenderRadioButton();
 	setChangeProfileFormOnSubmitListener();
 	setUpChangePasswordForm();
@@ -11,14 +12,14 @@ function resetMenu() {
 	$(".menu-sidebar div").attr("class", $("#MenuUbahProfil div").attr("class").replace("red", "white")); // menghilangkan sign
 	$(".menu-sidebar p").css("color", "black"); // mengubah teks menjadi hitam
 	$(".menu-sidebar hr").attr("class", ""); // mengubah warna hr menjadi hitam
-	$("section").attr("class","d-none"); // menghilangkan semua isi side utama
+	$(".section-content").hide(); // menghilangkan semua isi side utama
 }
 
 function choiceMenu(menuId, sectionId) {
 	$("#" + menuId + " div").attr("class", $("#" + menuId +" div").attr("class").replace("white", "red")); //setup sign
 	$("#" + menuId + " p").css("color", "red"); // mengubah teks menjadi merah
 	$("#" + menuId + " hr").attr("class", "red-hr"); // mengubah warna hr menjadi merah
-	$("#"+sectionId).attr("class", "");
+	$("#"+sectionId).show();
 }
 
 function setupMonthJoined() {
@@ -64,6 +65,7 @@ function setupMonthJoined() {
 }
 
 function setupSidebar() {
+  choiceMenu("MenuUbahProfil", "section-ubah-profil");
 	setupMonthJoined();
 	$("#MenuUbahProfil").click(function() {
 		resetMenu();
