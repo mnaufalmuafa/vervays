@@ -73,12 +73,13 @@ html, body {
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 #loader-wrapper {
+  display: block;
   height: 100%;
   width: 100%;
   background-color: grey;
   opacity: 0.9;
   z-index: 1001;
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
 }
