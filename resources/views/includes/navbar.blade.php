@@ -8,7 +8,8 @@
   <div class="input-group mr-5">
     <input 
       type="text"
-      class="form-control inputSearchBar" 
+      id="defaultSearchBar"
+      class="form-control" 
       placeholder="Buku apa yang sedang anda cari?"
       aria-label="Amount (to the nearest dollar)">
     <div class="input-group-append">
@@ -90,8 +91,8 @@
     <div class="input-group mr-5">
       <input 
         type="text"
-        id="inputSearchBar"
-        class="form-control inputSearchBar" 
+        id="responsiveSearchBar"
+        class="form-control" 
         placeholder="Buku apa yang sedang anda cari?"
         aria-label="Amount (to the nearest dollar)">
       <div class="input-group-append">

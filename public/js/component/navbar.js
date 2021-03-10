@@ -7,19 +7,6 @@ $(document).ready(function() {
   else {
     $(".responsive-navbar").hide();
   }
-  $('.inputSearchBar').keypress(function(event) {
-    if ( event.which == 13 ) {
-      if ($('#inputSearchBar').val() === "") {
-        console.log('kosong');
-      }
-      else {
-        var keyword = $('#inputSearchBar').val();
-        keyword = string_to_slug(keyword);
-        console.log(keyword);
-        window.location.href = "/search?keyword="+keyword;
-      }
-    }
-  });
 
   $('.linkLogout').click(function(event) {
     event.preventDefault();
@@ -77,3 +64,33 @@ $("#nav-toggler").click(function() {
     $("#nav-toggler").attr("isCollapsed", 1);
   }
 });
+
+document.getElementById("defaultSearchBar").addEventListener("keypress", searchBarOnKeypressListener);
+function searchBarOnKeypressListener(event) {
+  if ( event.key == "Enter" ) {
+    if ($('#defaultSearchBar').val() === "") {
+      console.log('kosong');
+    }
+    else {
+      var keyword = $('#defaultSearchBar').val();
+      keyword = string_to_slug(keyword);
+      console.log(keyword);
+      window.location.href = "/search?keyword="+keyword;
+    }
+  }
+}
+
+document.getElementById("responsiveSearchBar").addEventListener("keypress", responsiveSearchBarOnKeypressListener);
+function responsiveSearchBarOnKeypressListener(event) {
+  if ( event.key == "Enter" ) {
+    if ($('#responsiveSearchBar').val() === "") {
+      console.log('kosong');
+    }
+    else {
+      var keyword = $('#responsiveSearchBar').val();
+      keyword = string_to_slug(keyword);
+      console.log(keyword);
+      window.location.href = "/search?keyword="+keyword;
+    }
+  }
+}
