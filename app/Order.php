@@ -69,15 +69,6 @@ class Order extends Model
         return number_format($price,0,',','.');
     }
 
-    public static function removeBookFromCart($bookId)
-    {
-        $userId = session('id');
-        DB::table('carts')
-            ->where('bookId', $bookId)
-            ->where('userId', $userId)
-            ->delete();
-    }
-
     private static function getNewOrderId()
     {
         return DB::table('orders')->count() + 1;
