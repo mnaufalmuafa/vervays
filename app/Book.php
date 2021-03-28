@@ -56,15 +56,6 @@ class Book extends Model
         return $data;
     }
 
-    private static function getEbookCoverURL($ebookCoverId)
-    {
-        $fileName = DB::table('ebook_covers')
-            ->where('id', $ebookCoverId)
-            ->first()
-            ->name;
-        return url("ebook/ebook_cover/".$ebookCoverId."/".$fileName);
-    }
-
     public static function getBookSoldCount($id)
     {
         $soldCount = DB::table('book_snapshots')
@@ -181,7 +172,7 @@ class Book extends Model
             $rating = Reviews::getBookRating($bookArray[$i]["id"]);
             $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
-            $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
+            $imageURL = EbookCover::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
         }
         return $bookArray;
@@ -203,7 +194,7 @@ class Book extends Model
             $rating = Reviews::getBookRating($bookArray[$i]["id"]);
             $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
-            $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
+            $imageURL = EbookCover::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
         }
         return $bookArray;
@@ -247,7 +238,7 @@ class Book extends Model
             $rating = Reviews::getBookRating($bookArray[$i]["id"]);
             $rating = number_format((float) $rating, 1, '.', '');
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
-            $imageURL = Book::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
+            $imageURL = EbookCover::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
             $soldCount = Book::getBookSoldCount($bookArray[$i]["id"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("soldCount" => $soldCount));
@@ -314,7 +305,7 @@ class Book extends Model
         $book->rating = $rating;
         $book->ratingCount = Reviews::getBookRatingCount($book->id);
         $book->soldCount = Book::getBookSoldCount($book->id);
-        $book->imageURL = Book::getEbookCoverURL($book->ebookCoverId);
+        $book->imageURL = EbookCover::getEbookCoverURL($book->ebookCoverId);
         unset($book->ebookCoverId);
         unset($book->created_at);
         unset($book->updated_at);
@@ -465,7 +456,7 @@ class Book extends Model
                 "id" => $book->id,
                 "title" => $book->title,
                 "author" => $book->author,
-                "imageURL" => Book::getEbookCoverURL($book->ebookCoverId),
+                "imageURL" => EbookCover::getEbookCoverURL($book->ebookCoverId),
                 "synopsis" => $book->synopsis,
                 "rating" => $rating,
                 "ratingCount" => Reviews::getBookRatingCount($book->id),
