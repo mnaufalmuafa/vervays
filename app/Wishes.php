@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use App\Book;
+use App\BookSnapshot;
 use App\Reviews;
 use Carbon\Carbon;
 
@@ -29,7 +30,7 @@ class Wishes
         foreach ($data as $book) {
             $book->rating = Reviews::getBookRating($book->id);
             $book->ratingCount = Reviews::getBookRatingCount($book->id);
-            $book->soldCount = Book::getBookSoldCount($book->id);
+            $book->soldCount = BookSnapshot::getBookSoldCount($book->id);
         }
         return response()->json($data);
     }

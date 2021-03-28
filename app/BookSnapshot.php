@@ -41,4 +41,14 @@ class BookSnapshot
             ]);
         }
     }
+
+    public static function getBookSoldCount($id)
+    {
+        $soldCount = DB::table('book_snapshots')
+            ->join('orders', 'book_snapshots.orderId', '=', 'orders.id')
+            ->where('book_snapshots.bookId', $id)
+            ->where('orders.status', 'success')
+            ->count();
+        return $soldCount ?? 0;
+    }
 }

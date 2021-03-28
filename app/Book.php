@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use App\BookSnapshot;
 use App\Publisher;
 use App\Reviews;
 use App\SampleEbookFiles;
@@ -47,23 +48,13 @@ class Book extends Model
                 "title" => $book->title,
                 "rating" => Reviews::getBookRating($book->id),
                 "ratingCount" => Reviews::getBookRatingCount($book->id),
-                "soldCount" => Book::getBookSoldCount($book->id),
+                "soldCount" => BookSnapshot::getBookSoldCount($book->id),
                 "price" => Book::convertPriceToCurrencyFormat($book->price),
             ]);
         }
         $titles = array_column($data, 'title');
         array_multisort($titles, SORT_ASC, $data);
         return $data;
-    }
-
-    public static function getBookSoldCount($id)
-    {
-        $soldCount = DB::table('book_snapshots')
-            ->join('orders', 'book_snapshots.orderId', '=', 'orders.id')
-            ->where('book_snapshots.bookId', $id)
-            ->where('orders.status', 'success')
-            ->count();
-        return $soldCount ?? 0;
     }
 
     private static function convertPriceToCurrencyFormat($price)
@@ -240,7 +231,7 @@ class Book extends Model
             $bookArray[$i] = array_merge($bookArray[$i], array("rating" => $rating));
             $imageURL = EbookCover::getEbookCoverURL($bookArray[$i]["ebookCoverId"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("imageURL" => $imageURL));
-            $soldCount = Book::getBookSoldCount($bookArray[$i]["id"]);
+            $soldCount = BookSnapshot::getBookSoldCount($bookArray[$i]["id"]);
             $bookArray[$i] = array_merge($bookArray[$i], array("soldCount" => $soldCount));
         }
         \usort($bookArray, function ($book1, $book2) {
@@ -272,7 +263,7 @@ class Book extends Model
         foreach ($books as $book) {
             $book->rating = Reviews::getBookRating($book->id);
             $book->ratingCount = Reviews::getBookRatingCount($book->id);
-            $book->soldCount = Book::getBookSoldCount($book->id);
+            $book->soldCount = BookSnapshot::getBookSoldCount($book->id);
             $book->priceForHuman = Book::convertPriceToCurrencyFormat($book->price);
         }
         return response()->json($books);
@@ -304,7 +295,7 @@ class Book extends Model
         $rating = number_format((float) $rating, 1, '.', '');
         $book->rating = $rating;
         $book->ratingCount = Reviews::getBookRatingCount($book->id);
-        $book->soldCount = Book::getBookSoldCount($book->id);
+        $book->soldCount = BookSnapshot::getBookSoldCount($book->id);
         $book->imageURL = EbookCover::getEbookCoverURL($book->ebookCoverId);
         unset($book->ebookCoverId);
         unset($book->created_at);
@@ -460,7 +451,7 @@ class Book extends Model
                 "synopsis" => $book->synopsis,
                 "rating" => $rating,
                 "ratingCount" => Reviews::getBookRatingCount($book->id),
-                "soldCount" => Book::getBookSoldCount($book->id),
+                "soldCount" => BookSnapshot::getBookSoldCount($book->id),
                 "price" => Book::convertPriceToCurrencyFormat($book->price),
             ]);
         }
