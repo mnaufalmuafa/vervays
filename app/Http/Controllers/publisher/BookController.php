@@ -8,6 +8,7 @@ use App\User;
 use App\Book;
 use App\Category;
 use App\EbookCover;
+use App\EbookFile;
 use App\Language;
 use App\Publisher;
 use Carbon\Carbon;
@@ -44,7 +45,7 @@ class BookController extends Controller
         ]);
         
         // Upload Ebook
-        $ebookFileId = Book::getNewEbookFilesId();
+        $ebookFileId = EbookFile::getNewEbookFilesId();
         $ebook = $request->file('ebookFile');
         $nama_file = $ebook->getClientOriginalName();
         $tujuan_upload = 'ebook/ebook_files/'.$ebookFileId;

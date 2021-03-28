@@ -26,11 +26,6 @@ class Book extends Model
         DB::table('books')->insert($ebookData);
     }
 
-    public static function getNewEbookFilesId()
-    {
-        return DB::table('ebook_files')->get()->count() + 1;
-    }
-
     public static function getNewSampleEbookFilesId()
     {
         return DB::table('sample_ebook_files')->get()->count() + 1;

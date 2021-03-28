@@ -21,4 +21,9 @@ class EbookFile
         $ebookFile = EbookFile::getEbookFile($ebookFileId);
         return "/ebook/ebook_files/".$ebookFile->id."/".$ebookFile->name;
     }
+
+    public static function getNewEbookFilesId()
+    {
+        return DB::table('ebook_files')->get()->count() + 1;
+    }
 }
