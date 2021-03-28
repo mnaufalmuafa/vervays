@@ -11,6 +11,7 @@ use App\EbookCover;
 use App\EbookFile;
 use App\Language;
 use App\Publisher;
+use App\SampleEbookFiles;
 use Carbon\Carbon;
 
 class BookController extends Controller
@@ -52,7 +53,7 @@ class BookController extends Controller
         $ebook->move($tujuan_upload,$nama_file);
 
         //Upload Sample Ebook
-        $sampleEbookId = Book::getNewSampleEbookFilesId();
+        $sampleEbookId = SampleEbookFiles::getNewSampleEbookFilesId();
         $SampleEbook = $request->file('sampleEbookFile');
         $nama_file = $SampleEbook->getClientOriginalName();
         $tujuan_upload = 'ebook/sample_ebook_files/'.$sampleEbookId;

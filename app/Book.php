@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 use App\Publisher;
 use App\Reviews;
+use App\SampleEbookFiles;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -24,11 +25,6 @@ class Book extends Model
         DB::table('sample_ebook_files')->insert($sampleEbookFilesData);
         DB::table('ebook_covers')->insert($ebookCoverData);
         DB::table('books')->insert($ebookData);
-    }
-
-    public static function getNewSampleEbookFilesId()
-    {
-        return DB::table('sample_ebook_files')->get()->count() + 1;
     }
 
     public static function getNewBookId()
@@ -134,7 +130,7 @@ class Book extends Model
 
     public static function uploadSampleEbook($file, $bookId)
     {
-        $sampleEbookId = Book::getNewSampleEbookFilesId();
+        $sampleEbookId = SampleEbookFiles::getNewSampleEbookFilesId();
         $SampleEbook = $file;
         $nama_file = $SampleEbook->getClientOriginalName();
         $tujuan_upload = 'ebook/sample_ebook_files/'.$sampleEbookId;
