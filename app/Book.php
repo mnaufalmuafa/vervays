@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\BookSnapshot;
 use App\Publisher;
 use App\Reviews;
-use App\SampleEbookFiles;
+use App\SampleEbookFile;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -112,7 +112,7 @@ class Book extends Model
 
     public static function uploadSampleEbook($file, $bookId)
     {
-        $sampleEbookId = SampleEbookFiles::getNewSampleEbookFilesId();
+        $sampleEbookId = SampleEbookFile::getNewSampleEbookFilesId();
         $SampleEbook = $file;
         $nama_file = $SampleEbook->getClientOriginalName();
         $tujuan_upload = 'ebook/sample_ebook_files/'.$sampleEbookId;
