@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Book;
 use App\Category;
+use App\EbookCover;
 use App\Language;
 use App\Publisher;
 use Carbon\Carbon;
@@ -57,7 +58,7 @@ class BookController extends Controller
         $SampleEbook->move($tujuan_upload,$nama_file);
 
         //Upload Cover Ebook
-        $photoId = Book::getNewEbookCoverId();
+        $photoId = EbookCover::getNewEbookCoverId();
         $photo = $request->file('photo');
         $nama_file = $photo->getClientOriginalName();
         $tujuan_upload = 'ebook/ebook_cover/'.$photoId;
@@ -122,7 +123,8 @@ class BookController extends Controller
         $cover = $request->photo;
 
         if ($cover != null) {
-            Book::uploadCoverPhoto($cover, $request->post('id'));
+            $photoId = EbookCover::uploadCoverPhoto($cover, $request->post('id'));
+            Book::updateCoverPhoto($photoId, $request->post('id'));
         }
 
         if ($request->sampleEbookFile != null) {

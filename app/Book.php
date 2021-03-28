@@ -36,11 +36,6 @@ class Book extends Model
         return DB::table('sample_ebook_files')->get()->count() + 1;
     }
 
-    public static function getNewEbookCoverId()
-    {
-        return DB::table('ebook_covers')->get()->count() + 1;
-    }
-
     public static function getNewBookId()
     {
         return DB::table('books')->get()->count() + 1;
@@ -131,19 +126,8 @@ class Book extends Model
         Book::where('id', $book["id"])->update($data);
     }
 
-    public static function uploadCoverPhoto($file, $bookId)
+    public static function updateCoverPhoto($photoId, $bookId)
     {
-        $photoId = Book::getNewEbookCoverId();
-        $photo = $file;
-        $nama_file = $photo->getClientOriginalName();
-        $tujuan_upload = 'ebook/ebook_cover/'.$photoId;
-        $photo->move($tujuan_upload,$nama_file);
-        DB::table('ebook_covers')->insert([
-            "id" => $photoId,
-            "name" => $photo->getClientOriginalName(),
-            "created_at" => Carbon::now(),
-            "updated_at" => Carbon::now(),
-        ]);
         DB::table('books')
             ->join('ebook_covers', 'books.ebookCoverId', '=', 'ebook_covers.id')
             ->where('books.id',$bookId)

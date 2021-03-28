@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class EbookCover
 {
@@ -22,5 +23,26 @@ class EbookCover
                         ->first()
                         ->name;
         return url("ebook/ebook_cover/".$ebookCoverId."/".$fileName);
+    }
+
+    public static function getNewEbookCoverId()
+    {
+        return DB::table('ebook_covers')->get()->count() + 1;
+    }
+
+    public static function uploadCoverPhoto($file, $bookId)
+    {
+        $photoId = EbookCover::getNewEbookCoverId();
+        $photo = $file;
+        $nama_file = $photo->getClientOriginalName();
+        $tujuan_upload = 'ebook/ebook_cover/'.$photoId;
+        $photo->move($tujuan_upload,$nama_file);
+        DB::table('ebook_covers')->insert([
+            "id" => $photoId,
+            "name" => $photo->getClientOriginalName(),
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]);
+        return $photoId;
     }
 }
