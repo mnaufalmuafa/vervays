@@ -8,6 +8,10 @@ function setBalanceInfoFormat() {
   $("span.info-balance").html(convertToRupiah(balance));
 }
 
+function redirectToDashboard() {
+  window.location.href = "/publisher/dashboard";
+}
+
 function setFormOnSubmitListener() {
   $("#form").on("submit", function(event) {
     event.preventDefault();
@@ -27,7 +31,7 @@ function setFormOnSubmitListener() {
       }
     }).done(function(res) {
       console.log(res);
-      window.location.href = "/publisher/dashboard"
+      redirectToDashboard();
     });
   });
 }
