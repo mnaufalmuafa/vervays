@@ -94,7 +94,7 @@ class Order extends Model
             Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId, $totalPrice);
         }
         else if ($paymentMethod == "2") {
-            Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId);
+            Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId, $totalPrice);
         }
         Order::store($orderId, $backCode, $paymentMethod, $paymentCode, $dt, $createdAt);
         BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId);
@@ -155,7 +155,7 @@ class Order extends Model
         // echo $response;
     }
 
-    public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId)
+    public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId, $totalAmount)
     {
         $curl = curl_init();
 
@@ -168,7 +168,31 @@ class Order extends Model
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\n    \"payment_type\": \"cstore\",\n    \"transaction_details\": {\n        \"gross_amount\": 44000,\n        \"order_id\": \"$midtransOrderId\"\n    },\n    \"customer_details\": {\n        \"email\": \"noreply@example.com\",\n        \"first_name\": \"Vervays\",\n        \"last_name\": \"User\",\n        \"phone\": \"+6281 1234 1234\"\n    },\n    \"item_details\": [\n    {\n       \"id\": \"item01\",\n       \"price\": 21000,\n       \"quantity\": 1,\n       \"name\": \"Ebook1\"\n    },\n    {\n       \"id\": \"item02\",\n       \"price\": 23000,\n       \"quantity\": 1,\n       \"name\": \"Ebook2\"\n    }\n   ],\n  \"cstore\": {\n    \"store\": \"Indomaret\",\n    \"message\": \"Message to display\"\n  }\n}",
+        CURLOPT_POSTFIELDS =>"{
+            \"payment_type\": \"cstore\",
+            \"transaction_details\": {
+                \"gross_amount\": {$totalAmount},
+                \"order_id\": \"{$midtransOrderId}\"
+            },
+            \"customer_details\": {
+                \"email\": \"noreply@example.com\",
+                \"first_name\": \"Vervays\",
+                \"last_name\": \"user\",
+                \"phone\": \"+6281 1234 1234\"
+            },
+            \"item_details\": [
+            {
+               \"id\": \"item01\",
+               \"price\": {$totalAmount},
+               \"quantity\": 1,
+               \"name\": \"Ebook1\"
+            }
+           ],
+          \"cstore\": {
+            \"store\": \"Indomaret\",
+            \"message\": \"Message to display\"
+          }
+        }",
         CURLOPT_HTTPHEADER => array(
             "Accept: application/json",
             "Content-Type: application/json",
