@@ -2,6 +2,10 @@ $(document).ready(function(){
 	setUpAlert();
 });
 
+function redirectToSignUpPage() {
+	window.location.href = "http://127.0.0.1:8000/signup";
+}
+
 var accountSetting = new Vue({
   el : "#content",
   data : {
@@ -143,7 +147,7 @@ var accountSetting = new Vue({
 							});
 						}
 						else {
-							window.location.href = "/";
+							redirectToSignUpPage();
 						}
 					});
 				}
