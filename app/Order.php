@@ -84,10 +84,14 @@ class Order extends Model
         $orderId = Order::getNewOrderId();
         $midtransOrderId = $orderId."-".$backCode;
         $arrBookId = Cart::getUserCartBookId();
+        $totalPrice = 0;
+        foreach ($arrBookId as $bookId) { 
+            $totalPrice += Book::getPrice($bookId->bookId);
+        }
         $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
         Cart::emptyUserCart();
         if ($paymentMethod == "1") {
-            Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId);
+            Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId, $totalPrice);
         }
         else if ($paymentMethod == "2") {
             Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId);
@@ -124,7 +128,7 @@ class Order extends Model
         ]);
     }
 
-    public static function postTransactionToMidtransWithBNIVAPayment($midtransOrderId)
+    public static function postTransactionToMidtransWithBNIVAPayment($midtransOrderId, $totalAmount)
     {
         $curl = curl_init();
 
@@ -137,7 +141,7 @@ class Order extends Model
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\n    \"payment_type\": \"bank_transfer\",\n    \"transaction_details\": {\n        \"gross_amount\": 44000,\n        \"order_id\": \"$midtransOrderId\"\n    },\n    \"customer_details\": {\n        \"email\": \"noreply@example.com\",\n        \"first_name\": \"Vervays\",\n        \"last_name\": \"User\",\n        \"phone\": \"+6281 1234 1234\"\n    },\n    \"item_details\": [\n    {\n       \"id\": \"item01\",\n       \"price\": 21000,\n       \"quantity\": 1,\n       \"name\": \"Ebook 1\"\n    },\n    {\n       \"id\": \"item02\",\n       \"price\": 23000,\n       \"quantity\": 1,\n       \"name\": \"Ebook 2\"\n    }\n   ],\n   \"bank_transfer\":{\n     \"bank\": \"bni\",\n     \"va_number\": \"12345678\"\n  }\n}",
+        CURLOPT_POSTFIELDS => "{ \"payment_type\": \"bank_transfer\", \"transaction_details\": {\"gross_amount\": {$totalAmount}, \"order_id\": \"$midtransOrderId\" }, \"customer_details\": { \"email\": \"noreply@example.com\", \"first_name\": \"Vervays\", \"last_name\": \"user\", \"phone\": \"+6281 1234 1234\" }, \"item_details\": [ { \"id\": \"ebook\", \"price\": {$totalAmount}, \"quantity\": 1, \"name\": \"Ebook\" } ], \"bank_transfer\":{ \"bank\": \"bni\", \"va_number\": \"12345678\" } }",
         CURLOPT_HTTPHEADER => array(
             "Accept: application/json",
             "Content-Type: application/json",
