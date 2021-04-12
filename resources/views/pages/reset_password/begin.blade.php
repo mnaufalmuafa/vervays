@@ -18,6 +18,7 @@
   <link 
     rel="stylesheet" 
     href="{{ url('css/reset_password/begin.css') }}">
+  <link rel="shortcut icon" href="/image/icon/favicon.ico" type="image/x-icon">
   <title>Mulai reset passsword</title>
 </head>
 <body>

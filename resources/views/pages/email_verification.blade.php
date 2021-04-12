@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	@include('includes.style')
 	<link rel="stylesheet" href="{{ url('css/email_verification.css') }}">
+	<link rel="shortcut icon" href="/image/icon/favicon.ico" type="image/x-icon">
 	<title>Verifikasi Email</title>
 </head>
 <body>

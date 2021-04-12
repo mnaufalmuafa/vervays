@@ -16,6 +16,7 @@
   <link 
     rel="stylesheet" 
     href="{{ url('css/login.css') }}">
+  <link rel="shortcut icon" href="/image/icon/favicon.ico" type="image/x-icon">
   <title>Login</title>
 </head>
 <body>

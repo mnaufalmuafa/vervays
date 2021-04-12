@@ -18,6 +18,7 @@
   <link 
     rel="stylesheet" 
     href="{{ url('css/reset_password/change_password.css') }}">
+  <link rel="shortcut icon" href="/image/icon/favicon.ico" type="image/x-icon">
   <title>Change Password</title>
 </head>
 <body>
