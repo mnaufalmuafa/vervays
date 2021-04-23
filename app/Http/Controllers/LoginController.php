@@ -52,7 +52,7 @@ class LoginController extends Controller
         ]);
         $email = $request->email;
         $token = User::createResetPasswordToken($email);
-        if ($token != 0) {
+        if (isset($token) && $token !== "") {
             Mail::to($request->email)->send(new ForgotPasswordMail($token, $email));
         }
         return redirect()->route('reset-password-sent');
