@@ -111,7 +111,7 @@ class User
         $token = $faker->md5;
         $id = User::getIdByEmail($email);
         if ($id == 0) { //Jika email tidak terdaftar
-            $token = 0;
+            $token = "";
         }
         else { // Jika email terdaftar
             PasswordResetToken::deleteByUserId(User::getIdByEmail($email)); //Menghapus token reset password jika ada
