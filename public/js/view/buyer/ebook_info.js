@@ -262,21 +262,33 @@ function setUpBtnBuy() {
   $("#btnBuy").click(function() {
     $(':input[type="submit"]').prop('disabled', true);
     $(':input[type="submit"]').html('....');
-    $.ajax({
-      type : "GET",
-      url : "/get/whether_the_user_has_added_book_to_cart/"+bookId
-    }).done(function(isUserHasAddedBookToCart) {
-      isUserHasAddedBookToCart = (isUserHasAddedBookToCart == "true");
-      if (!isUserHasAddedBookToCart) { // Jika user belum memasukkan buku ke keranjang
-        $.ajax({ // Memasukkan buku ke keranjang
-          url : "/post/add_book_to_cart/"+bookId,
-          method : "POST"
-        }).done(function(response) {
-          window.location.href = "/cart";
+
+    $.ajax({ // mengecek apakah buku sudah dihapus
+      url : '/get/is_book_not_deleted',
+      method : "GET",
+      data : { "id" : bookId }
+    }).done(function(isNotDeleted) {
+      if (isNotDeleted) { // jika blm dihapus
+        $.ajax({
+          type : "GET",
+          url : "/get/whether_the_user_has_added_book_to_cart/"+bookId
+        }).done(function(isUserHasAddedBookToCart) {
+          isUserHasAddedBookToCart = (isUserHasAddedBookToCart == "true");
+          if (!isUserHasAddedBookToCart) { // Jika user belum memasukkan buku ke keranjang
+            $.ajax({ // Memasukkan buku ke keranjang
+              url : "/post/add_book_to_cart/"+bookId,
+              method : "POST"
+            }).done(function(response) {
+              window.location.href = "/cart";
+            });
+          }
+          else {
+            window.location.href = "/cart";
+          }
         });
       }
       else {
-        window.location.href = "/cart";
+        location.reload();
       }
     });
   });
