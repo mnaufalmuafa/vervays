@@ -366,15 +366,27 @@ function addBookToWishList() {
   $('#btnAddToWishList').attr("onclick", "");
   $('#btnAddToWishList').html("....");
   var bookId = $('meta[name=book-id]').attr("content");
-  $.ajax({
-    url : "/post/add_book_to_wish_list/"+bookId,
-    method : "POST"
-  }).done(function() {
-    $('#btnAddToWishList').html("Hapus dari Wishlist");
-    $('#btnAddToWishList').attr("onclick", "removeBookFromWishList()");
-    $('#btnAddToWishList').attr("id", "btnDeleteFromWishList");
-    storeFlashMessage("Berhasil menambah ebook ke wishlist", "success", 2);
-    setUpAlert();
+
+  $.ajax({ // mengecek apakah buku sudah dihapus
+    url : '/get/is_book_not_deleted',
+    method : "GET",
+    data : { "id" : bookId }
+  }).done(function(isNotDeleted) {
+    if (isNotDeleted) { // jika blm dihapus
+      $.ajax({
+        url : "/post/add_book_to_wish_list/"+bookId,
+        method : "POST"
+      }).done(function() {
+        $('#btnAddToWishList').html("Hapus dari Wishlist");
+        $('#btnAddToWishList').attr("onclick", "removeBookFromWishList()");
+        $('#btnAddToWishList').attr("id", "btnDeleteFromWishList");
+        storeFlashMessage("Berhasil menambah ebook ke wishlist", "success", 2);
+        setUpAlert();
+      });
+    }
+    else {
+      location.reload();
+    }
   });
 }
 
