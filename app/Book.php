@@ -10,16 +10,26 @@ use App\SampleEbookFile;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+// source code ini digunakan sebagai model dari tabel 'books' yang ada di database
+// Melalui souce code ini, web vervays bisa mengambil, menghapus, menambah, dan memperbarui data pada tabel 'books'
+
 class Book extends Model
 {
+    // Nama tabel yang ada pada database
     protected $table = "books";
 
+    // Atribut yang ada dan bisa diisi nilainya pada tabel books
     protected $fillable = [
         'id', 'title', 'author', 'languageId', 'numberOfPage',
         'price', 'synopsis', 'isDeleted', 'ebookFileId',
         'sampleEbookFileId', 'ebookCoverId', 'publisherId', 'categoryId',
     ];
     
+    // Method ini digunakan untuk menyimpan datum ebook ke database
+    // @param $ebookData             : Data ebook
+    // @param $ebookFilesData        : Data file ebook
+    // @param $sampleEbookFilesData  : Data sample file ebook
+    // @param $ebookCoverData        : Data cover ebook
     public static function store($ebookData, $ebookFilesData, $sampleEbookFilesData, $ebookCoverData)
     {
         DB::table('ebook_files')->insert($ebookFilesData);
@@ -28,11 +38,16 @@ class Book extends Model
         DB::table('books')->insert($ebookData);
     }
 
+    // Method ini digunakan untuk membuat id ebook baru
+    // @return : id ebook baru
     public static function getNewBookId()
     {
         return DB::table('books')->get()->count() + 1;
     }
 
+    // Method ini digunakan untuk mengembalikan data buku
+    // Data buku tersebut akan ditampilkan pada dashboard publisher
+    // @return : Data buku yang akan ditampilkan pada dashboard publisher
     public static function getBookDataForDashboardPublisher()
     {
         $userId = session('id');
@@ -57,11 +72,17 @@ class Book extends Model
         return $data;
     }
 
+    // Method ini digunakan untuk mengonversi integer menjadi format rupiah
+    // @param $price : harga buku
+    // @return : String hasil konversi ke rupiah
     private static function convertPriceToCurrencyFormat($price)
     {
         return number_format($price,0,',','.');
     }
 
+    // Method ini digunakan untuk mengembalikan data buku
+    // @param $bookId : id dari buku yang akan dikembalikan datanya
+    // @return : Data buku
     public static function getBook($bookId)
     {
         return DB::table('books')
@@ -69,6 +90,8 @@ class Book extends Model
             ->first();
     }
 
+    // Method ini digunakan untuk memperbarui data buku
+    // @param $book : data buku yang akan diperbarui
     public static function updateBook($book) {
         $data = [];
         if ($book["title"] != null) {
@@ -99,6 +122,9 @@ class Book extends Model
         Book::where('id', $book["id"])->update($data);
     }
 
+    // Method ini digunakan untuk memperbarui data ebook dengan memasukkan photoId dari ebook tersebut
+    // @param $photoId : id dari foto
+    // @param $bookId : id dari buku
     public static function updateCoverPhoto($photoId, $bookId)
     {
         DB::table('books')
@@ -110,6 +136,9 @@ class Book extends Model
             ]);
     }
 
+    // Method ini digunakan untuk upload sample ebook
+    // @param $file   : data file sample ebook
+    // @param $bookId : id dari buku
     public static function uploadSampleEbook($file, $bookId)
     {
         $sampleEbookId = SampleEbookFile::getNewSampleEbookFilesId();
@@ -132,14 +161,20 @@ class Book extends Model
             ]);
     }
 
+    // Method ini digunakan untuk menghapus data ebook
+    // Penghapusan ebook dilakukan secara soft
+    // @param $id : id dari ebook yang akan di hapus
     public static function deleteBook($id) {
-        $book = Book::find($id);
-        $book->isDeleted = 1;
-        $book->save();
-        Cart::removeAllBookByBookId($id);
-        Wishes::removeAllBookByBookId($id);
+        $book = Book::find($id); // mencari data ebook yang akan dihapus
+        $book->isDeleted = 1; // Menandai buku bahwa buku akan dihapus
+        $book->save(); // Menyimpan data ke database
+        Cart::removeAllBookByBookId($id); // Hapus buku pada semua cart
+        Wishes::removeAllBookByBookId($id); // Hapus buku pada semua wishlist
     }
 
+    // Method ini digunakan untuk menghapus semua data ebook yang dimiliki oleh sebuah publisher
+    // Penghapusan ebook dilakukan secara soft
+    // @param $publisher : id dari publisher yang akan dihapus semua ebook-nya
     public static function deleteAllPublisherBooks($publisherId)
     {
         Cart::removeAllBookByPublisherId($publisherId);
@@ -147,6 +182,8 @@ class Book extends Model
         DB::statement('UPDATE `books` SET `isDeleted` = 1 WHERE `publisherId` = '.$publisherId);
     }
 
+    // Method ini digunakan untuk mengembalikan enam buku terbaru
+    // @return : data enam buku terbaru
     public static function getSixNewestBookForBuyerDashboard()
     {
         $books = DB::table('books')
@@ -169,6 +206,8 @@ class Book extends Model
         return $bookArray;
     }
 
+    // Method ini digunakan untuk mengembalikan enam buku yang terpilih oleh editor
+    // @return : data enam buku yang terpilih oleh editor
     public static function getSixEditorChoiceBookForBuyerDashboard()
     {
         $books = DB::table('books')
@@ -191,6 +230,8 @@ class Book extends Model
         return $bookArray;
     }
 
+    // Method ini digunakan untuk mengembalikan enam buku yang paling banyak terjual
+    // @return : data enam buku yang paling banyak terjual
     public static function getSixBestsellerBookForBuyerDashboard()
     {
         $booksId = DB::select("SELECT `books`.`id` FROM `books`
@@ -240,6 +281,9 @@ class Book extends Model
         return $bookArray;
     }
 
+    // Method ini digunakan untuk mengembalikan hasil pencarian ebook
+    // @param $keyword : Kata kunci pencarian
+    // @return : hasil pencarian
     public static function getBookForSearch($keyword)
     {
         $keywords = explode(" ",$keyword);
@@ -269,6 +313,9 @@ class Book extends Model
         return response()->json($books);
     }
 
+    // Method ini digunakan untuk mengembalikan nama bahasa
+    // @param $languageId : id bahasa
+    // @return : Nama bahasa
     private static function getLanguageName($languageId)
     {
         return DB::table('languages')
@@ -276,12 +323,18 @@ class Book extends Model
                     ->pluck('name')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan nama kategori
+    // @param $languageId : id kategori
+    // @return : Nama kategori
     private static function getCategoryName($categoryId) {
         return DB::table('categories')
                     ->where('id', $categoryId)
                     ->pluck('name')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan data buku untuk halaman ebook_info
+    // @param $id : id buku
+    // @return : data buku
     public static function getBookForInfoPage($id)
     {
         $book = DB::table('books')
@@ -306,6 +359,9 @@ class Book extends Model
         return json_decode(json_encode($book), true);
     }
 
+    // Method ini digunakan untuk mengembalikan seberapa banyak orang yang telah merating sebuah buku
+    // @param $bookId : id buku
+    // @return : banyak orang yang telah merating sebuah buku
     public static function getPeopleGaveStarsCountAllRating($bookId)
     {
         return DB::table('reviews')
@@ -314,6 +370,10 @@ class Book extends Model
                     ->count();
     }
 
+    // Method ini digunakan untuk mengembalikan seberapa banyak orang yang telah merating sebuah buku sesuai kategori rating
+    // @param $bookId : id buku
+    // @param $rating : Rating (1 atau 2 atau 3 atau 4 atau 5)
+    // @return : banyak orang yang telah merating sebuah buku
     public static function getPeopleGaveStarsCountByRating($bookId, $rating)
     {
         return DB::table('reviews')
@@ -323,6 +383,9 @@ class Book extends Model
                     ->count();
     }
 
+    // Method ini digunakan untuk mengembalikan ulasan buku
+    // @param $bookId : id buku
+    // @return : data ulasan buku
     public static function getReviewsByBookId($bookId)
     {
         $reviews = DB::table('reviews')
@@ -339,6 +402,9 @@ class Book extends Model
         return $reviews;
     }
 
+    // Method ini digunakan untuk mengembalikan id publisher berdasarkan id buku
+    // @param $bookId : id buku
+    // @return : id publisher
     public static function getPublisherIdByBookId($bookId)
     {
         return DB::table('books')
@@ -346,6 +412,9 @@ class Book extends Model
                     ->get()[0]->publisherId;
     }
 
+    // Method ini digunakan untuk mengembalikan harga total dari satu atau beberapa buku
+    // @param $arrBookId : array yang berisi id-id buku
+    // @return : total harga buku
     public static function getTotalPrice($arrBookId)
     {
         $totalPrice = 0;
@@ -355,42 +424,65 @@ class Book extends Model
         return $totalPrice;
     }
 
+    // Method ini digunakan untuk mengembalikan harga total dari suatu buku
+    // @param $bookId : id buku
+    // @return : harga buku
     public static function getPrice($bookId)
     {
         return DB::table('books')->where('id', $bookId)->pluck('price')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan judul dari suatu buku
+    // @param $bookId : id buku
+    // @return : judul buku
     public static function getTitle($bookId)
     {
         return DB::table('books')->where('id', $bookId)->pluck('title')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan data buku dari array yang berisi id-id buku
+    // @param $arrBookId : array berisi id-id buku
+    // @return : data buku-buku
     public static function getBooksByArrBookId($arrBookId)
     {
         return DB::table('books')->whereIn('id', $arrBookId)->get();
     }
 
+    // Method ini digunakan untuk mengembalikan nama publisher dari suatu buku
+    // @param $bookId : id buku
+    // @return : Nama publisher
     public static function getPublisherName($bookId)
     {
         $publisherId = DB::table('books')->where('id', $bookId)->pluck('publisherId')[0];
         return Publisher::getPublisherName($publisherId);
     }
 
+    // Method ini digunakan untuk mengembalikan 'id cover ebook' dari suatu buku
+    // @param $bookId : id buku
+    // @return : id cover ebook
     public static function getEbookCoverId($bookId)
     {
         return DB::table('books')->where('id', $bookId)->pluck('ebookCoverId')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan data 'sample ebook' dari suatu buku
+    // @param $bookId : id buku
+    // @return : data 'sample ebook'
     public static function getSampleEbookFileId($bookId)
     {
         return DB::table('books')->where('id', $bookId)->pluck('sampleEbookFileId')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan data 'file ebook' dari suatu buku
+    // @param $bookId : id buku
+    // @return : data 'file ebook'
     public static function getEbookFileId($bookId)
     {
         return DB::table('books')->where('id', $bookId)->pluck('ebookFileId')[0];
     }
 
+    // Method ini digunakan untuk mengembalikan data 'ebook' untuk ditampilkan pada halaman book_collection
+    // @return : data buku
     public static function getBookDataForBookCollectionPage()
     {
         $books = DB::table('books')
@@ -408,6 +500,8 @@ class Book extends Model
         return $books;
     }
 
+    // Method ini digunakan untuk mengembalikan data 'ebook' untuk ditampilkan pada halaman give_review
+    // @return : data buku
     public static function getBookDataForReviewPage($bookId)
     {
         $book = DB::table('books')
@@ -423,6 +517,9 @@ class Book extends Model
         return $book;
     }
 
+    // Method ini digunakan untuk mengembalikan boolean yang menyatakan apakah buku sudah dihapus atau belum
+    // @param bookId : id buku
+    // @return : boolean yang menyatakan apakah buku sudah dihapus atau belum
     public static function isBookNotDeleted($bookId)
     {
         $count = DB::table('books')
@@ -433,6 +530,10 @@ class Book extends Model
         return $count == 1;
     }
 
+    // Method ini digunakan untuk mengembalikan data apakah buku
+    // Data buku tersebut akan ditampilkan pada halaman info_publisher
+    // @param publisherId : id publisher
+    // @return : data ebook
     public static function getBookDataForPublisherInfoPage($publisherId)
     {
         $books = DB::table('books')
@@ -458,6 +559,10 @@ class Book extends Model
         return $data;
     }
 
+    // Method ini digunakan untuk mengembalikan data ebook
+    // Data tersebut akan ditampilkan pada halaman info_order
+    // @param orderId : id order
+    // @return : data ebook yang sesuai dengan id order
     public static function getBookDataForOrderInfoPage($orderId)
     {
         $arrBookId = BookSnapshot::getArrBookIdByOrderId($orderId);

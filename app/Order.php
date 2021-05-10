@@ -7,25 +7,42 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
+// source code ini digunakan sebagai model dari tabel 'order' yang ada di database
+// Melalui souce code ini, web vervays bisa mengambil, menghapus, menambah, dan memperbarui data pada tabel 'order'
+
 class Order extends Model
 {
+    // Method ini digunakan untuk mengembalikan status user dalam halaman ebook_info
+    // @param $bookId : id buku
+    // @return : status user (seperti enum)
     public static function getUserRoleForEbookInfoPage($bookId)
     {
-        // ROLE 1 : Sebagai publisher
-        // ROLE 2 : Sebagai buyer yang blm membeli buku
-        // ROLE 3 : Sebagai buyer yang sedang atau sudah membeli buku
+        // Status 1 : Sebagai publisher
+        // Status 2 : Sebagai buyer yang blm membeli buku
+        // Status 3 : Sebagai buyer yang sedang atau sudah membeli buku
+
+        // mengambil user id dari session
         $userId = session('id');
+        
+        // mengambil id publisher dari id buku
         $publisherId = Book::getPublisherIdByBookId($bookId);
+
+        // mengambil id user dari id publisher
         $publisherUserId = Publisher::getUserIdByPublisherId($publisherId);
-        if ($publisherUserId == $userId) {
+
+        if ($publisherUserId == $userId) { // Jika publisher sedang membuka halaman ebook_info
             return 1;
         }
-        else if (Order::whetherTheBuyerHasntPurchasedBook($userId, $bookId)) {
+        else if (Order::whetherTheBuyerHasntPurchasedBook($userId, $bookId)) { // Jika buyer belum membeli buku
             return 2;
         }
-        return 3;
+        return 3; // jika buyer sedang atau sudah membeli buku
     }
     
+    // Method ini digunakan untuk mengembalikan boolean apakah buyer belum membeli buku
+    // @param $buyerId : id buyer
+    // @param $bookId : id buku
+    // @return : boolean apakah buyer belum membeli buku
     private static function whetherTheBuyerHasntPurchasedBook($buyerId, $bookId)
     {
         if (Order::whetherTheBuyerHasAlreadyPurchasedBook($buyerId, $bookId) || Order::whetherTheBuyerIsBuyingBook($buyerId, $bookId)) {
@@ -34,6 +51,10 @@ class Order extends Model
         return true;
     }
 
+    // Method ini digunakan untuk mengembalikan boolean apakah buyer sudah membeli buku
+    // @param $buyerId : id buyer
+    // @param $bookId  : id buku
+    // @return : boolean apakah buyer sudah membeli buku
     private static function whetherTheBuyerHasAlreadyPurchasedBook($buyerId, $bookId)
     {
         $count = DB::table('orders')
@@ -42,13 +63,17 @@ class Order extends Model
                         ->where('users.id', $buyerId)
                         ->where('book_snapshots.bookId', $bookId)
                         ->where('status', 'success')
-                        ->count();
-        if ($count != 0) {
+                        ->count(); // mendapatkan data banyak order yang sesuai dengan parameter
+        if ($count != 0) { // jika tidak ada data
             return true;
         }
-        return false;
+        return false; // jika ada data
     }
 
+    // Method ini digunakan untuk mengembalikan boolean apakah buyer sedang membeli buku
+    // @param $buyerId : id buyer
+    // @param $bookId  : id buku
+    // @return : boolean apakah buyer sedang membeli buku
     private static function whetherTheBuyerIsBuyingBook($buyerId, $bookId)
     {
         $count = DB::table('orders')
@@ -56,67 +81,86 @@ class Order extends Model
                         ->join('book_snapshots', 'book_snapshots.orderId', '=', 'orders.id')
                         ->where('users.id', $buyerId)
                         ->where('book_snapshots.bookId', $bookId)
-                        ->where('status', 'pending')
-                        ->count();
-        if ($count != 0) {
+                        ->where('status', 'pending') // yang status ordernya 'pending'
+                        ->count();  // mendapatkan data banyak order yang sesuai dengan parameter
+        if ($count != 0) { // jika tidak ada data
             return true;
         }
-        return false;
+        return false; // jika ada data
     }
 
+    // Method ini digunakan untuk mengonversi integer ke format rupiah
+    // @param $price : harga (integer)
+    // @return : string rupiah hasil konversi
     private static function convertPriceToCurrencyFormat($price)
     {
         return number_format($price,0,',','.');
     }
 
+    // Method ini digunakan untuk membuat id order baru
+    // id order akan digunakan untuk menyimpan order baru
+    // @param $price : harga (integer)
+    // @return : string rupiah hasil konversi
     private static function getNewOrderId()
     {
         return DB::table('orders')->count() + 1;
     }
 
+    // Method ini digunakan untuk membuat dan menyimpan order baru
+    // @param $paymentMethod : metode pembayaran (integer);
+    // @return : id order yang telah dibuat
     public static function createOrder($paymentMethod)
     {
-        $createdAt = Carbon::now();
-        $dt = $createdAt->copy()->addHours(24);
-        $dt->second = 0;
-        $faker = Faker::create('id_ID');
-        $backCode = $faker->swiftBicNumber;
-        $orderId = Order::getNewOrderId();
-        $midtransOrderId = $orderId."-".$backCode;
-        $arrBookId = Cart::getUserCartBookId();
-        $totalPrice = 0;
-        foreach ($arrBookId as $bookId) { 
+        $createdAt = Carbon::now(); // menyimpan current time
+        $dt = $createdAt->copy()->addHours(24); // menyimpan waktu tenggat pembayaran (24 jam dari current time)
+        $dt->second = 0; // Membulatkan waktu tenggat
+        $faker = Faker::create('id_ID'); // Membuat objek faker yang berhubungan dengan country indonesia
+        $backCode = $faker->swiftBicNumber; // Membuat back code dari faker
+        $orderId = Order::getNewOrderId(); // menyimpan id order baru
+        $midtransOrderId = $orderId."-".$backCode; // menyimpan id order untuk dikirimkan ke PG
+        $arrBookId = Cart::getUserCartBookId(); // mendapatkan id-id buku dalam keranjang belanja user
+        $totalPrice = 0;  // inisialisasi total harga
+        foreach ($arrBookId as $bookId) { // menghitung total harga
             $totalPrice += Book::getPrice($bookId->bookId);
         }
-        $paymentCode = Order::getPaymentCode($paymentMethod, $orderId);
-        Cart::emptyUserCart();
-        if ($paymentMethod == "1") {
-            Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId, $totalPrice);
+        $paymentCode = Order::getPaymentCode($paymentMethod, $orderId); // mendapatkan kode pembaran
+        Cart::emptyUserCart(); // mengosongkan keranjang belanja user
+        if ($paymentMethod == "1") { // Jika metode pembayarannya mengunakan BNI VA
+            Order::postTransactionToMidtransWithBNIVAPayment($midtransOrderId, $totalPrice); // mengirim data order ke PG
         }
-        else if ($paymentMethod == "2") {
-            Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId, $totalPrice);
+        else if ($paymentMethod == "2") { // Jika metode pembayarannya menggunakan indomaret
+            Order::postTransactionToMidtransWithIndomaretPayment($midtransOrderId, $totalPrice); // mengirim data order ke PG
         }
-        Order::store($orderId, $backCode, $paymentMethod, $paymentCode, $dt, $createdAt);
-        BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId);
+        Order::store($orderId, $backCode, $paymentMethod, $paymentCode, $dt, $createdAt); // menyimpan data order ke database
+        BookSnapshot::storeBookSnaphshotsByArrBookIdAndOrderId($arrBookId, $orderId); // menyimpan data ebook ke tabel 'book snapshot'
         return $orderId;
     }
 
+    // Method ini digunakan untuk memperbarui payment code dari sebuah order
+    // @param $orderId : id order (integer);
     public static function updatePaymentCodeFromMidtrans($orderId)
     {
-        $backCode = DB::table('orders')->where('id', $orderId)->pluck('backIdCode')[0];
-        $midtransOrderId = $orderId."-".$backCode;
-        $paymentMethodId = DB::table('orders')->where('id', $orderId)->pluck('paymentId')[0];
-        $paymentCode = Order::getPaymentCodeFromMidtrans($midtransOrderId, $paymentMethodId);
-        DB::table('orders')->where('id', $orderId)->update([
+        $backCode = DB::table('orders')->where('id', $orderId)->pluck('backIdCode')[0]; // mendapatkan back code
+        $midtransOrderId = $orderId."-".$backCode; // menyimpan order id yang ada di PG
+        $paymentMethodId = DB::table('orders')->where('id', $orderId)->pluck('paymentId')[0]; // mendapatkan data paymentId
+        $paymentCode = Order::getPaymentCodeFromMidtrans($midtransOrderId, $paymentMethodId); // mendapatkan data paymentCode dari PG
+        DB::table('orders')->where('id', $orderId)->update([ // update payment code ke row order
             "paymentCode" => $paymentCode,
             "updated_at" => Carbon::now(),
         ]);
     }
 
+    // Method ini digunakan untuk memperbarui payment code dari sebuah order
+    // @param $id          : id order (integer);
+    // @param $backCode    : backCode dari order (string);
+    // @param $paymentId   : metode pembayaran (integer);
+    // @param $paymentCode : kode pembaayaran (string);
+    // @param $expiredTime : waktu tenggat pembayaran (timestamp);
+    // @param $createdAt   : waktu order dibuat (timestamp);
     private static function store($id, $backCode , $paymentId, $paymentCode, $expiredTime, $createdAt)
     {
-        $userId = session('id');
-        DB::table('orders')->insert([
+        $userId = session('id'); // mengambil id user dari session
+        DB::table('orders')->insert([ // memasukkan data order ke database
             "id" => $id,
             "paymentId" => $paymentId,
             "userId" => $userId,
@@ -128,9 +172,12 @@ class Order extends Model
         ]);
     }
 
+    // Method ini digunakan untuk mengirim data order ke PG (Payment Gateway) dengan metode pembarannya menggunakan BNI VA
+    // @param $midtransOrderId : id order yang akan digunakan di PG (string);
+    // @param $totalAmount     : total dana dalam transaksi (integer);
     public static function postTransactionToMidtransWithBNIVAPayment($midtransOrderId, $totalAmount)
     {
-        $curl = curl_init();
+        $curl = curl_init(); // inisiasi curl
 
         curl_setopt_array($curl, array(
         CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
@@ -147,17 +194,20 @@ class Order extends Model
             "Content-Type: application/json",
             env("MIDTRANS_AUTHORIZATION")
         ),
-        ));
+        )); // mengirim data transaksi
 
         $response = curl_exec($curl);
 
-        curl_close($curl);
+        curl_close($curl); // menutup curl
         // echo $response;
     }
 
+    // Method ini digunakan untuk mengirim data order ke PG (Payment Gateway) dengan metode pembarannya menggunakan Indomaret
+    // @param $midtransOrderId : id order yang akan digunakan di PG (string);
+    // @param $totalAmount     : total dana dalam transaksi (integer);
     public static function postTransactionToMidtransWithIndomaretPayment($midtransOrderId, $totalAmount)
     {
-        $curl = curl_init();
+        $curl = curl_init(); // inisiasi curl
 
         curl_setopt_array($curl, array(
         CURLOPT_URL => "https://api.sandbox.midtrans.com/v2/charge",
@@ -198,20 +248,24 @@ class Order extends Model
             "Content-Type: application/json",
             env("MIDTRANS_AUTHORIZATION")
         ),
-        ));
+        )); // mengirim data transaksi
 
         $response = curl_exec($curl);
 
-        curl_close($curl);
+        curl_close($curl); // menutup curl
         // echo $response;
     }
 
+    // Method ini digunakan untuk membuat payment code berdasarkan parameter
+    // @param $paymentId : id pembayaran (integer);
+    // @param $orderId   : id order (integer);
+    // @return kode pembayaran
     private static function getPaymentCode($paymentId, $orderId)
     {
-        if ($paymentId == 1) {
+        if ($paymentId == 1) { // jika metode pembayarannya menggunakan BNI VA
             return "21".$orderId;
         }
-        else if ($paymentId == 2) {
+        else if ($paymentId == 2) { // jika metode pembayarannya menggunakan indomaret
             return "22".$orderId;
         }
         else {
@@ -219,6 +273,8 @@ class Order extends Model
         }
     }
 
+    // Method ini mengembalikan status transaksi
+    // @param $bookId : id buku (integer);
     public static function whetherTheTransactionIsPendingOrSuccess($bookId)
     {
         $userId = session('id');
@@ -228,9 +284,13 @@ class Order extends Model
         return "pending";
     }
 
+    // Method ini mengembalikan status transaksi
+    // Status transaksi didapatkan dari PG
+    // Method ini diapanggil di middleware
+    // @param $orderId : id order (integer);
     public static function getRealStatus($orderId)
     {
-        $curl = curl_init();
+        $curl = curl_init(); // inisiasi curl
 
         curl_setopt_array($curl, array(
         CURLOPT_URL => "http://localhost:8000/transaction/$orderId",
@@ -245,38 +305,43 @@ class Order extends Model
         CURLOPT_HTTPHEADER => array(
             "Content-Type: application/json"
         ),
-        ));
+        )); // Membuat request
 
-        $response = curl_exec($curl);
+        $response = curl_exec($curl); // Mendapatkan hasil request
 
-        curl_close($curl);
-        return json_decode($response, true)["status"];
+        curl_close($curl); // menutup curl
+        return json_decode($response, true)["status"]; //mengembalikan status order
     }
 
+    // Method ini memperbarui status transaksi
+    // Status transaksi didapatkan dari PG
+    // Method ini diapanggil di middleware
     public static function updateStatus()
     {
+        // Mendapatkan data order yang masih pending (dengan user yg sesuai)
         $orders = DB::table('orders')->where('status', 'pending')->where('userId', session('id'))->get();
-        foreach ($orders as $order) {
-            $midtransOrderId = $order->id."-".$order->backIdCode;
-            $transactionStatus = Order::getTransactionStatusFromMidtrans($midtransOrderId);
-            if($transactionStatus == "settlement") {
-                DB::table('orders')->where('id', $order->id)->update([
+
+        foreach ($orders as $order) { // untuk setiap order
+            $midtransOrderId = $order->id."-".$order->backIdCode; // menyimpan order id
+            $transactionStatus = Order::getTransactionStatusFromMidtrans($midtransOrderId); // menyimpan status transaksi
+            if($transactionStatus == "settlement") { // jika transaksinya berhasil
+                DB::table('orders')->where('id', $order->id)->update([ // update status transaksi mnjd 'success'
                     "status" => "success",
                     "updated_at" => Carbon::now(),
                 ]);
                 $arrBookId = DB::table('orders')
                                         ->join('book_snapshots', 'orders.id', '=', 'book_snapshots.orderId')
                                         ->where('orders.id', $order->id)
-                                        ->pluck('book_snapshots.bookId');
-                foreach ($arrBookId as $bookId) {
-                    $publisherId = Book::getPublisherIdByBookId($bookId);
-                    $price = BookSnapshot::getPrice($bookId, $order->id);
-                    Publisher::addBalance($publisherId, $price);
-                    Have::store(session('id'), $bookId);
+                                        ->pluck('book_snapshots.bookId'); // mendapatkan id-id buku yang diorder
+                foreach ($arrBookId as $bookId) { // untuk setiap id buku
+                    $publisherId = Book::getPublisherIdByBookId($bookId); // mendapatkan id publisher dari id buku
+                    $price = BookSnapshot::getPrice($bookId, $order->id); // mendapatkan harga buku
+                    Publisher::addBalance($publisherId, $price); // menambah saldo publisher sesuai harga buku
+                    Have::store(session('id'), $bookId); // menyimpan buku di tabel 'have' agar user dapat membaca buku
                 }
             }
-            else if($transactionStatus == "cancel" || $transactionStatus == "expire") {
-                DB::table('orders')->where('id', $order->id)->update([
+            else if($transactionStatus == "cancel" || $transactionStatus == "expire") { // jika transaksinya gagal
+                DB::table('orders')->where('id', $order->id)->update([ // update status transaksi mnjd 'failed'
                     "status" => "failed",
                     "updated_at" => Carbon::now(),
                 ]);
